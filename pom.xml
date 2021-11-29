@@ -6,7 +6,11 @@
 
     <groupId>com.jflow</groupId>
     <artifactId>jflow-parent</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.1</version>
+    <modules>
+        <module>jflow-core</module>
+    </modules>
 
     <name>${project.artifactId}</name>
     <description>The parent project of JFlow</description>
@@ -22,5 +26,20 @@
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.78</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.18</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
