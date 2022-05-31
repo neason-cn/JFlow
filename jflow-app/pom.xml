@@ -9,13 +9,22 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jflow-core</artifactId>
+    <artifactId>jflow-app</artifactId>
     <version>${jflow.version}</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.jflow</groupId>
             <artifactId>jflow-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jflow</groupId>
+            <artifactId>jflow-api-client</artifactId>
         </dependency>
     </dependencies>
 

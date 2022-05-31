@@ -6,10 +6,17 @@
 
     <groupId>com.jflow</groupId>
     <artifactId>jflow-parent</artifactId>
-    <packaging>pom</packaging>
     <version>0.0.1</version>
+    <packaging>pom</packaging>
     <modules>
         <module>jflow-core</module>
+        <module>jflow-infra-spi</module>
+        <module>jflow-infra-impl</module>
+        <module>jflow-common</module>
+        <module>jflow-api-client</module>
+        <module>jflow-app</module>
+        <module>jflow-example</module>
+        <module>jflow-test</module>
     </modules>
 
     <name>${project.artifactId}</name>
@@ -17,6 +24,7 @@
     <url>https://github.com/neason-cn/JFlow.git</url>
 
     <properties>
+        <jflow.version>0.0.1</jflow.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
@@ -28,16 +36,44 @@
     </properties>
 
     <dependencyManagement>
+        <!-- ========================= -->
+        <!-- ======= One Party ======= -->
+        <!-- ========================= -->
         <dependencies>
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.78</version>
+                <groupId>com.jflow</groupId>
+                <artifactId>jflow-api-client</artifactId>
+                <version>${jflow.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.18</version>
+                <groupId>com.jflow</groupId>
+                <artifactId>jflow-app</artifactId>
+                <version>${jflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jflow</groupId>
+                <artifactId>jflow-common</artifactId>
+                <version>${jflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jflow</groupId>
+                <artifactId>jflow-core</artifactId>
+                <version>${jflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jflow</groupId>
+                <artifactId>jflow-example</artifactId>
+                <version>${jflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jflow</groupId>
+                <artifactId>jflow-infra-spi</artifactId>
+                <version>${jflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jflow</groupId>
+                <artifactId>jflow-infra-impl</artifactId>
+                <version>${jflow.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
