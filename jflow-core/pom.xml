@@ -17,6 +17,10 @@
             <groupId>com.jflow</groupId>
             <artifactId>jflow-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.jflow</groupId>
+            <artifactId>jflow-infra-spi</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
