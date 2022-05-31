@@ -3,10 +3,11 @@ package com.jflow.core.domain.graph;
 /**
  * The edge of a graph which connect two nodes.
  *
+ * @param <N> the node type
  * @author neason
  * @since 0.0.1
  */
-public interface Edge {
+public interface Edge<N extends Node<?>> {
 
     /**
      * @return the unique id of this edge in a graph.
@@ -21,22 +22,22 @@ public interface Edge {
     /**
      * @return the node which this edge diffuse from.
      */
-    Node source();
+    N source();
 
     /**
      * @param source source node
      */
-    void setSource(Node source);
+    void setSource(N source);
 
     /**
      * @return the node which this edge point to.
      */
-    Node target();
+    N target();
 
     /**
      * @param target target node
      */
-    void setTarget(Node target);
+    void setTarget(N target);
 
     /**
      * the id of {@link Edge#source()}

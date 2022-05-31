@@ -5,10 +5,11 @@ import java.util.Set;
 /**
  * The node of a graph, which connect with multiple edges.
  *
+ * @param <E> the edge type
  * @author neason
  * @since 0.0.1
  */
-public interface Node {
+public interface Node<E extends Edge<?>> {
 
     /**
      * @return the unique id of this node in a graph.
@@ -23,21 +24,21 @@ public interface Node {
     /**
      * @return the edges which point to this node.
      */
-    Set<Edge> incoming();
+    Set<E> incoming();
 
     /**
      * @param edges incoming edges
      */
-    void setIncoming(Set<Edge> edges);
+    void setIncoming(Set<E> edges);
 
     /**
      * @return the edges which diffuse from this node.
      */
-    Set<Edge> outgoing();
+    Set<E> outgoing();
 
     /**
      * @param edges outgoing edges
      */
-    void setOutgoing(Set<Edge> edges);
+    void setOutgoing(Set<E> edges);
 
 }

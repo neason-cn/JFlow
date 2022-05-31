@@ -13,30 +13,32 @@ import java.util.stream.Collectors;
 /**
  * A graph which contains nodes and edges.
  *
+ * @param <N> the class which extend from Node, and match the edge
+ * @param <E> the class which extend from Edge, and match the node
  * @author neason
  * @since 0.0.1
  */
-public interface Graph {
+public interface Graph<N extends Node<E>, E extends Edge<N>> {
 
     /**
      * connect nodes and edges, build reference of jvm object.
      *
-     * @param nodes all nodes {@link Graph#nodes()}
-     * @param edges all edges {@link Graph#edges()}
+     * @param nodes nodes all nodes {@link Graph#nodes()}
+     * @param edges edges all edges {@link Graph#edges()}
      */
-    static void connect(Set<Node> nodes, Set<Edge> edges) {
+    static <N extends Node<E>, E extends Edge<N>> void connect(Set<N> nodes, Set<E> edges) {
         if (CollectionUtils.isEmpty(nodes) || CollectionUtils.isEmpty(edges)) {
             return;
         }
 
-        Map<String, Node> nodeMap = nodes.stream()
+        Map<String, N> nodeMap = nodes.stream()
                 .collect(Collectors.toMap(Node::nodeId, Function.identity()));
 
         edges.forEach(edge -> {
             String sourceNodeId = edge.sourceNodeId();
-            Node sourceNode = nodeMap.get(sourceNodeId);
+            N sourceNode = nodeMap.get(sourceNodeId);
             String targetNodeId = edge.targetNodeId();
-            Node targetNode = nodeMap.get(targetNodeId);
+            N targetNode = nodeMap.get(targetNodeId);
 
             edge.setSource(sourceNode);
             edge.setTarget(targetNode);
@@ -59,12 +61,12 @@ public interface Graph {
     /**
      * @return all nodes of a graph.
      */
-    Set<Node> nodes();
+    Set<N> nodes();
 
     /**
      * @return all edges of a graph.
      */
-    Set<Edge> edges();
+    Set<E> edges();
 
     /**
      * find node by id.
@@ -72,7 +74,7 @@ public interface Graph {
      * @param nodeId {@link Node#nodeId()}
      * @return Node
      */
-    default Optional<Node> findNode(String nodeId) {
+    default Optional<N> findNode(String nodeId) {
         if (StringUtils.isBlank(nodeId)) {
             return Optional.empty();
         }
@@ -92,7 +94,7 @@ public interface Graph {
      * @param edgeId {@link Edge#edgeId()}
      * @return Edge
      */
-    default Optional<Edge> findEdge(String edgeId) {
+    default Optional<E> findEdge(String edgeId) {
         if (StringUtils.isBlank(edgeId)) {
             return Optional.empty();
         }
