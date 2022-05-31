@@ -1,5 +1,7 @@
 package com.jflow.infra.spi.script;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * The result after executing the script with some data.
  *
@@ -7,16 +9,23 @@ package com.jflow.infra.spi.script;
  * @author neason
  * @since 0.0.1
  */
-public class ScriptResult<T> {
+public interface ScriptResult<T> {
 
     /**
-     * some error when executing the script.
+     * @return execute script success of not.
      */
-    private String error;
+    default boolean hasError() {
+        return StringUtils.isNoneBlank(getError());
+    }
 
     /**
-     * the result after executing the script.
+     * @return some error when executing the script.
      */
-    private T result;
+    String getError();
+
+    /**
+     * @return the result after executing the script.
+     */
+    T getResult();
 
 }
