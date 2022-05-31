@@ -23,8 +23,8 @@ public interface Graph<N extends Node<E>, E extends Edge<N>> {
     /**
      * connect nodes and edges, build reference of jvm object.
      *
-     * @param nodes nodes all nodes {@link Graph#nodes()}
-     * @param edges edges all edges {@link Graph#edges()}
+     * @param nodes nodes all nodes {@link Graph#getNodes()}
+     * @param edges edges all edges {@link Graph#getEdges()}
      */
     static <N extends Node<E>, E extends Edge<N>> void connect(Set<N> nodes, Set<E> edges) {
         if (CollectionUtils.isEmpty(nodes) || CollectionUtils.isEmpty(edges)) {
@@ -32,28 +32,28 @@ public interface Graph<N extends Node<E>, E extends Edge<N>> {
         }
 
         Map<String, N> nodeMap = nodes.stream()
-                .collect(Collectors.toMap(Node::nodeId, Function.identity()));
+                .collect(Collectors.toMap(Node::getNodeId, Function.identity()));
 
         edges.forEach(edge -> {
-            String sourceNodeId = edge.sourceNodeId();
+            String sourceNodeId = edge.getSourceNodeId();
             N sourceNode = nodeMap.get(sourceNodeId);
-            String targetNodeId = edge.targetNodeId();
+            String targetNodeId = edge.getTargetNodeId();
             N targetNode = nodeMap.get(targetNodeId);
 
             edge.setSource(sourceNode);
             edge.setTarget(targetNode);
 
             if (null != sourceNode) {
-                if (CollectionUtils.isEmpty(sourceNode.outgoing())) {
+                if (CollectionUtils.isEmpty(sourceNode.getOutgoing())) {
                     sourceNode.setOutgoing(new HashSet<>(2));
                 }
-                sourceNode.outgoing().add(edge);
+                sourceNode.getOutgoing().add(edge);
             }
             if (null != targetNode) {
-                if (CollectionUtils.isEmpty(targetNode.incoming())) {
+                if (CollectionUtils.isEmpty(targetNode.getIncoming())) {
                     targetNode.setIncoming(new HashSet<>(2));
                 }
-                targetNode.incoming().add(edge);
+                targetNode.getIncoming().add(edge);
             }
         });
     }
@@ -61,17 +61,17 @@ public interface Graph<N extends Node<E>, E extends Edge<N>> {
     /**
      * @return all nodes of a graph.
      */
-    Set<N> nodes();
+    Set<N> getNodes();
 
     /**
      * @return all edges of a graph.
      */
-    Set<E> edges();
+    Set<E> getEdges();
 
     /**
      * find node by id.
      *
-     * @param nodeId {@link Node#nodeId()}
+     * @param nodeId {@link Node#getNodeId()}
      * @return Node
      */
     default Optional<N> findNode(String nodeId) {
@@ -79,19 +79,19 @@ public interface Graph<N extends Node<E>, E extends Edge<N>> {
             return Optional.empty();
         }
 
-        if (CollectionUtils.isEmpty(nodes())) {
+        if (CollectionUtils.isEmpty(getNodes())) {
             return Optional.empty();
         }
 
-        return nodes().stream()
-                .filter(node -> nodeId.equals(node.nodeId()))
+        return getNodes().stream()
+                .filter(node -> nodeId.equals(node.getNodeId()))
                 .findAny();
     }
 
     /**
      * find edge by id.
      *
-     * @param edgeId {@link Edge#edgeId()}
+     * @param edgeId {@link Edge#getEdgeId()}
      * @return Edge
      */
     default Optional<E> findEdge(String edgeId) {
@@ -99,12 +99,12 @@ public interface Graph<N extends Node<E>, E extends Edge<N>> {
             return Optional.empty();
         }
 
-        if (CollectionUtils.isEmpty(edges())) {
+        if (CollectionUtils.isEmpty(getEdges())) {
             return Optional.empty();
         }
 
-        return edges().stream()
-                .filter(edge -> edgeId.equals(edge.edgeId()))
+        return getEdges().stream()
+                .filter(edge -> edgeId.equals(edge.getEdgeId()))
                 .findAny();
     }
 

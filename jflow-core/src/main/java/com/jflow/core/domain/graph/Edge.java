@@ -12,17 +12,17 @@ public interface Edge<N extends Node<?>> {
     /**
      * @return the unique id of this edge in a graph.
      */
-    String edgeId();
+    String getEdgeId();
 
     /**
      * @return the display name of this edge.
      */
-    String edgeName();
+    String getEdgeName();
 
     /**
      * @return the node which this edge diffuse from.
      */
-    N source();
+    N getSource();
 
     /**
      * @param source source node
@@ -32,7 +32,7 @@ public interface Edge<N extends Node<?>> {
     /**
      * @return the node which this edge point to.
      */
-    N target();
+    N getTarget();
 
     /**
      * @param target target node
@@ -40,13 +40,13 @@ public interface Edge<N extends Node<?>> {
     void setTarget(N target);
 
     /**
-     * the id of {@link Edge#source()}
+     * the id of {@link Edge#getSource()}
      */
-    String sourceNodeId();
+    String getSourceNodeId();
 
     /**
-     * the id of {@link Edge#target()}
+     * the id of {@link Edge#getTarget()}
      */
-    String targetNodeId();
+    String getTargetNodeId();
 
 }

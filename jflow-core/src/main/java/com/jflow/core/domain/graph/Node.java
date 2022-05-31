@@ -14,17 +14,17 @@ public interface Node<E extends Edge<?>> {
     /**
      * @return the unique id of this node in a graph.
      */
-    String nodeId();
+    String getNodeId();
 
     /**
      * @return the display name of this node.
      */
-    String nodeName();
+    String getNodeName();
 
     /**
      * @return the edges which point to this node.
      */
-    Set<E> incoming();
+    Set<E> getIncoming();
 
     /**
      * @param edges incoming edges
@@ -34,7 +34,7 @@ public interface Node<E extends Edge<?>> {
     /**
      * @return the edges which diffuse from this node.
      */
-    Set<E> outgoing();
+    Set<E> getOutgoing();
 
     /**
      * @param edges outgoing edges
