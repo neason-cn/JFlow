@@ -1,15 +1,15 @@
 package com.jflow.infra.spi.script;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.jflow.infra.spi.script.type.Script;
 
 /**
  * The SPI of script abilities.
  *
- * @param <S> the script impl type
  * @author neason
  * @since 0.0.1
  */
-public interface ScriptSpi<S extends Script> {
+public interface ScriptSpi {
 
     /**
      * Validate the script content.
@@ -17,17 +17,16 @@ public interface ScriptSpi<S extends Script> {
      * @param script the script
      * @return the script content is legal or not.
      */
-    boolean validate(S script);
+    boolean validate(Script<?> script);
 
     /**
      * Execute a script.
      *
      * @param script  the script
      * @param context the data
-     * @param type    class of the result type
      * @param <T>     the result type
      * @return the result wrapper
      */
-    <T> ScriptResult<T> execute(S script, JSONObject context, Class<T> type);
+    <T> ScriptResult<T> execute(Script<T> script, JSONObject context);
 
 }

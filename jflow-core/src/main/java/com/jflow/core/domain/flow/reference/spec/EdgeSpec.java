@@ -1,8 +1,10 @@
 package com.jflow.core.domain.flow.reference.spec;
 
 import com.jflow.core.domain.graph.Edge;
-import com.jflow.infra.spi.script.Script;
+import com.jflow.infra.spi.script.type.BooleanScript;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * The specification of the edge.
@@ -11,11 +13,14 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
-public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec> {
+public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec>, Serializable {
+
+
+    private static final long serialVersionUID = 2022001L;
 
     /**
      * The priority of the edge.
-     * The edge which has a larger priority in outgoing of a node will fire first.
+     * The edge which has a larger priority in outgoing() of a NodeSpec will fire first.
      */
     private int priority;
 
@@ -24,7 +29,7 @@ public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec> {
      * The script must return a Boolean value, which as a symbol of whether the
      * target node will be fire or not.
      */
-    private Script script;
+    private BooleanScript script;
 
     /**
      * Edge id
@@ -47,12 +52,14 @@ public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec> {
     private String targetNodeId;
 
     /**
-     * Transient for avoid circular reference when serialize
+     * Transient for avoid circular reference when serialize this.
+     * Source node.
      */
     private transient NodeSpec source;
 
     /**
-     * Transient for avoid circular reference when serialize
+     * Transient for avoid circular reference when serialize this.
+     * Target node.
      */
     private transient NodeSpec target;
 
