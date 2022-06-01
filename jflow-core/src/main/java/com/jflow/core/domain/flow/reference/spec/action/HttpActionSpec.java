@@ -1,6 +1,7 @@
 package com.jflow.core.domain.flow.reference.spec.action;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
  * @since 0.0.1
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class HttpActionSpec extends AbstractActionSpec {
 
     private static final long serialVersionUID = 2022001L;

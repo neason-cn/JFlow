@@ -1,5 +1,6 @@
-package com.jflow.core.domain.enums;
+package com.jflow.core.domain.enums.type;
 
+import com.jflow.common.enums.Type;
 import lombok.Getter;
 
 /**

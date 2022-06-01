@@ -1,4 +1,4 @@
-package com.jflow.core.domain.enums;
+package com.jflow.common.enums;
 
 /**
  * @author neason

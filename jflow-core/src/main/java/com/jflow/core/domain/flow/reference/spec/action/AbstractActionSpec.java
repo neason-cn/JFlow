@@ -1,7 +1,7 @@
 package com.jflow.core.domain.flow.reference.spec.action;
 
-import com.jflow.core.domain.enums.ActionTypeEnum;
-import com.jflow.core.domain.enums.Type;
+import com.jflow.core.domain.enums.type.ActionTypeEnum;
+import com.jflow.common.enums.Type;
 import lombok.Data;
 
 import java.io.Serializable;

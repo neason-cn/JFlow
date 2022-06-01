@@ -1,6 +1,7 @@
 package com.jflow.infra.spi.script.type;
 
 import com.alibaba.fastjson2.TypeReference;
+import com.jflow.common.enums.Type;
 import lombok.Data;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
-public abstract class Script<T> {
+public abstract class Script<T> implements Type {
 
     /**
      * The type of script, such as QLExpress, Groovy, SpEL etc.
