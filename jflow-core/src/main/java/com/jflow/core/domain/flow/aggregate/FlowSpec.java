@@ -58,10 +58,10 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec> {
     private JSONObject initContext;
 
     /**
-     * The result of script will be regarded as the result of a flow instance.
+     * The result of script will be regarded as the output of a flow instance.
      * The script will be executed when a flow instance went to the final status.
      */
-    private JsonScript result;
+    private JsonScript outputScript;
 
     /**
      * Scheduled to create a flow instance by using the spec version.
@@ -89,7 +89,7 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec> {
     private Date createAt;
 
     /**
-     * The latest user who release the spec version
+     * The time when release the spec version
      */
     private Date releaseAt;
 
