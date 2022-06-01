@@ -11,7 +11,7 @@ public interface Script {
     /**
      * @return the type of script, such as QLExpress, Groovy, SpEL etc.
      */
-    String getType();
+    ScriptEnum getType();
 
     /**
      * @return the content of script
