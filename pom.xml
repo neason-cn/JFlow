@@ -33,6 +33,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <spring.version>5.3.20</spring.version>
+        <springboot.version>2.6.8</springboot.version>
     </properties>
 
     <dependencyManagement>
@@ -79,6 +81,16 @@
             <!-- ========================= -->
             <!-- ======= Third Party ======= -->
             <!-- ========================= -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
