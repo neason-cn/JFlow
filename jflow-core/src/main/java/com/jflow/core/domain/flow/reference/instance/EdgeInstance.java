@@ -12,10 +12,29 @@ import lombok.Data;
 @Data
 public class EdgeInstance implements Edge<AbstractNodeInstance> {
 
+    /**
+     * The spec of this instance.
+     */
     private final EdgeSpec spec;
+
+    /**
+     * The nodeId of source node.
+     */
     private String sourceNodeId;
+
+    /**
+     * The nodeId of target node.
+     */
     private String targetNodeId;
+
+    /**
+     * The source node.
+     */
     private transient AbstractNodeInstance source;
+
+    /**
+     * The target node.
+     */
     private transient AbstractNodeInstance target;
 
     @Override

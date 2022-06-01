@@ -40,9 +40,11 @@ public interface Graph<N extends Node<E>, E extends Edge<N>> {
             String targetNodeId = edge.getTargetNodeId();
             N targetNode = nodeMap.get(targetNodeId);
 
+            // connect both nodes with the edge.
             edge.setSource(sourceNode);
             edge.setTarget(targetNode);
 
+            // put the edge into the incoming or outgoing.
             if (null != sourceNode) {
                 if (CollectionUtils.isEmpty(sourceNode.getOutgoing())) {
                     sourceNode.setOutgoing(new HashSet<>(2));

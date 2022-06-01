@@ -10,11 +10,11 @@ import lombok.Getter;
  */
 public enum ScriptEnum {
 
-    QL_EXPRESS("QLExpress"),
+    QL_EXPRESS("QL_EXPRESS"),
 
-    GROOVY("Groovy"),
+    GROOVY("GROOVY"),
 
-    JAVA_SCRIPT("JavaScript");
+    JAVA_SCRIPT("JAVA_SCRIPT");
     @Getter
     private final String type;
 

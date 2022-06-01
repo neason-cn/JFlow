@@ -14,8 +14,19 @@ import java.util.Set;
 @Data
 public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance> {
 
+    /**
+     * The static spec of the flow instance.
+     */
     private transient FlowSpec spec;
+
+    /**
+     * All edge instance.
+     */
     private transient Set<EdgeInstance> edges;
+
+    /**
+     * All node instance.
+     */
     private transient Set<AbstractNodeInstance> nodes;
 
 }
