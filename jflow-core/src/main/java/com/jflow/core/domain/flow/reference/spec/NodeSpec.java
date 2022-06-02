@@ -1,5 +1,7 @@
 package com.jflow.core.domain.flow.reference.spec;
 
+import com.jflow.core.domain.flow.reference.spec.action.AbstractActionSpec;
+import com.jflow.core.domain.flow.reference.spec.task.AbstractTaskSpec;
 import com.jflow.core.domain.graph.Node;
 import com.jflow.infra.spi.script.type.BooleanScript;
 import lombok.Data;
@@ -70,6 +72,21 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
      * The extended properties/labels which can add customize tag.
      */
     private Map<String, String> labels;
+
+    /**
+     * The action before fire task.
+     */
+    private AbstractActionSpec before;
+
+    /**
+     * The task will be run in this node.
+     */
+    private AbstractTaskSpec taskSpec;
+
+    /**
+     * The action after finish task.
+     */
+    private AbstractActionSpec after;
 
     /**
      * Transient for avoid circular reference when serialize this.

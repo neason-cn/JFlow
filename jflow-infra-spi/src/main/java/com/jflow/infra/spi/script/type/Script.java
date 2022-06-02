@@ -1,7 +1,6 @@
 package com.jflow.infra.spi.script.type;
 
 import com.alibaba.fastjson2.TypeReference;
-import com.jflow.common.enums.Type;
 import lombok.Data;
 
 /**
@@ -11,12 +10,7 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
-public abstract class Script<T> implements Type {
-
-    /**
-     * The type of script, such as QLExpress, Groovy, SpEL etc.
-     */
-    private String type;
+public abstract class Script<T> {
 
     /**
      * The content of script.
@@ -31,20 +25,18 @@ public abstract class Script<T> implements Type {
     /**
      * Create a script contains generic type.
      *
-     * @param type       script type
      * @param content    script content
      * @param resultType result type
      * @param <T>        result type
      * @return a instance extends Script<T>
      */
-    public static <T> Script<T> of(String type, String content, TypeReference<T> resultType) {
+    public static <T> Script<T> of(String content, TypeReference<T> resultType) {
         Script<T> script = new Script<T>() {
             @Override
             public TypeReference<T> getResultType() {
                 return resultType;
             }
         };
-        script.setType(type);
         script.setContent(content);
         return script;
     }
