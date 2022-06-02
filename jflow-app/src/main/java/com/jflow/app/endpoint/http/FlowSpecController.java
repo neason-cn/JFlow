@@ -2,10 +2,13 @@ package com.jflow.app.endpoint.http;
 
 import com.jflow.api.client.request.commands.ReleaseFlowSpecCommand;
 import com.jflow.api.client.request.commands.SaveDraftFlowSpecCommand;
-import com.jflow.api.client.request.queries.QueryFlowSpecByCodeAndVersion;
 import com.jflow.api.client.request.queries.QueryFlowSpecById;
+import com.jflow.api.client.request.queries.QueryLatestFlowSpecByCode;
 import com.jflow.api.client.response.Json;
 import com.jflow.api.client.vo.spec.FlowSpecVO;
+import com.jflow.core.domain.flow.aggregate.FlowSpec;
+import com.jflow.core.domain.flow.convertor.FlowSpecConvertor;
+import com.jflow.core.domain.flow.repository.FlowSpecRepository;
 import com.jflow.core.service.FlowSpecService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+
+import static com.jflow.common.error.Errors.NO_RELEASED_FLOW_SPEC_VERSION_ERROR;
 
 /**
  * @author neason
@@ -24,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class FlowSpecController {
 
     private final FlowSpecService flowSpecService;
+    private final FlowSpecConvertor flowSpecConvertor;
+    private final FlowSpecRepository flowSpecRepository;
 
     //------------------------ COMMAND ------------------------
 
@@ -49,12 +58,22 @@ public class FlowSpecController {
 
     @PostMapping("/getById.json")
     public Json<FlowSpecVO> getById(@RequestBody QueryFlowSpecById query) {
-        return Json.success(null);
+        if (null == query || StringUtils.isEmpty(query.getFlowSpecId())) {
+            return Json.error("the flowSpecId can not be empty.");
+        }
+        FlowSpec flowSpec = flowSpecRepository.getById(query.getFlowSpecId());
+        return Json.success(flowSpecConvertor.convert(flowSpec));
     }
 
-    @PostMapping("/getByCodeAndVersion.json")
-    public Json<FlowSpecVO> getByCodeAndVersion(@RequestBody QueryFlowSpecByCodeAndVersion query) {
-        return Json.success(null);
+    @PostMapping("/getLatestFlowSpecByCode.json")
+    public Json<FlowSpecVO> getLatestFlowSpecByCode(@RequestBody QueryLatestFlowSpecByCode query) {
+        if (null == query || StringUtils.isEmpty(query.getFlowSpecCode())) {
+            return Json.error("the flowSpecCode can not be empty.");
+        }
+        Optional<FlowSpec> flowSpec = flowSpecRepository.getReleaseByCode(query.getFlowSpecCode());
+        return flowSpec
+                .map(spec -> Json.success(flowSpecConvertor.convert(spec)))
+                .orElseGet(() -> Json.error(String.format(NO_RELEASED_FLOW_SPEC_VERSION_ERROR.errorMessage(), query.getFlowSpecCode())));
     }
 
 }

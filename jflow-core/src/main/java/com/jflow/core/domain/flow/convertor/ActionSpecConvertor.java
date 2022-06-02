@@ -15,11 +15,17 @@ import org.springframework.stereotype.Component;
 public class ActionSpecConvertor {
 
     public AbstractActionSpec convert(JSONObject json) {
+        if (null == json) {
+            return null;
+        }
         String type = json.getString(Type.KEY_IN_JSON);
         return json.to(ActionTypeEnum.of(type).getClazz());
     }
 
     public JSONObject convert(AbstractActionSpec spec) {
+        if (null == spec) {
+            return null;
+        }
         return JsonUtils.toJson(spec);
     }
 

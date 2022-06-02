@@ -11,6 +11,7 @@ public enum Errors implements FlowError {
     SYSTEM_ERROR("SYSTEM_ERROR", "system error, {}"),
 
     // Flow Spec
+    NO_RELEASED_FLOW_SPEC_VERSION_ERROR("NO_RELEASED_FLOW_SPEC_VERSION_ERROR","no released version of this spec code: {}"),
     ILLEGAL_FLOW_SPEC_STATUS_ERROR("ILLEGAL_FLOW_SPEC_STATUS_ERROR", "the status {} of flowSpec {} is illegal, {}");
 
     @Getter

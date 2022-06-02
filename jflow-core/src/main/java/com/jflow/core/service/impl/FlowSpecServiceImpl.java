@@ -51,7 +51,7 @@ public class FlowSpecServiceImpl implements FlowSpecService {
 
         // save two spec in transaction
         transactionExecutor.inTransaction(() -> {
-            specToRelease.release();
+            specToRelease.release(command.getUserId());
             specToArchive.get().archive();
             flowSpecRepository.save(specToRelease);
             flowSpecRepository.save(specToArchive.get());
@@ -67,7 +67,7 @@ public class FlowSpecServiceImpl implements FlowSpecService {
 
             // update when the latest flow spec is still 'DRAFT'
             if (FlowSpecStatusEnum.DRAFT == oldSpec.getStatus()) {
-                return flowSpecConvertor.fetch(flowSpecVO, oldSpec);
+                return flowSpecConvertor.merge(flowSpecVO, oldSpec);
             }
 
             if (FlowSpecStatusEnum.ARCHIVED == oldSpec.getStatus()) {

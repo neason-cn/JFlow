@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 public class EdgeSpecConvertor {
 
     public EdgeSpec convert(EdgeSpecVO vo) {
+        if (null == vo) {
+            return null;
+        }
         EdgeSpec edgeSpec = new EdgeSpec();
         edgeSpec.setEdgeId(vo.getEdgeId());
         edgeSpec.setEdgeName(vo.getEdgeName());
@@ -24,6 +27,9 @@ public class EdgeSpecConvertor {
     }
 
     public EdgeSpecVO convert(EdgeSpec spec) {
+        if (null == spec) {
+            return null;
+        }
         EdgeSpecVO vo = new EdgeSpecVO();
         vo.setEdgeId(spec.getEdgeId());
         vo.setEdgeName(spec.getEdgeName());

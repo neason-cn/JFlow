@@ -20,6 +20,9 @@ public class TaskSpecConvertor {
     private final ActionSpecConvertor actionSpecConvertor;
 
     public AbstractTaskSpec convert(TaskSpecVO vo) {
+        if (null == vo) {
+            return null;
+        }
         TaskTypeEnum type = TaskTypeEnum.of(vo.getTaskType());
 
         if (TaskTypeEnum.SYNC == type) {
@@ -40,6 +43,9 @@ public class TaskSpecConvertor {
     }
 
     public TaskSpecVO convert(AbstractTaskSpec spec) {
+        if (null == spec) {
+            return null;
+        }
         TaskSpecVO vo = new TaskSpecVO();
         vo.setTaskName(spec.getTaskName());
         vo.setTaskType(spec.getTaskType().getType());

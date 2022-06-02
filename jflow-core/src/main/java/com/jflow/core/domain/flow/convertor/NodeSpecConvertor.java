@@ -20,6 +20,9 @@ public class NodeSpecConvertor {
     private final ActionSpecConvertor actionSpecConvertor;
 
     public NodeSpec convert(NodeSpecVO vo) {
+        if (null == vo) {
+            return null;
+        }
         NodeSpec nodeSpec = new NodeSpec();
         nodeSpec.setNodeId(vo.getNodeId());
         nodeSpec.setNodeName(vo.getNodeName());
@@ -40,6 +43,9 @@ public class NodeSpecConvertor {
     }
 
     public NodeSpecVO convert(NodeSpec spec) {
+        if (null == spec) {
+            return null;
+        }
         NodeSpecVO vo = new NodeSpecVO();
         vo.setNodeId(spec.getNodeId());
         vo.setNodeName(vo.getNodeName());

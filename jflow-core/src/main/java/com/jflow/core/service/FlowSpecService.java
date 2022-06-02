@@ -17,6 +17,11 @@ public interface FlowSpecService {
      */
     String saveDraft(SaveDraftFlowSpecCommand command);
 
+    /**
+     * Release a draft spec.
+     *
+     * @param command release command
+     */
     void release(ReleaseFlowSpecCommand command);
 
 }

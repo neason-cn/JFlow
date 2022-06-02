@@ -7,7 +7,6 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
-public class QueryFlowSpecByCodeAndVersion {
+public class QueryLatestFlowSpecByCode {
     private String flowSpecCode;
-    private String flowSpecVersion;
 }
