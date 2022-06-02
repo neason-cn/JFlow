@@ -19,6 +19,16 @@ public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec>, Serializa
     private static final long serialVersionUID = 2022001L;
 
     /**
+     * Edge id
+     */
+    private String edgeId;
+
+    /**
+     * Edge name
+     */
+    private String edgeName;
+
+    /**
      * The priority of the edge.
      * The edge which has a larger priority in outgoing() of a NodeSpec will fire first.
      */
@@ -30,16 +40,6 @@ public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec>, Serializa
      * target node will be fire or not.
      */
     private BooleanScript script;
-
-    /**
-     * Edge id
-     */
-    private String edgeId;
-
-    /**
-     * Edge name
-     */
-    private String edgeName;
 
     /**
      * The nodeId of source(for deSerialize).

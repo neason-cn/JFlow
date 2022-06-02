@@ -1,5 +1,6 @@
 package com.jflow.core.domain.auth;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -7,6 +8,7 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
+@AllArgsConstructor
 public class FlowUser {
 
     /**

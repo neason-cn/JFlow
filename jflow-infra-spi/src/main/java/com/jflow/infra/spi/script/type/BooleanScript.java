@@ -8,6 +8,10 @@ import com.alibaba.fastjson2.TypeReference;
  */
 public class BooleanScript extends Script<Boolean> {
 
+    public BooleanScript(String content) {
+        super(content);
+    }
+
     @Override
     public TypeReference<Boolean> getResultType() {
         return new TypeReference<Boolean>() {

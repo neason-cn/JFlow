@@ -49,6 +49,7 @@ public class FlowSpecServiceImpl implements FlowSpecService {
             throw new FlowException(SYSTEM_ERROR, String.format("the code of %s has no spec version to archive.", specToRelease.getFlowSpecCode()));
         }
 
+        // save two spec in transaction
         transactionExecutor.inTransaction(() -> {
             specToRelease.release();
             specToArchive.get().archive();

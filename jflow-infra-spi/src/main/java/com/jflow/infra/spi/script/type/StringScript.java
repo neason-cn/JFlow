@@ -8,6 +8,10 @@ import com.alibaba.fastjson2.TypeReference;
  */
 public class StringScript extends Script<String> {
 
+    public StringScript(String content) {
+        super(content);
+    }
+
     @Override
     public TypeReference<String> getResultType() {
         return new TypeReference<String>() {

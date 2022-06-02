@@ -1,6 +1,7 @@
 package com.jflow.infra.spi.script.type;
 
 import com.alibaba.fastjson2.TypeReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
+@AllArgsConstructor
 public abstract class Script<T> {
 
     /**
@@ -31,14 +33,12 @@ public abstract class Script<T> {
      * @return a instance extends Script<T>
      */
     public static <T> Script<T> of(String content, TypeReference<T> resultType) {
-        Script<T> script = new Script<T>() {
+        return new Script<T>(content) {
             @Override
             public TypeReference<T> getResultType() {
                 return resultType;
             }
         };
-        script.setContent(content);
-        return script;
     }
 
 }

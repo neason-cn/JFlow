@@ -6,6 +6,8 @@ package com.jflow.common.enums;
  */
 public interface Type {
 
+    String KEY_IN_JSON = "type";
+
     /**
      * The symbol which use to distinguish the spec or instance.
      *
