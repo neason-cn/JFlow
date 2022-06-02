@@ -39,4 +39,24 @@ public class NodeSpecConvertor {
         return nodeSpec;
     }
 
+    public NodeSpecVO convert(NodeSpec spec) {
+        NodeSpecVO vo = new NodeSpecVO();
+        vo.setNodeId(spec.getNodeId());
+        vo.setNodeName(vo.getNodeName());
+        vo.setWaitAll(spec.getWaitAll().getContent());
+        vo.setAutoFireScript(spec.getAutoFire() != null ? spec.getAutoFire().getContent() : null);
+        vo.setAutoSkipScript(spec.getAutoSkip() != null ? spec.getAutoSkip().getContent() : null);
+        vo.setEnableSkipScript(spec.getEnableSkip() != null ? spec.getEnableSkip().getContent() : null);
+        vo.setEnableRetryScript(spec.getEnableRetry() != null ? spec.getEnableRetry().getContent() : null);
+        vo.setInterruptWhenSubmitFailedScript(spec.getInterruptWhenSubmitFailed() != null ?
+                spec.getInterruptWhenSubmitFailed().getContent() : null);
+        vo.setInterruptWhenExecuteFailedScript(spec.getInterruptWhenExecuteFailed() != null ?
+                spec.getInterruptWhenExecuteFailed().getContent() : null);
+        vo.setLabels(spec.getLabels());
+        vo.setBeforeTaskAction(actionSpecConvertor.convert(spec.getBefore()));
+        vo.setTaskSpec(taskSpecConvertor.convert(spec.getTaskSpec()));
+        vo.setAfterTaskAction(actionSpecConvertor.convert(spec.getAfter()));
+        return vo;
+    }
+
 }

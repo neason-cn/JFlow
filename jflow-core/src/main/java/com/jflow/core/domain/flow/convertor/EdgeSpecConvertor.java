@@ -23,4 +23,15 @@ public class EdgeSpecConvertor {
         return edgeSpec;
     }
 
+    public EdgeSpecVO convert(EdgeSpec spec) {
+        EdgeSpecVO vo = new EdgeSpecVO();
+        vo.setEdgeId(spec.getEdgeId());
+        vo.setEdgeName(spec.getEdgeName());
+        vo.setPriority(spec.getPriority());
+        vo.setScript(spec.getScript() != null ? spec.getScript().getContent() : null);
+        vo.setSourceNodeId(spec.getSourceNodeId());
+        vo.setTargetNodeId(spec.getTargetNodeId());
+        return vo;
+    }
+
 }
