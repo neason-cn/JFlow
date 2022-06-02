@@ -1,4 +1,4 @@
-package com.jflow.api.client.dto.spec;
+package com.jflow.api.client.vo.spec;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
-public class EdgeSpecDTO {
+public class EdgeSpecVO {
     private int priority;
     private String script;
     private String edgeId;

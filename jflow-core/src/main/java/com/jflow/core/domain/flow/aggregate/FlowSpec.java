@@ -1,6 +1,7 @@
 package com.jflow.core.domain.flow.aggregate;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.jflow.common.exception.FlowException;
 import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.domain.flow.reference.spec.EdgeSpec;
@@ -12,6 +13,8 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.Set;
+
+import static com.jflow.common.error.Errors.ILLEGAL_FLOW_SPEC_STATUS_ERROR;
 
 /**
  * The static spec of flow, the most important info is the nodes and edges.
@@ -117,5 +120,19 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec> {
      * All edge spec.
      */
     private transient Set<EdgeSpec> edges;
+
+    public void release() {
+        if (this.status != FlowSpecStatusEnum.DRAFT) {
+            throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
+        }
+        this.status = FlowSpecStatusEnum.RELEASED;
+    }
+
+    public void archive() {
+        if (this.status != FlowSpecStatusEnum.RELEASED) {
+            throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
+        }
+        this.status = FlowSpecStatusEnum.ARCHIVED;
+    }
 
 }

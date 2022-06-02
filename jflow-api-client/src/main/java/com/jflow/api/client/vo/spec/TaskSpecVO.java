@@ -1,4 +1,4 @@
-package com.jflow.api.client.dto.spec;
+package com.jflow.api.client.vo.spec;
 
 import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
-public class TaskSpecDTO {
+public class TaskSpecVO {
     private String taskName;
     private String taskType;
     private JSONObject onExecute;

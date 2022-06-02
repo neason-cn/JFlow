@@ -1,4 +1,4 @@
-package com.jflow.api.client.dto.spec;
+package com.jflow.api.client.vo.spec;
 
 import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.Map;
  * @since 0.0.1
  */
 @Data
-public class NodeSpecDTO {
+public class NodeSpecVO {
     private String nodeId;
     private String nodeName;
     private String waitAll;
@@ -22,6 +22,6 @@ public class NodeSpecDTO {
     private String interruptWhenExecuteFailedScript;
     private Map<String, String> labels;
     private JSONObject beforeTaskAction;
-    private TaskSpecDTO taskSpec;
+    private TaskSpecVO taskSpec;
     private JSONObject afterTaskAction;
 }

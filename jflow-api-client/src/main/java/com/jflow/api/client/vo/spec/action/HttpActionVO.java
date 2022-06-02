@@ -1,4 +1,4 @@
-package com.jflow.api.client.dto.spec.action;
+package com.jflow.api.client.vo.spec.action;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import java.util.Map;
  * @since 0.0.1
  */
 @Data
-public class HttpAction {
+public class HttpActionVO {
     private String url;
     private String method;
     private Map<String, List<String>> headers;

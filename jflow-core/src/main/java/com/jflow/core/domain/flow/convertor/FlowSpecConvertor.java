@@ -1,4 +1,4 @@
-package com.jflow.core.domain.flow.factory;
+package com.jflow.core.domain.flow.convertor;
 
 import com.jflow.api.client.vo.spec.FlowSpecVO;
 import com.jflow.core.domain.flow.aggregate.FlowSpec;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
  * @since 0.0.1
  */
 @Component
-public class FlowSpecFactory {
+public class FlowSpecConvertor {
 
-    public FlowSpec create(FlowSpecVO vo, int nextVersion, String userId) {
+    public FlowSpec fetch(FlowSpecVO newInfo, FlowSpec oldSpec) {
         return new FlowSpec();
     }
 

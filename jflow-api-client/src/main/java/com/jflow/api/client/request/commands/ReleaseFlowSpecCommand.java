@@ -1,6 +1,5 @@
 package com.jflow.api.client.request.commands;
 
-import com.jflow.api.client.vo.spec.FlowSpecVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,6 +9,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SaveDraftFlowSpecCommand extends AuthCommand {
-    private FlowSpecVO flowSpec;
+public class ReleaseFlowSpecCommand extends AuthCommand {
+    private String flowSpecId;
 }
