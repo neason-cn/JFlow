@@ -12,7 +12,12 @@ public enum Errors implements FlowError {
 
     // Flow Spec
     NO_RELEASED_FLOW_SPEC_VERSION_ERROR("NO_RELEASED_FLOW_SPEC_VERSION_ERROR","no released version of this spec code: {}"),
-    ILLEGAL_FLOW_SPEC_STATUS_ERROR("ILLEGAL_FLOW_SPEC_STATUS_ERROR", "the status {} of flowSpec {} is illegal, {}");
+    ILLEGAL_FLOW_SPEC_STATUS_ERROR("ILLEGAL_FLOW_SPEC_STATUS_ERROR", "the status {} of flowSpec {} is illegal, {}"),
+
+    // Flow Instance
+    NO_SUCH_NODE_IN_FLOW("NO_SUCH_NODE_IN_FLOW","no nodeId: {} matched in the flow : {}")
+
+    ;
 
     @Getter
     private final String code;

@@ -1,4 +1,4 @@
-package com.jflow.core.domain.flow.ability;
+package com.jflow.core.domain.flow.facade;
 
 import com.jflow.core.domain.auth.FlowUser;
 

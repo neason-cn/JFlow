@@ -1,9 +1,8 @@
 package com.jflow.core.service;
 
-import com.jflow.api.client.request.commands.FlowInstanceCommand;
-import com.jflow.api.client.request.commands.FlowInstanceNodeCommand;
-import com.jflow.api.client.request.commands.SaveDraftFlowSpecCommand;
-import com.jflow.api.client.request.commands.StartFlowInstanceCommand;
+import com.alibaba.fastjson2.JSONObject;
+import com.jflow.api.client.request.commands.*;
+import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.flow.aggregate.FlowInstance;
 
 /**
@@ -15,27 +14,33 @@ public interface FlowInstanceService {
     /**
      * Start a flow instance manually.
      *
-     * @param command start command
+     * @param flowSpecCode flow spec code
+     * @param context the data which created when start
+     * @param user user
      * @return new flow instance
      */
-    FlowInstance start(StartFlowInstanceCommand command);
+    FlowInstance start(String flowSpecCode, JSONObject context, FlowUser user);
 
     /**
      * Start a flow instance by system(by sub_flow task).
      *
-     * @param command        start command
-     * @param taskInstanceId the sub_flow task instance id
+     * @param flowSpecCode flow spec code
+     * @param context the data which created when start
+     * @param user user
+     * @param taskInstanceId parent task instance id
      * @return new flow instance
      */
-    FlowInstance start(SaveDraftFlowSpecCommand command, String taskInstanceId);
+    FlowInstance start(String flowSpecCode, JSONObject context, FlowUser user, String taskInstanceId);
 
-    void fireNode(FlowInstanceNodeCommand command);
+    void fireNode(String flowInstanceId, String nodeId, JSONObject jsonObject, FlowUser user);
 
-    void retryNode(FlowInstanceNodeCommand command);
+    void retryNode(String flowInstanceId, String nodeId, JSONObject jsonObject, FlowUser user);
 
-    void skipNode(FlowInstanceNodeCommand command);
+    void skipNode(String flowInstanceId, String nodeId, JSONObject jsonObject, FlowUser user);
 
-    void cancelNode(FlowInstanceNodeCommand command);
+    void cancelNode(String flowInstanceId, String nodeId, JSONObject jsonObject, FlowUser user);
 
-    void terminate(FlowInstanceCommand command);
+    void completeTask(String flowInstanceId, String nodeId, JSONObject jsonObject, FlowUser user);
+
+    void terminate(String flowInstanceId, JSONObject jsonObject, FlowUser user);
 }

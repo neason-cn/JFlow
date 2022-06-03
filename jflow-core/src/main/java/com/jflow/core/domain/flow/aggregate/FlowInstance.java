@@ -7,6 +7,7 @@ import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
 import com.jflow.core.domain.flow.reference.instance.node.AbstractNodeInstance;
 import com.jflow.core.domain.graph.Graph;
 import lombok.Data;
+import org.apache.commons.collections4.MapUtils;
 
 import java.util.Date;
 import java.util.Set;
@@ -24,9 +25,14 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance> {
     private String flowInstanceId;
 
     /**
+     * The task instance id which create this flow instance.
+     */
+    private String parentTaskInstanceId;
+
+    /**
      * The static spec of the flow instance.
      */
-    private transient FlowSpec spec;
+    private final transient FlowSpec spec;
 
     /**
      * All edge instance.
@@ -54,6 +60,11 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance> {
     private JSONObject output;
 
     /**
+     * The global context which can be used in every node, edge, task and action.
+     */
+    private JSONObject context;
+
+    /**
      * The user who create this flow instance.
      */
     private FlowUser createBy;
@@ -72,5 +83,12 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance> {
      * The time when cancel this flow instance.
      */
     private Date cancelAt;
+
+    public void mergeContext(JSONObject addition) {
+        if (MapUtils.isEmpty(this.context)) {
+            this.context = new JSONObject();
+        }
+        this.context.putAll(addition);
+    }
 
 }

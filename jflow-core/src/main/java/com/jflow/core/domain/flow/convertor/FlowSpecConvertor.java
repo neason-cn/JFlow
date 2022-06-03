@@ -31,7 +31,7 @@ public class FlowSpecConvertor {
         FlowSpec newSpec = new FlowSpec();
 
         // copy first
-        copy(newSpec, newInfo);
+        copyPropertiesFromVO(newSpec, newInfo);
 
         // then set
         newSpec.setFlowSpecId(oldSpec.getFlowSpecId());
@@ -75,7 +75,7 @@ public class FlowSpecConvertor {
         return vo;
     }
 
-    public void copy(FlowSpec flowSpec, FlowSpecVO vo) {
+    public void copyPropertiesFromVO(FlowSpec flowSpec, FlowSpecVO vo) {
         flowSpec.setFlowSpecId(vo.getFlowSpecId());
         flowSpec.setStatus(FlowSpecStatusEnum.of(vo.getStatus()));
         flowSpec.setFlowSpecVersion(vo.getFlowSpecVersion());

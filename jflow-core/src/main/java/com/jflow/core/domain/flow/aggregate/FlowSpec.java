@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
 import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.enums.status.FlowSpecStatusEnum;
-import com.jflow.core.domain.flow.ability.FlowSpecAbility;
+import com.jflow.core.domain.flow.facade.FlowSpecAbility;
 import com.jflow.core.domain.flow.reference.spec.EdgeSpec;
 import com.jflow.core.domain.flow.reference.spec.NodeSpec;
 import com.jflow.core.domain.flow.reference.spec.action.AbstractActionSpec;

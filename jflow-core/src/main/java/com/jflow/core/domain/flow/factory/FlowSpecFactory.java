@@ -24,7 +24,7 @@ public class FlowSpecFactory {
         FlowSpec flowSpec = new FlowSpec();
 
         // copy first
-        flowSpecConvertor.copy(flowSpec, vo);
+        flowSpecConvertor.copyPropertiesFromVO(flowSpec, vo);
 
         // then set
         flowSpec.setFlowSpecId(IdUtil.fastSimpleUUID());
