@@ -1,11 +1,10 @@
 package com.jflow.core.service.impl;
 
-import com.jflow.api.client.request.commands.ReleaseFlowSpecCommand;
-import com.jflow.api.client.request.commands.SaveDraftFlowSpecCommand;
 import com.jflow.api.client.vo.spec.FlowSpecVO;
 import com.jflow.common.config.TransactionExecutor;
 import com.jflow.common.error.Errors;
 import com.jflow.common.exception.FlowException;
+import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.domain.flow.aggregate.FlowSpec;
 import com.jflow.core.domain.flow.convertor.FlowSpecConvertor;
@@ -32,16 +31,17 @@ public class FlowSpecServiceImpl implements FlowSpecService {
     private final FlowSpecRepository flowSpecRepository;
     private final TransactionExecutor transactionExecutor;
 
+
     @Override
-    public String saveDraft(SaveDraftFlowSpecCommand command) {
-        FlowSpec flowSpec = generateSpecToSave(command.getFlowSpec(), command.getUserId());
+    public String saveDraft(FlowSpecVO draft, FlowUser user) {
+        FlowSpec flowSpec = generateSpecToSave(draft, user);
         flowSpecRepository.save(flowSpec);
         return flowSpec.getFlowSpecId();
     }
 
+
     @Override
-    public void release(ReleaseFlowSpecCommand command) {
-        String flowSpecId = command.getFlowSpecId();
+    public void release(String flowSpecId, FlowUser user) {
         FlowSpec specToRelease = flowSpecRepository.getById(flowSpecId);
 
         Optional<FlowSpec> specToArchive = flowSpecRepository.getReleaseByCode(specToRelease.getFlowSpecCode());
@@ -51,15 +51,14 @@ public class FlowSpecServiceImpl implements FlowSpecService {
 
         // save two spec in transaction
         transactionExecutor.inTransaction(() -> {
-            specToRelease.release(command.getUserId());
+            specToRelease.release(user);
             specToArchive.get().archive();
             flowSpecRepository.save(specToRelease);
             flowSpecRepository.save(specToArchive.get());
         });
-
     }
 
-    private FlowSpec generateSpecToSave(FlowSpecVO flowSpecVO, String userId) {
+    private FlowSpec generateSpecToSave(FlowSpecVO flowSpecVO, FlowUser user) {
         Optional<FlowSpec> latestSpecVersion = flowSpecRepository.getLatestVersionByCode(flowSpecVO.getFlowSpecCode());
         // there is a flow spec has the same code with the flowSpecVO
         if (latestSpecVersion.isPresent()) {
@@ -76,10 +75,11 @@ public class FlowSpecServiceImpl implements FlowSpecService {
 
             // create a new flow spec when the latest flow spec is already 'RELEASED'
             int nextVersion = oldSpec.getFlowSpecVersion() + 1;
-            return flowSpecFactory.create(flowSpecVO, nextVersion, userId);
+            return flowSpecFactory.create(flowSpecVO, nextVersion, user);
         }
 
         // a new flow spec
-        return flowSpecFactory.create(flowSpecVO, 1, userId);
+        return flowSpecFactory.create(flowSpecVO, 1, user);
     }
+
 }

@@ -1,7 +1,7 @@
 package com.jflow.core.service;
 
-import com.jflow.api.client.request.commands.ReleaseFlowSpecCommand;
-import com.jflow.api.client.request.commands.SaveDraftFlowSpecCommand;
+import com.jflow.api.client.vo.spec.FlowSpecVO;
+import com.jflow.core.domain.auth.FlowUser;
 
 /**
  * @author neason
@@ -12,16 +12,18 @@ public interface FlowSpecService {
     /**
      * Save a draft flow spec.
      *
-     * @param command save command
+     * @param draft draft spec vo
+     * @param user  user who save this
      * @return flow spec unique id
      */
-    String saveDraft(SaveDraftFlowSpecCommand command);
+    String saveDraft(FlowSpecVO draft, FlowUser user);
 
     /**
      * Release a draft spec.
      *
-     * @param command release command
+     * @param flowSpecId flow spec id
+     * @param user       user
      */
-    void release(ReleaseFlowSpecCommand command);
+    void release(String flowSpecId, FlowUser user);
 
 }

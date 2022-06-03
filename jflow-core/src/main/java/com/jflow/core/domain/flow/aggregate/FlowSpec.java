@@ -122,12 +122,12 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
      */
     private transient Set<EdgeSpec> edges;
 
-    public void release(String userId) {
+    public void release(FlowUser user) {
         if (this.status != FlowSpecStatusEnum.DRAFT) {
             throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
         }
         this.status = FlowSpecStatusEnum.RELEASED;
-        this.setReleaseBy(new FlowUser(userId));
+        this.setReleaseBy(user);
         this.setReleaseAt(new Date());
     }
 

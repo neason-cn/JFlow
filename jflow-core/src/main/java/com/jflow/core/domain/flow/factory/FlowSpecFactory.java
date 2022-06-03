@@ -20,7 +20,7 @@ import java.util.Date;
 public class FlowSpecFactory {
 
     private final FlowSpecConvertor flowSpecConvertor;
-    public FlowSpec create(FlowSpecVO vo, int nextVersion, String userId) {
+    public FlowSpec create(FlowSpecVO vo, int nextVersion, FlowUser user) {
         FlowSpec flowSpec = new FlowSpec();
 
         // copy first
@@ -28,7 +28,7 @@ public class FlowSpecFactory {
 
         // then set
         flowSpec.setFlowSpecId(IdUtil.fastSimpleUUID());
-        flowSpec.setCreateBy(new FlowUser(userId));
+        flowSpec.setCreateBy(user);
         flowSpec.setCreateAt(new Date());
         flowSpec.setStatus(FlowSpecStatusEnum.DRAFT);
         flowSpec.setFlowSpecVersion(nextVersion);
