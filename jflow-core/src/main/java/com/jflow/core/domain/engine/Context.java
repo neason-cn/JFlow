@@ -15,4 +15,12 @@ public class Context {
     private FlowUser user;
     private Runtime runtime;
     private FlowInstance flowInstance;
+
+    public static Context init(FlowUser user, Runtime runtime, FlowInstance flowInstance) {
+        Context context = new Context();
+        context.setUser(user);
+        context.setRuntime(runtime);
+        context.setFlowInstance(flowInstance);
+        return context;
+    }
 }

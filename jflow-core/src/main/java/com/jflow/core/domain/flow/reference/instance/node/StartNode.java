@@ -5,4 +5,5 @@ package com.jflow.core.domain.flow.reference.instance.node;
  * @since 0.0.1
  */
 public class StartNode {
+    public static final String NODE_ID = "START";
 }

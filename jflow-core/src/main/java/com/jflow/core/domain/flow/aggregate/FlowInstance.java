@@ -1,7 +1,10 @@
 package com.jflow.core.domain.flow.aggregate;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.jflow.common.exception.FlowException;
 import com.jflow.core.domain.auth.FlowUser;
+import com.jflow.core.domain.engine.Context;
+import com.jflow.core.domain.engine.activity.FlowActivity;
 import com.jflow.core.domain.enums.status.FlowInstanceStatusEnum;
 import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
 import com.jflow.core.domain.flow.reference.instance.node.AbstractNodeInstance;
@@ -10,14 +13,17 @@ import lombok.Data;
 import org.apache.commons.collections4.MapUtils;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
+
+import static com.jflow.common.error.Errors.NO_NODE_CONTAINS_TASK_ERROR;
 
 /**
  * @author neason
  * @since 0.0.1
  */
 @Data
-public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance> {
+public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance>, FlowActivity {
 
     /**
      * The unique id of this flow instance.
@@ -84,11 +90,23 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance> {
      */
     private Date cancelAt;
 
+    @Override
+    public void onTerminate(Context context) {
+
+    }
+
     public void mergeContext(JSONObject addition) {
         if (MapUtils.isEmpty(this.context)) {
             this.context = new JSONObject();
         }
         this.context.putAll(addition);
+    }
+
+    public Optional<AbstractNodeInstance> findNodeByTaskId(String taskInstanceId) {
+        return this.getNodes().stream()
+                .filter(node -> null != node.getLatestTask())
+                .filter(node -> node.getLatestTask().getTaskInstanceId().equals(taskInstanceId))
+                .findAny();
     }
 
 }

@@ -3,6 +3,9 @@ package com.jflow.core.domain.flow.repository;
 import com.jflow.core.domain.flow.aggregate.FlowInstance;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author neason
  * @since 0.0.1
@@ -11,6 +14,14 @@ import org.springframework.stereotype.Component;
 public class FlowInstanceRepository {
 
     public FlowInstance getById(String flowInstanceId) {
+        return null;
+    }
+
+    public Optional<List<FlowInstance>> getAllInstanceOfSpec(String flowSpecCode) {
+        return Optional.empty();
+    }
+
+    public FlowInstance getByTaskId(String taskInstanceId) {
         return null;
     }
 
