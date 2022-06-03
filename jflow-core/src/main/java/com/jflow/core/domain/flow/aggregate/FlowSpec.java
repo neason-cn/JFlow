@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
 import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.enums.status.FlowSpecStatusEnum;
+import com.jflow.core.domain.flow.ability.FlowSpecAbility;
 import com.jflow.core.domain.flow.reference.spec.EdgeSpec;
 import com.jflow.core.domain.flow.reference.spec.NodeSpec;
 import com.jflow.core.domain.flow.reference.spec.action.AbstractActionSpec;
@@ -23,7 +24,7 @@ import static com.jflow.common.error.Errors.ILLEGAL_FLOW_SPEC_STATUS_ERROR;
  * @since 0.0.1
  */
 @Data
-public class FlowSpec implements Graph<NodeSpec, EdgeSpec> {
+public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
 
     /**
      * The unique id of this spec version.

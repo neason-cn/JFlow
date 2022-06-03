@@ -8,5 +8,6 @@ import lombok.Data;
  */
 @Data
 public abstract class AuthCommand {
+    // or token
     private String userId;
 }
