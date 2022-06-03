@@ -13,6 +13,10 @@ import java.util.Optional;
 @Component
 public class FlowInstanceRepository {
 
+    public void save(FlowInstance flowInstance) {
+
+    }
+
     public FlowInstance getById(String flowInstanceId) {
         return null;
     }

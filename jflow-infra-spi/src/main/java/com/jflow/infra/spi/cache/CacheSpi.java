@@ -16,7 +16,7 @@ public interface CacheSpi {
 
     Serializable delete(Serializable key);
 
-    boolean tryLock(Serializable key);
+    boolean tryLock(Serializable key, long expireTime);
 
     boolean unLock(Serializable key);
 
