@@ -3,6 +3,7 @@ package com.jflow.core.domain.flow.reference.spec;
 import com.jflow.core.domain.graph.Edge;
 import com.jflow.infra.spi.script.type.BooleanScript;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -56,5 +57,9 @@ public class EdgeSpec implements Edge<NodeSpec>, Serializable {
      * Target node.
      */
     private transient NodeSpec target;
+
+    public boolean hasScript() {
+        return null != script && StringUtils.isNotBlank(script.getContent());
+    }
 
 }

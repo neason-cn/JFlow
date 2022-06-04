@@ -2,9 +2,12 @@ package com.jflow.core.domain.flow.reference.instance;
 
 import com.jflow.core.domain.engine.Context;
 import com.jflow.core.domain.engine.activity.EdgeActivity;
+import com.jflow.core.domain.enums.status.EdgeInstanceStatusEnum;
 import com.jflow.core.domain.flow.reference.instance.node.AbstractNodeInstance;
 import com.jflow.core.domain.flow.reference.spec.EdgeSpec;
 import com.jflow.core.domain.graph.Edge;
+import com.jflow.infra.spi.script.ScriptResult;
+import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.Data;
 
 /**
@@ -18,6 +21,16 @@ public class EdgeInstance implements Edge<AbstractNodeInstance>, EdgeActivity {
      * The spec of this instance.
      */
     private final EdgeSpec spec;
+
+    /**
+     * The status of an edge instance.
+     */
+    private EdgeInstanceStatusEnum status;
+
+    /**
+     * The error when running the script.
+     */
+    private String error;
 
     /**
      * The nodeId of source node.
@@ -51,6 +64,33 @@ public class EdgeInstance implements Edge<AbstractNodeInstance>, EdgeActivity {
 
     @Override
     public void onFire(Context ctx) {
+        // the default value is 'TRUE' when the script is empty.
+        if (!this.spec.hasScript()) {
+            this.error = null;
+            this.status = EdgeInstanceStatusEnum.ALLOW;
+            this.target.onSignal(ctx, this);
+            return;
+        }
 
+        ScriptSpi scriptSpi = ctx.getRuntime().getScriptSpi();
+        ScriptResult<Boolean> scriptResult = scriptSpi.execute(this.spec.getScript(), ctx.getFlowInstance().getContext());
+        this.error = scriptResult.getError();
+
+        // run script error
+        if (scriptResult.hasError() || null == scriptResult.getResult()) {
+            this.status = EdgeInstanceStatusEnum.ERROR;
+            return;
+        }
+
+        // run script success but the result is 'FALSE'
+        if (!scriptResult.getResult()) {
+            this.status = EdgeInstanceStatusEnum.DENY;
+            return;
+        }
+
+        // script result is 'TRUE'
+        this.status = EdgeInstanceStatusEnum.ALLOW;
+        this.target.onSignal(ctx, this);
     }
+
 }
