@@ -1,6 +1,6 @@
 package com.jflow.core.domain.flow.reference.spec.task;
 
-import com.jflow.core.domain.flow.reference.spec.action.AbstractActionSpec;
+import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,16 +17,16 @@ public class AsyncTaskSpec extends AbstractTaskSpec {
     /**
      * The action which will be actioned when fire firstly.
      */
-    private AbstractActionSpec onSubmit;
+    private ActionSpec onSubmit;
 
     /**
      * The action which will be actioned all the time if the task is still running.
      */
-    private AbstractActionSpec onQuery;
+    private ActionSpec onQuery;
 
     /**
      * The action which will be actioned when cancel the task.
      */
-    private AbstractActionSpec onCancel;
+    private ActionSpec onCancel;
 
 }

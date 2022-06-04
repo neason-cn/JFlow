@@ -1,5 +1,7 @@
 package com.jflow.core.domain.engine.activity;
 
+import com.jflow.core.domain.engine.Context;
+
 /**
  * All activities of an action instance.
  *
@@ -8,6 +10,6 @@ package com.jflow.core.domain.engine.activity;
  */
 public interface ActionActivity {
 
-    void onExecute();
+    void onExecute(Context ctx);
 
 }

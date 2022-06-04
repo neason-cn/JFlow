@@ -1,7 +1,8 @@
 package com.jflow.core.domain.flow.reference.spec.action;
 
-import com.jflow.core.domain.enums.type.ActionTypeEnum;
+import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
+import com.jflow.core.domain.enums.type.ActionTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,15 +12,18 @@ import java.io.Serializable;
  * @since 0.0.1
  */
 @Data
-public abstract class AbstractActionSpec implements Type, Serializable {
+public class ActionSpec implements Type, Serializable {
 
     private static final long serialVersionUID = 2022001L;
 
     /**
      * The action type.
+     *
      * @see ActionTypeEnum
      */
     private ActionTypeEnum actionType;
+
+    private JSONObject params;
 
     @Override
     public String getType() {

@@ -1,6 +1,5 @@
 package com.jflow.api.client.vo.spec;
 
-import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
 
 import java.util.Map;
@@ -21,7 +20,7 @@ public class NodeSpecVO {
     private String interruptWhenSubmitFailedScript;
     private String interruptWhenExecuteFailedScript;
     private Map<String, String> labels;
-    private JSONObject beforeTaskAction;
+    private ActionSpecVO beforeTaskAction;
     private TaskSpecVO taskSpec;
-    private JSONObject afterTaskAction;
+    private ActionSpecVO afterTaskAction;
 }

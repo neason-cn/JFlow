@@ -11,8 +11,8 @@ import lombok.Data;
 public class TaskSpecVO {
     private String taskName;
     private String taskType;
-    private JSONObject onExecute;
-    private JSONObject onSubmit;
-    private JSONObject onQuery;
-    private JSONObject onCancel;
+    private ActionSpecVO onExecute;
+    private ActionSpecVO onSubmit;
+    private ActionSpecVO onQuery;
+    private ActionSpecVO onCancel;
 }

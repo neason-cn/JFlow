@@ -1,7 +1,6 @@
 package com.jflow.core.domain.flow.convertor;
 
 import com.jflow.api.client.vo.spec.TaskSpecVO;
-import com.jflow.common.utils.JsonUtils;
 import com.jflow.core.domain.enums.type.TaskTypeEnum;
 import com.jflow.core.domain.flow.reference.spec.task.AbstractTaskSpec;
 import com.jflow.core.domain.flow.reference.spec.task.AsyncTaskSpec;
@@ -51,14 +50,14 @@ public class TaskSpecConvertor {
         vo.setTaskType(spec.getTaskType().getType());
         if (TaskTypeEnum.SYNC == spec.getTaskType()) {
             SyncTaskSpec syncSpec = (SyncTaskSpec) spec;
-            vo.setOnExecute(JsonUtils.toJson(syncSpec.getOnExecute()));
+            vo.setOnExecute(actionSpecConvertor.convert(syncSpec.getOnExecute()));
             return vo;
         }
 
         AsyncTaskSpec asyncSpec = (AsyncTaskSpec) spec;
-        vo.setOnSubmit(JsonUtils.toJson(asyncSpec.getOnSubmit()));
-        vo.setOnQuery(JsonUtils.toJson(asyncSpec.getOnQuery()));
-        vo.setOnCancel(JsonUtils.toJson(asyncSpec.getOnCancel()));
+        vo.setOnSubmit(actionSpecConvertor.convert(asyncSpec.getOnSubmit()));
+        vo.setOnQuery(actionSpecConvertor.convert(asyncSpec.getOnQuery()));
+        vo.setOnCancel(actionSpecConvertor.convert(asyncSpec.getOnCancel()));
         return vo;
     }
 

@@ -1,6 +1,6 @@
 package com.jflow.core.domain.flow.reference.spec.task;
 
-import com.jflow.core.domain.flow.reference.spec.action.AbstractActionSpec;
+import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,6 +17,6 @@ public class SyncTaskSpec extends AbstractTaskSpec {
     /**
      * The action which will be actioned only once.
      */
-    private AbstractActionSpec onExecute;
+    private ActionSpec onExecute;
 
 }

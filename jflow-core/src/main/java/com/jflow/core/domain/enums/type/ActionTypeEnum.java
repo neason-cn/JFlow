@@ -1,8 +1,6 @@
 package com.jflow.core.domain.enums.type;
 
 import com.jflow.common.enums.Type;
-import com.jflow.core.domain.flow.reference.spec.action.AbstractActionSpec;
-import com.jflow.core.domain.flow.reference.spec.action.HttpActionSpec;
 import lombok.Getter;
 
 /**
@@ -16,36 +14,33 @@ public enum ActionTypeEnum implements Type {
     /**
      * Rpc invoke, such as Dubbo, gRpc.
      */
-    RPC("RPC", null),
+    RPC("RPC"),
 
     /**
      * Http/Https invoke.
      */
-    HTTP("HTTP", HttpActionSpec.class),
+    HTTP("HTTP"),
 
     /**
      * Do nothing.
      */
-    EMPTY("EMPTY", null),
+    EMPTY("EMPTY"),
 
     /**
      * Execute a script.
      */
-    SCRIPT("SCRIPT", null),
+    SCRIPT("SCRIPT"),
 
     /**
      * Send a message.
      */
-    MESSAGE("MESSAGE", null);
+    MESSAGE("MESSAGE");
 
     @Getter
     private final String type;
-    @Getter
-    private final Class<? extends AbstractActionSpec> clazz;
 
-    ActionTypeEnum(String type, Class<? extends AbstractActionSpec> clazz) {
+    ActionTypeEnum(String type) {
         this.type = type;
-        this.clazz = clazz;
     }
 
     public static ActionTypeEnum of(String type) {

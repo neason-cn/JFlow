@@ -42,13 +42,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
 
     @Override
     public FlowInstance start(String flowSpecCode, JSONObject args, FlowUser user) {
-        FlowInstance flowInstance = createAndInit(flowSpecCode, args, user, null);
-        AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, StartNode.NODE_ID);
-        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
-            Context context = Context.init(user, getRuntime(), flowInstance);
-            nodeInstance.onFire(context, args);
-        });
-        return flowInstance;
+        return start(flowSpecCode, args, user, null);
     }
 
     private FlowInstance createAndInit(String flowSpecCode, JSONObject args, FlowUser user, String taskInstanceId) {
@@ -76,8 +70,8 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(user, getRuntime(), flowInstance);
             nodeInstance.onFire(context, args);
+            flowInstanceRepository.save(flowInstance);
         });
-        flowInstanceRepository.save(flowInstance);
         return flowInstance;
     }
 
@@ -96,8 +90,8 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(user, getRuntime(), flowInstance);
             nodeInstance.onFire(context, args);
+            flowInstanceRepository.save(flowInstance);
         });
-        flowInstanceRepository.save(flowInstance);
     }
 
     private Runtime getRuntime() {
@@ -116,8 +110,8 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(user, getRuntime(), flowInstance);
             nodeInstance.onRetry(context, args);
+            flowInstanceRepository.save(flowInstance);
         });
-        flowInstanceRepository.save(flowInstance);
     }
 
     @Override
@@ -127,8 +121,8 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(user, getRuntime(), flowInstance);
             nodeInstance.onSkip(context, args);
+            flowInstanceRepository.save(flowInstance);
         });
-        flowInstanceRepository.save(flowInstance);
     }
 
     @Override
@@ -138,8 +132,8 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(user, getRuntime(), flowInstance);
             nodeInstance.onCancel(context, args);
+            flowInstanceRepository.save(flowInstance);
         });
-        flowInstanceRepository.save(flowInstance);
     }
 
     @Override
@@ -153,16 +147,18 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
             Context context = Context.init(user, getRuntime(), flowInstance);
             Callback callback = new Callback();
             node.get().onCallback(context, callback);
+            flowInstanceRepository.save(flowInstance);
         });
-        flowInstanceRepository.save(flowInstance);
     }
 
     @Override
     public void terminate(String flowInstanceId, JSONObject jsonObject, FlowUser user) {
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
-        Context context = Context.init(user, getRuntime(), flowInstance);
-        flowInstance.onTerminate(context);
-        flowInstanceRepository.save(flowInstance);
+        asyncRunner.asyncRun(flowInstanceId, () -> {
+            Context context = Context.init(user, getRuntime(), flowInstance);
+            flowInstance.onTerminate(context);
+            flowInstanceRepository.save(flowInstance);
+        });
     }
 
 }

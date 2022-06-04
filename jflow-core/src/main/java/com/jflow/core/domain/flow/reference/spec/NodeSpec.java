@@ -1,6 +1,6 @@
 package com.jflow.core.domain.flow.reference.spec;
 
-import com.jflow.core.domain.flow.reference.spec.action.AbstractActionSpec;
+import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
 import com.jflow.core.domain.flow.reference.spec.task.AbstractTaskSpec;
 import com.jflow.core.domain.graph.Node;
 import com.jflow.infra.spi.script.type.BooleanScript;
@@ -76,7 +76,7 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
     /**
      * The action before fire task.
      */
-    private AbstractActionSpec before;
+    private ActionSpec before;
 
     /**
      * The task will be run in this node.
@@ -86,7 +86,7 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
     /**
      * The action after finish task.
      */
-    private AbstractActionSpec after;
+    private ActionSpec after;
 
     /**
      * Transient for avoid circular reference when serialize this.

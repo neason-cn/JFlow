@@ -7,7 +7,7 @@ import com.jflow.core.domain.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.domain.flow.facade.FlowSpecAbility;
 import com.jflow.core.domain.flow.reference.spec.EdgeSpec;
 import com.jflow.core.domain.flow.reference.spec.NodeSpec;
-import com.jflow.core.domain.flow.reference.spec.action.AbstractActionSpec;
+import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
 import com.jflow.core.domain.graph.Graph;
 import com.jflow.infra.spi.script.type.JsonScript;
 import lombok.Data;
@@ -105,12 +105,12 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
     /**
      * The action will be actioned when create a flow instance by using this spec version.
      */
-    private AbstractActionSpec onStart;
+    private ActionSpec onStart;
 
     /**
      * The action will be actioned when a flow instance went to final status which created by using this spec version.
      */
-    private AbstractActionSpec onEnd;
+    private ActionSpec onEnd;
 
     /**
      * All node spec.

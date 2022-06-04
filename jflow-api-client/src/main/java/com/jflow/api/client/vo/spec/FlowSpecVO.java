@@ -22,8 +22,8 @@ public class FlowSpecVO {
     private boolean scheduled;
     private String cron;
     private String tenant;
-    private JSONObject onStartAction;
-    private JSONObject onEndAction;
+    private ActionSpecVO onStartAction;
+    private ActionSpecVO onEndAction;
     private Set<NodeSpecVO> nodes;
     private Set<EdgeSpecVO> edges;
 }
