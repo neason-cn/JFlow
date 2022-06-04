@@ -4,7 +4,9 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
 import com.jflow.core.domain.engine.Callback;
 import com.jflow.core.domain.engine.Context;
+import com.jflow.core.domain.flow.factory.ActionFactory;
 import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
+import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
 import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +22,8 @@ import static com.jflow.common.error.Errors.UNSUPPORTED_NODE_OPERATION_ERROR;
 public class StartNode extends AbstractNodeInstance {
     public static final String NODE_ID = "START";
 
+    private final ActionFactory actionFactory;
+
     @Override
     public void onSignal(Context ctx, EdgeInstance trigger) {
         throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, NODE_ID, "onSignal");
@@ -27,8 +31,9 @@ public class StartNode extends AbstractNodeInstance {
 
     @Override
     public void onFire(Context ctx, JSONObject args) {
-        ActionSpec action = ctx.getFlowInstance().getSpec().getOnStart();
-
+        ActionSpec startActionSpec = ctx.getFlowInstance().getSpec().getOnStart();
+        AbstractAction action = actionFactory.create(startActionSpec, args);
+        action.onExecute(ctx);
     }
 
     @Override

@@ -10,7 +10,6 @@ import lombok.Data;
 public class EdgeSpecVO {
     private String edgeId;
     private String edgeName;
-    private int priority;
     private String script;
     private String sourceNodeId;
     private String targetNodeId;

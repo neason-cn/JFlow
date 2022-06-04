@@ -1,5 +1,7 @@
 package com.jflow.core.domain.flow.reference.instance;
 
+import com.jflow.core.domain.engine.Context;
+import com.jflow.core.domain.engine.activity.EdgeActivity;
 import com.jflow.core.domain.flow.reference.instance.node.AbstractNodeInstance;
 import com.jflow.core.domain.flow.reference.spec.EdgeSpec;
 import com.jflow.core.domain.graph.Edge;
@@ -10,7 +12,7 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
-public class EdgeInstance implements Edge<AbstractNodeInstance> {
+public class EdgeInstance implements Edge<AbstractNodeInstance>, EdgeActivity {
 
     /**
      * The spec of this instance.
@@ -45,5 +47,10 @@ public class EdgeInstance implements Edge<AbstractNodeInstance> {
     @Override
     public String getEdgeName() {
         return this.spec.getEdgeName();
+    }
+
+    @Override
+    public void onFire(Context ctx) {
+
     }
 }

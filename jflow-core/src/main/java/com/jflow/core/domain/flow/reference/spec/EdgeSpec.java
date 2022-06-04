@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @since 0.0.1
  */
 @Data
-public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec>, Serializable {
+public class EdgeSpec implements Edge<NodeSpec>, Serializable {
 
 
     private static final long serialVersionUID = 2022001L;
@@ -27,12 +27,6 @@ public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec>, Serializa
      * Edge name
      */
     private String edgeName;
-
-    /**
-     * The priority of the edge.
-     * The edge which has a larger priority in outgoing() of a NodeSpec will fire first.
-     */
-    private int priority;
 
     /**
      * The script of the edge.
@@ -63,11 +57,4 @@ public class EdgeSpec implements Edge<NodeSpec>, Comparable<EdgeSpec>, Serializa
      */
     private transient NodeSpec target;
 
-    @Override
-    public int compareTo(EdgeSpec other) {
-        if (null == other) {
-            return 1;
-        }
-        return this.getPriority() - other.getPriority();
-    }
 }

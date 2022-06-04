@@ -19,7 +19,6 @@ public class EdgeSpecConvertor {
         EdgeSpec edgeSpec = new EdgeSpec();
         edgeSpec.setEdgeId(vo.getEdgeId());
         edgeSpec.setEdgeName(vo.getEdgeName());
-        edgeSpec.setPriority(vo.getPriority());
         edgeSpec.setScript(new BooleanScript(vo.getScript()));
         edgeSpec.setSourceNodeId(vo.getSourceNodeId());
         edgeSpec.setTargetNodeId(vo.getTargetNodeId());
@@ -33,7 +32,6 @@ public class EdgeSpecConvertor {
         EdgeSpecVO vo = new EdgeSpecVO();
         vo.setEdgeId(spec.getEdgeId());
         vo.setEdgeName(spec.getEdgeName());
-        vo.setPriority(spec.getPriority());
         vo.setScript(spec.getScript() != null ? spec.getScript().getContent() : null);
         vo.setSourceNodeId(spec.getSourceNodeId());
         vo.setTargetNodeId(spec.getTargetNodeId());

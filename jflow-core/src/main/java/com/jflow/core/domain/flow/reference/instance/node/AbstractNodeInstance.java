@@ -1,5 +1,6 @@
 package com.jflow.core.domain.flow.reference.instance.node;
 
+import com.jflow.core.domain.engine.Context;
 import com.jflow.core.domain.engine.activity.NodeActivity;
 import com.jflow.core.domain.enums.status.NodeInstanceStatusEnum;
 import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
@@ -37,6 +38,12 @@ public abstract class AbstractNodeInstance implements Node<EdgeInstance>, NodeAc
 
     public String getNodeName() {
         return this.spec.getNodeName();
+    }
+
+    protected void fireOutgoingEdges(Context ctx) {
+        getOutgoing().forEach(edge -> {
+            edge.onFire(ctx);
+        });
     }
 
 }
