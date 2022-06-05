@@ -29,6 +29,14 @@ public class BeanAction extends AbstractAction {
 
     @Override
     public ActionResult onExecute(Context ctx) {
+        try {
+            return doInvoke(ctx);
+        } catch (Exception e) {
+            return ActionResult.error("run method of bean error: ".concat(e.getMessage()));
+        }
+    }
+
+    private ActionResult doInvoke(Context ctx) {
         ApplicationContext springContext = ctx.getRuntime().getApplicationContext();
         Object bean = springContext.getBean(beanName);
         if (CollectionUtils.isEmpty(paramsType)) {
