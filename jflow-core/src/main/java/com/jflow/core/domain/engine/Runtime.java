@@ -6,6 +6,7 @@ import com.jflow.infra.spi.cache.CacheSpi;
 import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.context.ApplicationContext;
 
 /**
  * The ability providers, not all beans in applicationContext.
@@ -24,5 +25,6 @@ public class Runtime {
     private FlowInstanceService flowInstanceService;
     private TaskInstanceService taskInstanceService;
 
-    //-------------  ACTION RUNNER  -------------
+    //-------------  SpringContext  -------------
+    private ApplicationContext applicationContext;
 }

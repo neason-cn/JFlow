@@ -35,6 +35,7 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <spring.version>5.3.20</spring.version>
         <springboot.version>2.6.8</springboot.version>
+        <dubbo.version>2.7.15</dubbo.version>
     </properties>
 
     <dependencyManagement>
@@ -125,6 +126,11 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>5.8.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

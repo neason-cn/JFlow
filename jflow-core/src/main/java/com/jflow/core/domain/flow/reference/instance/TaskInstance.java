@@ -21,6 +21,7 @@ public class TaskInstance implements Type, TaskActivity {
     private String nodeId;
     private TaskSpec taskSpec;
     private TaskInstanceStatusEnum status;
+    private String error;
     private JSONObject taskContext;
 
     @Override

@@ -25,6 +25,10 @@
             <groupId>com.jflow</groupId>
             <artifactId>jflow-infra-spi</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

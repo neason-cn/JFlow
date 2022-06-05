@@ -18,6 +18,9 @@ import com.jflow.core.service.FlowInstanceService;
 import com.jflow.infra.spi.cache.CacheSpi;
 import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +34,7 @@ import static com.jflow.common.error.Errors.*;
  */
 @Service
 @RequiredArgsConstructor
-public class FlowInstanceServiceImpl implements FlowInstanceService {
+public class FlowInstanceServiceImpl implements FlowInstanceService, ApplicationContextAware {
 
     private final FlowSpecRepository flowSpecRepository;
     private final FlowInstanceRepository flowInstanceRepository;
@@ -39,6 +42,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     private final AsyncRunner asyncRunner;
     private final ScriptSpi scriptSpi;
     private final CacheSpi cacheSpi;
+    private ApplicationContext applicationContext;
 
     @Override
     public FlowInstance start(String flowSpecCode, JSONObject args, FlowUser user) {
@@ -99,6 +103,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
                 .cacheSpi(cacheSpi)
                 .scriptSpi(scriptSpi)
                 .flowInstanceService(this)
+                .applicationContext(applicationContext)
                 .build();
     }
 
@@ -161,4 +166,8 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
         });
     }
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 }
