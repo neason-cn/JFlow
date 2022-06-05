@@ -2,9 +2,7 @@ package com.jflow.core.domain.flow.convertor;
 
 import com.jflow.api.client.vo.spec.TaskSpecVO;
 import com.jflow.core.domain.enums.type.TaskTypeEnum;
-import com.jflow.core.domain.flow.reference.spec.task.AbstractTaskSpec;
-import com.jflow.core.domain.flow.reference.spec.task.AsyncTaskSpec;
-import com.jflow.core.domain.flow.reference.spec.task.SyncTaskSpec;
+import com.jflow.core.domain.flow.reference.spec.TaskSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,46 +16,32 @@ public class TaskSpecConvertor {
 
     private final ActionSpecConvertor actionSpecConvertor;
 
-    public AbstractTaskSpec convert(TaskSpecVO vo) {
+    public TaskSpec convert(TaskSpecVO vo) {
         if (null == vo) {
             return null;
         }
         TaskTypeEnum type = TaskTypeEnum.of(vo.getTaskType());
-
-        if (TaskTypeEnum.SYNC == type) {
-            SyncTaskSpec syncTaskSpec = new SyncTaskSpec();
-            syncTaskSpec.setTaskName(vo.getTaskName());
-            syncTaskSpec.setTaskType(TaskTypeEnum.SYNC);
-            syncTaskSpec.setOnExecute(actionSpecConvertor.convert(vo.getOnExecute()));
-            return syncTaskSpec;
-        }
-
-        AsyncTaskSpec asyncTaskSpec = new AsyncTaskSpec();
-        asyncTaskSpec.setTaskName(vo.getTaskName());
-        asyncTaskSpec.setTaskType(TaskTypeEnum.ASYNC);
-        asyncTaskSpec.setOnSubmit(actionSpecConvertor.convert(vo.getOnExecute()));
-        asyncTaskSpec.setOnQuery(actionSpecConvertor.convert(vo.getOnQuery()));
-        asyncTaskSpec.setOnCancel(actionSpecConvertor.convert(vo.getOnCancel()));
-        return asyncTaskSpec;
+        TaskSpec spec = new TaskSpec();
+        spec.setTaskName(vo.getTaskName());
+        spec.setTaskType(type);
+        spec.setOnExecute(actionSpecConvertor.convert(vo.getOnExecute()));
+        spec.setOnSubmit(actionSpecConvertor.convert(vo.getOnSubmit()));
+        spec.setOnQuery(actionSpecConvertor.convert(vo.getOnQuery()));
+        spec.setOnCancel(actionSpecConvertor.convert(vo.getOnCancel()));
+        return spec;
     }
 
-    public TaskSpecVO convert(AbstractTaskSpec spec) {
+    public TaskSpecVO convert(TaskSpec spec) {
         if (null == spec) {
             return null;
         }
         TaskSpecVO vo = new TaskSpecVO();
         vo.setTaskName(spec.getTaskName());
         vo.setTaskType(spec.getTaskType().getType());
-        if (TaskTypeEnum.SYNC == spec.getTaskType()) {
-            SyncTaskSpec syncSpec = (SyncTaskSpec) spec;
-            vo.setOnExecute(actionSpecConvertor.convert(syncSpec.getOnExecute()));
-            return vo;
-        }
-
-        AsyncTaskSpec asyncSpec = (AsyncTaskSpec) spec;
-        vo.setOnSubmit(actionSpecConvertor.convert(asyncSpec.getOnSubmit()));
-        vo.setOnQuery(actionSpecConvertor.convert(asyncSpec.getOnQuery()));
-        vo.setOnCancel(actionSpecConvertor.convert(asyncSpec.getOnCancel()));
+        vo.setOnExecute(actionSpecConvertor.convert(spec.getOnExecute()));
+        vo.setOnSubmit(actionSpecConvertor.convert(spec.getOnSubmit()));
+        vo.setOnQuery(actionSpecConvertor.convert(spec.getOnQuery()));
+        vo.setOnCancel(actionSpecConvertor.convert(spec.getOnCancel()));
         return vo;
     }
 

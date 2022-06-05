@@ -1,6 +1,7 @@
 package com.jflow.core.domain.engine;
 
 import com.jflow.core.service.FlowInstanceService;
+import com.jflow.core.service.TaskInstanceService;
 import com.jflow.infra.spi.cache.CacheSpi;
 import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.Builder;
@@ -15,7 +16,13 @@ import lombok.Data;
 @Data
 @Builder
 public class Runtime {
+    //-------------       SPI       -------------
     private CacheSpi cacheSpi;
     private ScriptSpi scriptSpi;
+
+    //-------------     SERVICE     -------------
     private FlowInstanceService flowInstanceService;
+    private TaskInstanceService taskInstanceService;
+
+    //-------------  ACTION RUNNER  -------------
 }

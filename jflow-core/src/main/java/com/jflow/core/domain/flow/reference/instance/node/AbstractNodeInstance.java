@@ -25,6 +25,13 @@ public abstract class AbstractNodeInstance implements Node<EdgeInstance>, NodeAc
     private TaskInstance latestTask;
     private Set<EdgeInstance> incoming;
     private Set<EdgeInstance> outgoing;
+    private boolean waitAll;
+    private boolean autoFire;
+    private boolean autoSkip;
+    private boolean enableSkip;
+    private boolean enableRetry;
+    private boolean interruptWhenSubmitFailed;
+    private boolean interruptWhenExecuteFailed;
     private Date firstSignalTime;
     private Date fireTime;
     private Date finishTime;

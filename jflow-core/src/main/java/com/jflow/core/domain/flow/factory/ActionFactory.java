@@ -2,7 +2,7 @@ package com.jflow.core.domain.flow.factory;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
-import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
+import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import org.springframework.stereotype.Component;
 
 /**

@@ -7,7 +7,7 @@ import com.jflow.core.domain.engine.Context;
 import com.jflow.core.domain.flow.factory.ActionFactory;
 import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
 import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
-import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
+import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,14 +26,14 @@ public class StartNode extends AbstractNodeInstance {
 
     @Override
     public void onSignal(Context ctx, EdgeInstance trigger) {
-        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, NODE_ID, "onSignal");
+        ActionSpec startActionSpec = ctx.getFlowInstance().getSpec().getOnStart();
+        AbstractAction action = actionFactory.create(startActionSpec, ctx.getFlowInstance().getContext());
+        action.onExecute(ctx);
     }
 
     @Override
     public void onFire(Context ctx, JSONObject args) {
-        ActionSpec startActionSpec = ctx.getFlowInstance().getSpec().getOnStart();
-        AbstractAction action = actionFactory.create(startActionSpec, args);
-        action.onExecute(ctx);
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, NODE_ID, "onFire");
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.jflow.core.domain.flow.reference.instance.action;
 
 import com.jflow.common.enums.Type;
 import com.jflow.core.domain.engine.activity.ActionActivity;
-import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
+import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import lombok.Data;
 
 /**

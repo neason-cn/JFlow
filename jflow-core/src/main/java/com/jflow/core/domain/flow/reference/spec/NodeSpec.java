@@ -1,7 +1,5 @@
 package com.jflow.core.domain.flow.reference.spec;
 
-import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
-import com.jflow.core.domain.flow.reference.spec.task.AbstractTaskSpec;
 import com.jflow.core.domain.graph.Node;
 import com.jflow.infra.spi.script.type.BooleanScript;
 import lombok.Data;
@@ -81,7 +79,7 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
     /**
      * The task will be run in this node.
      */
-    private AbstractTaskSpec taskSpec;
+    private TaskSpec taskSpec;
 
     /**
      * The action after finish task.

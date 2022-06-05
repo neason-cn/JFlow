@@ -17,12 +17,12 @@ public class EndNode extends AbstractNodeInstance {
 
     @Override
     public void onSignal(Context ctx, EdgeInstance trigger) {
-        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, NODE_ID, "onSignal");
+
     }
 
     @Override
     public void onFire(Context ctx, JSONObject args) {
-
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, NODE_ID, "onFire");
     }
 
     @Override

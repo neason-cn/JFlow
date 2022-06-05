@@ -9,7 +9,22 @@ import lombok.Getter;
  */
 public enum NodeInstanceStatusEnum implements Status {
 
-    INIT("INIT");
+    INIT("INIT"),
+
+    WAITING("WAITING"),
+
+    IDLE("IDLE"),
+
+    SKIPPED("SKIPPED"),
+
+    SUCCESS("SUCCESS"),
+
+    RUNNING("RUNNING"),
+
+    FAILED("FAILED"),
+
+    CANCELED("CANCELED")
+    ;
 
     @Getter
     private final String status;

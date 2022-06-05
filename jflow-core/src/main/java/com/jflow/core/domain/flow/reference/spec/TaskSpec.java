@@ -1,4 +1,4 @@
-package com.jflow.core.domain.flow.reference.spec.task;
+package com.jflow.core.domain.flow.reference.spec;
 
 import com.jflow.core.domain.enums.type.TaskTypeEnum;
 import com.jflow.common.enums.Type;
@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @since 0.0.1
  */
 @Data
-public abstract class AbstractTaskSpec implements Type, Serializable {
+public class TaskSpec implements Type, Serializable {
 
     private static final long serialVersionUID = 2022001L;
 
@@ -29,8 +29,29 @@ public abstract class AbstractTaskSpec implements Type, Serializable {
      */
     private TaskTypeEnum taskType;
 
+    /**
+     * The action which will be actioned only once.
+     */
+    private ActionSpec onExecute;
+
+    /**
+     * The action which will be actioned when fire firstly.
+     */
+    private ActionSpec onSubmit;
+
+    /**
+     * The action which will be actioned all the time if the task is still running.
+     */
+    private ActionSpec onQuery;
+
+    /**
+     * The action which will be actioned when cancel the task.
+     */
+    private ActionSpec onCancel;
+
     @Override
     public String getType() {
         return this.taskType.getType();
     }
+
 }

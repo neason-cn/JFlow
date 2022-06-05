@@ -1,4 +1,4 @@
-package com.jflow.core.domain.flow.reference.spec.action;
+package com.jflow.core.domain.flow.reference.spec;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;

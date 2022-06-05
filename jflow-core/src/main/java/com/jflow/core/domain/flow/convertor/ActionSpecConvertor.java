@@ -2,7 +2,7 @@ package com.jflow.core.domain.flow.convertor;
 
 import com.jflow.api.client.vo.spec.ActionSpecVO;
 import com.jflow.core.domain.enums.type.ActionTypeEnum;
-import com.jflow.core.domain.flow.reference.spec.action.ActionSpec;
+import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import org.springframework.stereotype.Component;
 
 /**
