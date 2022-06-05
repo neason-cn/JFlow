@@ -1,12 +1,16 @@
 package com.jflow.core.domain.flow.reference.instance.node;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.jflow.core.domain.engine.Context;
 import com.jflow.core.domain.engine.activity.NodeActivity;
 import com.jflow.core.domain.enums.status.NodeInstanceStatusEnum;
 import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
 import com.jflow.core.domain.flow.reference.instance.TaskInstance;
+import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
+import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import com.jflow.core.domain.flow.reference.spec.NodeSpec;
 import com.jflow.core.domain.graph.Node;
+import com.jflow.core.service.TaskInstanceService;
 import lombok.Data;
 
 import java.util.Date;
@@ -51,6 +55,12 @@ public abstract class AbstractNodeInstance implements Node<EdgeInstance>, NodeAc
         getOutgoing().forEach(edge -> {
             edge.onFire(ctx);
         });
+    }
+
+    protected void runAction(Context ctx, ActionSpec spec) {
+        TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
+        AbstractAction action = instanceService.initAndRunAction(spec, ctx.getFlowInstance().getContext(), new JSONObject());
+        action.onExecute(ctx);
     }
 
 }

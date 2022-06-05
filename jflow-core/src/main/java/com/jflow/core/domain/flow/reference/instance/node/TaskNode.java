@@ -6,8 +6,6 @@ import com.jflow.core.domain.engine.Context;
 import com.jflow.core.domain.enums.status.NodeInstanceStatusEnum;
 import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
 import com.jflow.core.domain.flow.reference.instance.TaskInstance;
-import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
-import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import com.jflow.core.service.TaskInstanceService;
 import com.jflow.infra.spi.script.ScriptResult;
 import com.jflow.infra.spi.script.ScriptSpi;
@@ -84,13 +82,10 @@ public class TaskNode extends AbstractNodeInstance {
     @Override
     public void onFire(Context ctx, JSONObject args) {
         // before run task
-        ActionSpec before = this.getSpec().getBefore();
-        TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
-        AbstractAction beforeAction = instanceService.initAndRunAction(before, ctx.getFlowInstance().getContext(), new JSONObject());
-        beforeAction.onExecute(ctx);
+        runAction(ctx, this.getSpec().getBefore());
 
         // run task
-        TaskInstance taskInstance = instanceService.createAndSaveTask(this.getSpec().getTaskSpec(),
+        TaskInstance taskInstance = ctx.getRuntime().getTaskInstanceService().createAndSaveTask(this.getSpec().getTaskSpec(),
                 ctx.getFlowInstance().getFlowInstanceId(), this.getNodeId(), ctx.getFlowInstance().getContext());
         this.setLatestTask(taskInstance);
         taskInstance.onFire(ctx);
@@ -102,13 +97,8 @@ public class TaskNode extends AbstractNodeInstance {
     private void afterTaskRun(Context ctx, TaskInstance taskInstance) {
         if (SUCCESS == taskInstance.getStatus()) {
             this.setStatus(NodeInstanceStatusEnum.SUCCESS);
-
             // run after action
-            ActionSpec after = this.getSpec().getAfter();
-            TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
-            AbstractAction beforeAction = instanceService.initAndRunAction(after, ctx.getFlowInstance().getContext(), taskInstance.getTaskContext());
-            beforeAction.onExecute(ctx);
-
+            runAction(ctx, this.getSpec().getAfter());
             fireOutgoingEdges(ctx);
             return;
         }
@@ -135,13 +125,13 @@ public class TaskNode extends AbstractNodeInstance {
                 ctx.getFlowInstance().getFlowInstanceId(), this.getNodeId(), ctx.getFlowInstance().getContext());
         this.setLatestTask(taskInstance);
         taskInstance.onFire(ctx);
-
         afterTaskRun(ctx, taskInstance);
     }
 
     @Override
     public void onCancel(Context ctx, JSONObject args) {
         this.setStatus(NodeInstanceStatusEnum.CANCELED);
+        this.getLatestTask().onCancel(ctx);
     }
 
     @Override
