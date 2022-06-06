@@ -14,7 +14,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 @RequiredArgsConstructor
 public class TransactionExecutor {
 
-    private TransactionTemplate transactionTemplate;
+    private final TransactionTemplate transactionTemplate;
 
     public void inTransaction(Runnable runnable) {
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
