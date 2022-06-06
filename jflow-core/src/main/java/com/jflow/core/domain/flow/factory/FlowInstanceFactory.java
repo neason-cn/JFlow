@@ -2,7 +2,6 @@ package com.jflow.core.domain.flow.factory;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.enums.status.FlowInstanceStatusEnum;
 import com.jflow.core.domain.flow.aggregate.FlowInstance;
 import com.jflow.core.domain.flow.aggregate.FlowSpec;
@@ -27,7 +26,7 @@ public class FlowInstanceFactory {
     private final NodeInstanceFactory nodeInstanceFactory;
     private final EdgeInstanceFactory edgeInstanceFactory;
 
-    public FlowInstance create(FlowSpec spec, JSONObject input, FlowUser user, String taskInstanceId) {
+    public FlowInstance create(FlowSpec spec, JSONObject input, String taskInstanceId) {
         FlowInstance instance = new FlowInstance(spec);
         instance.setFlowInstanceId(IdUtil.fastSimpleUUID());
         instance.setParentTaskInstanceId(taskInstanceId);
@@ -35,7 +34,6 @@ public class FlowInstanceFactory {
         instance.setInput(input);
         instance.setContext(input);
         instance.setOutput(new JSONObject());
-        instance.setCreateBy(user);
         instance.setCreateAt(new Date());
 
         Set<AbstractNodeInstance> nodes = spec.getNodes().stream()

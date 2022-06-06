@@ -6,7 +6,6 @@ import com.jflow.api.client.request.queries.QueryFlowSpecById;
 import com.jflow.api.client.request.queries.QueryLatestFlowSpecByCode;
 import com.jflow.api.client.response.Json;
 import com.jflow.api.client.vo.spec.FlowSpecVO;
-import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.flow.aggregate.FlowSpec;
 import com.jflow.core.domain.flow.convertor.FlowSpecConvertor;
 import com.jflow.core.domain.flow.repository.FlowSpecRepository;
@@ -42,7 +41,7 @@ public class FlowSpecController {
         if (null == command) {
             return Json.error("the save command can not be null.");
         }
-        String flowSpecId = flowSpecService.saveDraft(command.getFlowSpec(), new FlowUser(command.getUserId()));
+        String flowSpecId = flowSpecService.saveDraft(command.getFlowSpec());
         return Json.success(flowSpecId);
     }
 
@@ -51,7 +50,7 @@ public class FlowSpecController {
         if (null == command || StringUtils.isEmpty(command.getFlowSpecId())) {
             return Json.error("the flowSpecId can not be empty.");
         }
-        flowSpecService.release(command.getFlowSpecId(), new FlowUser(command.getUserId()));
+        flowSpecService.release(command.getFlowSpecId());
         return Json.success(true);
     }
 

@@ -2,7 +2,6 @@ package com.jflow.core.domain.flow.aggregate;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
-import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.domain.flow.facade.FlowSpecAbility;
 import com.jflow.core.domain.flow.reference.spec.ActionSpec;
@@ -78,16 +77,6 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
     private String cron;
 
     /**
-     * The user who create this spec version.
-     */
-    private FlowUser createBy;
-
-    /**
-     * The latest user who release the spec version
-     */
-    private FlowUser releaseBy;
-
-    /**
      * The time when create this spec version.
      */
     private Date createAt;
@@ -117,12 +106,11 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
      */
     private transient Set<EdgeSpec> edges;
 
-    public void release(FlowUser user) {
+    public void release() {
         if (this.status != FlowSpecStatusEnum.DRAFT) {
             throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
         }
         this.status = FlowSpecStatusEnum.RELEASED;
-        this.setReleaseBy(user);
         this.setReleaseAt(new Date());
     }
 

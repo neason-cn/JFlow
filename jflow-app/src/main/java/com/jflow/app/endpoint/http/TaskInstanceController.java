@@ -2,7 +2,6 @@ package com.jflow.app.endpoint.http;
 
 import com.jflow.api.client.request.commands.UpdateTaskCommand;
 import com.jflow.api.client.response.Json;
-import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.service.FlowInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +22,7 @@ public class TaskInstanceController {
 
     @PostMapping("/complete.json")
     public Json<Boolean> complete(@RequestBody UpdateTaskCommand command) {
-        flowInstanceService.completeTask(command.getTaskInstanceId(), command.getContext(), new FlowUser(command.getUserId()));
+        flowInstanceService.completeTask(command.getTaskInstanceId(), command.getContext());
         return Json.success(Boolean.TRUE);
     }
 

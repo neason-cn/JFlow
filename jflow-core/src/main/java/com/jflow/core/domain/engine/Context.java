@@ -1,6 +1,5 @@
 package com.jflow.core.domain.engine;
 
-import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.flow.aggregate.FlowInstance;
 import lombok.Data;
 
@@ -12,13 +11,11 @@ import lombok.Data;
  */
 @Data
 public class Context {
-    private FlowUser user;
     private Runtime runtime;
     private FlowInstance flowInstance;
 
-    public static Context init(FlowUser user, Runtime runtime, FlowInstance flowInstance) {
+    public static Context init(Runtime runtime, FlowInstance flowInstance) {
         Context context = new Context();
-        context.setUser(user);
         context.setRuntime(runtime);
         context.setFlowInstance(flowInstance);
         return context;

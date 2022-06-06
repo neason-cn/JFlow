@@ -35,12 +35,10 @@ public class FlowSpecConvertor {
 
         // then set
         newSpec.setFlowSpecId(oldSpec.getFlowSpecId());
-        newSpec.setCreateBy(oldSpec.getCreateBy());
         newSpec.setCreateAt(oldSpec.getCreateAt());
         newSpec.setStatus(oldSpec.getStatus());
         newSpec.setFlowSpecVersion(oldSpec.getFlowSpecVersion());
         newSpec.setReleaseAt(oldSpec.getReleaseAt());
-        newSpec.setReleaseBy(oldSpec.getReleaseBy());
 
         return newSpec;
     }

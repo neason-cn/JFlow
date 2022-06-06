@@ -1,8 +1,6 @@
 package com.jflow.core.domain.flow.aggregate;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.common.exception.FlowException;
-import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.engine.Context;
 import com.jflow.core.domain.engine.activity.FlowActivity;
 import com.jflow.core.domain.enums.status.FlowInstanceStatusEnum;
@@ -15,8 +13,6 @@ import org.apache.commons.collections4.MapUtils;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
-
-import static com.jflow.common.error.Errors.NO_NODE_CONTAINS_TASK_ERROR;
 
 /**
  * @author neason
@@ -69,16 +65,6 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance>, 
      * The global context which can be used in every node, edge, task and action.
      */
     private JSONObject context;
-
-    /**
-     * The user who create this flow instance.
-     */
-    private FlowUser createBy;
-
-    /**
-     * The user who cancel this flow instance.
-     */
-    private FlowUser cancelBy;
 
     /**
      * The time when create this flow instance.

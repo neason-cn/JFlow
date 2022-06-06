@@ -45,12 +45,12 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
     private BooleanScript autoSkip;
 
     /**
-     * The script which return a Boolean value as a symbol of user can skip this node manually.
+     * The script which return a Boolean value as a symbol of can skip this node manually.
      */
     private BooleanScript enableSkip;
 
     /**
-     * The script which return a Boolean value as a symbol of user can retry this node when it executes failed manually.
+     * The script which return a Boolean value as a symbol of can retry this node when it executes failed manually.
      */
     private BooleanScript enableRetry;
 
