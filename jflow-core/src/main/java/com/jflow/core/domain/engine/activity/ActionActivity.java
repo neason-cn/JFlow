@@ -1,6 +1,6 @@
 package com.jflow.core.domain.engine.activity;
 
-import com.jflow.core.domain.engine.ActionResult;
+import com.jflow.core.domain.engine.ActionResponse;
 import com.jflow.core.domain.engine.Context;
 
 /**
@@ -11,6 +11,6 @@ import com.jflow.core.domain.engine.Context;
  */
 public interface ActionActivity {
 
-    ActionResult onExecute(Context ctx);
+    ActionResponse onExecute(Context ctx);
 
 }

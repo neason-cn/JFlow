@@ -1,7 +1,7 @@
-package com.jflow.core.domain.flow.reference.instance.action;
+package com.jflow.core.domain.flow.reference.action;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.domain.engine.ActionResult;
+import com.jflow.core.domain.engine.ActionResponse;
 import com.jflow.core.domain.engine.Context;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,14 +30,14 @@ public class DubboAction extends AbstractAction {
     private List<String> paramsType;
 
     @Override
-    public ActionResult onExecute(Context ctx) {
+    public ActionResponse onExecute(Context ctx) {
         GenericService genericService = init();
         try {
             Object response = genericService.$invoke(method, paramsType.toArray(new String[]{}),
                     new Object[]{body});
             return resolveResult(response);
         } catch (Exception e) {
-            return ActionResult.error("invoke dubbo error: ".concat(e.getMessage()));
+            return ActionResponse.error("invoke dubbo error: ".concat(e.getMessage()));
         }
     }
 

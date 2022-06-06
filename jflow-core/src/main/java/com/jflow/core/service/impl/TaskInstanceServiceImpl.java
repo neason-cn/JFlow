@@ -3,7 +3,7 @@ package com.jflow.core.service.impl;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.core.domain.flow.factory.TaskInstanceFactory;
 import com.jflow.core.domain.flow.reference.instance.TaskInstance;
-import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
+import com.jflow.core.domain.flow.reference.action.AbstractAction;
 import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import com.jflow.core.domain.flow.reference.spec.TaskSpec;
 import com.jflow.core.domain.flow.repository.TaskInstanceRepository;

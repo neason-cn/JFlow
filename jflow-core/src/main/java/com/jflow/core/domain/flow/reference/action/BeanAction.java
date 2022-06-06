@@ -1,7 +1,7 @@
-package com.jflow.core.domain.flow.reference.instance.action;
+package com.jflow.core.domain.flow.reference.action;
 
 import cn.hutool.json.JSONObject;
-import com.jflow.core.domain.engine.ActionResult;
+import com.jflow.core.domain.engine.ActionResponse;
 import com.jflow.core.domain.engine.Context;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,21 +28,21 @@ public class BeanAction extends AbstractAction {
     private List<JSONObject> paramsValue;
 
     @Override
-    public ActionResult onExecute(Context ctx) {
+    public ActionResponse onExecute(Context ctx) {
         try {
             return doInvoke(ctx);
         } catch (Exception e) {
-            return ActionResult.error("run method of bean error: ".concat(e.getMessage()));
+            return ActionResponse.error("run method of bean error: ".concat(e.getMessage()));
         }
     }
 
-    private ActionResult doInvoke(Context ctx) {
+    private ActionResponse doInvoke(Context ctx) {
         ApplicationContext springContext = ctx.getRuntime().getApplicationContext();
         Object bean = springContext.getBean(beanName);
         if (CollectionUtils.isEmpty(paramsType)) {
             Method method = ReflectionUtils.findMethod(bean.getClass(), methodName);
             if (null == method) {
-                return ActionResult.error("no method matches: ".concat(methodName));
+                return ActionResponse.error("no method matches: ".concat(methodName));
             }
             Object result = ReflectionUtils.invokeMethod(method, bean);
             return resolveResult(result);
@@ -52,7 +52,7 @@ public class BeanAction extends AbstractAction {
         Object[] paramValues = parseValue(paramTypes);
         Method method = ReflectionUtils.findMethod(bean.getClass(), methodName, paramTypes);
         if (null == method) {
-            return ActionResult.error("no method matches: ".concat(methodName));
+            return ActionResponse.error("no method matches: ".concat(methodName));
         }
         Object result = ReflectionUtils.invokeMethod(method, bean, paramValues);
         return resolveResult(result);

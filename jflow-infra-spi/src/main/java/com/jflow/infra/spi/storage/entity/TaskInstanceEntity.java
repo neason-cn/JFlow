@@ -15,10 +15,5 @@ public class TaskInstanceEntity {
     private String type;
     private String taskContext;
     private String error;
-    private String executeRequest;
-    private String executeResponse;
-    private String submitRequest;
-    private String submitResponse;
-    private String cancelRequest;
-    private String cancelResponse;
+    private String records;
 }

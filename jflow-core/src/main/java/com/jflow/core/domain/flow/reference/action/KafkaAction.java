@@ -1,7 +1,7 @@
-package com.jflow.core.domain.flow.reference.instance.action;
+package com.jflow.core.domain.flow.reference.action;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.domain.engine.ActionResult;
+import com.jflow.core.domain.engine.ActionResponse;
 import com.jflow.core.domain.engine.Context;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,9 +32,9 @@ public class KafkaAction extends AbstractAction {
     private List<String> messages;
 
     @Override
-    public ActionResult onExecute(Context ctx) {
+    public ActionResponse onExecute(Context ctx) {
         if (CollectionUtils.isEmpty(messages)) {
-            return ActionResult.success(new JSONObject());
+            return ActionResponse.success(new JSONObject());
         }
         KafkaProducer<String, String> producer = new KafkaProducer<>(convert());
         try {
@@ -46,14 +46,14 @@ public class KafkaAction extends AbstractAction {
             producer.commitTransaction();
         } catch (ProducerFencedException | OutOfOrderSequenceException | AuthorizationException e) {
             producer.close();
-            return ActionResult.error("send message error: ".concat(e.getMessage()));
+            return ActionResponse.error("send message error: ".concat(e.getMessage()));
         } catch (Exception e) {
             producer.abortTransaction();
-            return ActionResult.error("send message error: ".concat(e.getMessage()));
+            return ActionResponse.error("send message error: ".concat(e.getMessage()));
         } finally {
             producer.close();
         }
-        return ActionResult.success(new JSONObject());
+        return ActionResponse.success(new JSONObject());
     }
 
     private Properties convert() {

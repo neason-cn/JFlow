@@ -1,11 +1,11 @@
-package com.jflow.core.domain.flow.reference.instance.action;
+package com.jflow.core.domain.flow.reference.action;
 
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.domain.engine.ActionResult;
+import com.jflow.core.domain.engine.ActionResponse;
 import com.jflow.core.domain.engine.Context;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -48,19 +48,19 @@ public class HttpAction extends AbstractAction {
     private String body;
 
     @Override
-    public ActionResult onExecute(Context ctx) {
+    public ActionResponse onExecute(Context ctx) {
         try {
             HttpResponse response = HttpUtil.createRequest(Method.valueOf(method), connectParams())
                     .header(headers)
                     .body(body)
                     .execute();
             try {
-                return JSONObject.parseObject(response.body(), ActionResult.class);
+                return JSONObject.parseObject(response.body(), ActionResponse.class);
             } catch (JSONException e) {
-                return ActionResult.error("http response parse error: ".concat(e.getMessage()));
+                return ActionResponse.error("http response parse error: ".concat(e.getMessage()));
             }
         } catch (Exception e) {
-            return ActionResult.error("http invoke error: ".concat(e.getMessage()));
+            return ActionResponse.error("http invoke error: ".concat(e.getMessage()));
         }
     }
 

@@ -1,9 +1,10 @@
-package com.jflow.core.domain.flow.reference.instance.action;
+package com.jflow.core.domain.flow.reference.action;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
-import com.jflow.core.domain.engine.ActionResult;
+import com.jflow.common.utils.JsonUtils;
+import com.jflow.core.domain.engine.ActionResponse;
 import com.jflow.core.domain.engine.activity.ActionActivity;
 import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import lombok.Data;
@@ -14,18 +15,22 @@ import lombok.Data;
  */
 @Data
 public abstract class AbstractAction implements ActionActivity, Type {
-    private ActionSpec actionSpec;
+    private transient ActionSpec actionSpec;
 
     @Override
     public String getType() {
         return this.actionSpec.getType();
     }
 
-    protected ActionResult resolveResult(Object result) {
+    public JSONObject toJson() {
+        return JsonUtils.toJson(this);
+    }
+
+    protected ActionResponse resolveResult(Object result) {
         try {
-            return JSONObject.parseObject(JSON.toJSONString(result), ActionResult.class);
+            return JSONObject.parseObject(JSON.toJSONString(result), ActionResponse.class);
         } catch (Exception e) {
-            return ActionResult.error("dubbo response parse error: ".concat(e.getMessage()));
+            return ActionResponse.error("dubbo response parse error: ".concat(e.getMessage()));
         }
     }
 }

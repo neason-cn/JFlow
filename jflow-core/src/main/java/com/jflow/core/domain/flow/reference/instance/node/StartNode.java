@@ -6,7 +6,7 @@ import com.jflow.core.domain.engine.Callback;
 import com.jflow.core.domain.engine.Context;
 import com.jflow.core.domain.flow.factory.ActionFactory;
 import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
-import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
+import com.jflow.core.domain.flow.reference.action.AbstractAction;
 import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

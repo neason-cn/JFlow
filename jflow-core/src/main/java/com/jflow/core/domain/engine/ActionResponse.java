@@ -9,21 +9,21 @@ import lombok.Data;
  * @since 0.0.1
  */
 @Data
-public class ActionResult {
+public class ActionResponse {
     private TaskInstanceStatusEnum status;
     private String error;
     private JSONObject result;
 
-    public static ActionResult error(String error) {
-        ActionResult result = new ActionResult();
+    public static ActionResponse error(String error) {
+        ActionResponse result = new ActionResponse();
         result.setResult(new JSONObject());
         result.setStatus(TaskInstanceStatusEnum.FAILED);
         result.setError(error);
         return result;
     }
 
-    public static ActionResult success(JSONObject data) {
-        ActionResult result = new ActionResult();
+    public static ActionResponse success(JSONObject data) {
+        ActionResponse result = new ActionResponse();
         result.setResult(data);
         result.setStatus(TaskInstanceStatusEnum.SUCCESS);
         return result;

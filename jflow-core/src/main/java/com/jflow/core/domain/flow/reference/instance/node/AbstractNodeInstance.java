@@ -6,7 +6,7 @@ import com.jflow.core.domain.engine.activity.NodeActivity;
 import com.jflow.core.domain.enums.status.NodeInstanceStatusEnum;
 import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
 import com.jflow.core.domain.flow.reference.instance.TaskInstance;
-import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
+import com.jflow.core.domain.flow.reference.action.AbstractAction;
 import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import com.jflow.core.domain.flow.reference.spec.NodeSpec;
 import com.jflow.core.domain.graph.Node;

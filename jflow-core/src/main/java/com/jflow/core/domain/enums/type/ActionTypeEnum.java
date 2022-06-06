@@ -1,8 +1,8 @@
 package com.jflow.core.domain.enums.type;
 
 import com.jflow.common.enums.Type;
-import com.jflow.core.domain.flow.reference.instance.action.AbstractAction;
-import com.jflow.core.domain.flow.reference.instance.action.HttpAction;
+import com.jflow.core.domain.flow.reference.action.AbstractAction;
+import com.jflow.core.domain.flow.reference.action.HttpAction;
 import lombok.Getter;
 
 /**
