@@ -10,6 +10,7 @@ import com.jflow.core.domain.flow.reference.spec.NodeSpec;
 import com.jflow.core.domain.graph.Graph;
 import com.jflow.infra.spi.script.type.JsonScript;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -75,7 +76,9 @@ public class FlowSpecConvertor {
 
     public void copyPropertiesFromVO(FlowSpec flowSpec, FlowSpecVO vo) {
         flowSpec.setFlowSpecId(vo.getFlowSpecId());
-        flowSpec.setStatus(FlowSpecStatusEnum.of(vo.getStatus()));
+        if (StringUtils.isNoneBlank(vo.getStatus())) {
+            flowSpec.setStatus(FlowSpecStatusEnum.of(vo.getStatus()));
+        }
         flowSpec.setFlowSpecVersion(vo.getFlowSpecVersion());
         flowSpec.setFlowSpecCode(vo.getFlowSpecCode());
         flowSpec.setDescription(vo.getDescription());

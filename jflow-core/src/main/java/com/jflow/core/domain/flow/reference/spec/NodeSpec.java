@@ -98,4 +98,24 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
      */
     private transient Set<EdgeSpec> outgoing;
 
+    @Override
+    public String toString() {
+        return "NodeSpec{" +
+                "nodeId='" + nodeId + '\'' +
+                ", nodeName='" + nodeName + '\'' +
+                ", waitAll=" + waitAll +
+                ", autoFire=" + autoFire +
+                ", autoSkip=" + autoSkip +
+                ", enableSkip=" + enableSkip +
+                ", enableRetry=" + enableRetry +
+                ", interruptWhenSubmitFailed=" + interruptWhenSubmitFailed +
+                ", interruptWhenExecuteFailed=" + interruptWhenExecuteFailed +
+                ", labels=" + labels +
+                ", before=" + before +
+                ", taskSpec=" + taskSpec +
+                ", after=" + after +
+                ", incoming=" + incoming +
+                ", outgoing=" + outgoing +
+                '}';
+    }
 }

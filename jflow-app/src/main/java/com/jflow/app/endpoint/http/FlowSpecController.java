@@ -38,7 +38,7 @@ public class FlowSpecController {
 
     @PostMapping("/save.json")
     public Json<String> save(@RequestBody SaveDraftFlowSpecCommand command) {
-        if (null == command) {
+        if (null == command || null == command.getFlowSpec()) {
             return Json.error("the save command can not be null.");
         }
         String flowSpecId = flowSpecService.saveDraft(command.getFlowSpec());

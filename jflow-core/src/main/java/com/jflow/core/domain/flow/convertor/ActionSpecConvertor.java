@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 public class ActionSpecConvertor {
 
     public ActionSpec convert(ActionSpecVO vo) {
+        if (vo == null) {
+            return null;
+        }
         ActionSpec spec = new ActionSpec();
         spec.setActionType(ActionTypeEnum.of(vo.getActionType()));
         spec.setParams(vo.getParams());
@@ -20,6 +23,9 @@ public class ActionSpecConvertor {
     }
 
     public ActionSpecVO convert(ActionSpec spec) {
+        if (spec == null) {
+            return null;
+        }
         ActionSpecVO vo = new ActionSpecVO();
         vo.setActionType(spec.getActionType().getType());
         vo.setParams(spec.getParams());

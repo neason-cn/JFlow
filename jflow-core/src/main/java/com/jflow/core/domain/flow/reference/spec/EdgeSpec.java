@@ -62,4 +62,14 @@ public class EdgeSpec implements Edge<NodeSpec>, Serializable {
         return null != script && StringUtils.isNotBlank(script.getContent());
     }
 
+    @Override
+    public String toString() {
+        return "EdgeSpec{" +
+                "edgeId='" + edgeId + '\'' +
+                ", edgeName='" + edgeName + '\'' +
+                ", script=" + script +
+                ", sourceNodeId='" + sourceNodeId + '\'' +
+                ", targetNodeId='" + targetNodeId + '\'' +
+                '}';
+    }
 }
