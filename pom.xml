@@ -37,6 +37,7 @@
         <springboot.version>2.6.8</springboot.version>
         <dubbo.version>2.7.15</dubbo.version>
         <kafka.version>3.2.0</kafka.version>
+        <mysql.version>8.0.11</mysql.version>
     </properties>
 
     <dependencyManagement>
@@ -137,6 +138,16 @@
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
                 <version>${kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jdbc</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
