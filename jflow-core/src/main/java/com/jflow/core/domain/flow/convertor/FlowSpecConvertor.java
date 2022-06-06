@@ -85,7 +85,6 @@ public class FlowSpecConvertor {
         flowSpec.setOutputScript(new JsonScript(vo.getOutputScript()));
         flowSpec.setScheduled(vo.isScheduled());
         flowSpec.setCron(vo.getCron());
-        flowSpec.setTenant(vo.getTenant());
 
         // action
         flowSpec.setOnStart(actionSpecConvertor.convert(vo.getOnStartAction()));

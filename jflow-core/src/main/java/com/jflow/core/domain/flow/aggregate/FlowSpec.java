@@ -5,9 +5,9 @@ import com.jflow.common.exception.FlowException;
 import com.jflow.core.domain.auth.FlowUser;
 import com.jflow.core.domain.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.domain.flow.facade.FlowSpecAbility;
+import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import com.jflow.core.domain.flow.reference.spec.EdgeSpec;
 import com.jflow.core.domain.flow.reference.spec.NodeSpec;
-import com.jflow.core.domain.flow.reference.spec.ActionSpec;
 import com.jflow.core.domain.graph.Graph;
 import com.jflow.infra.spi.script.type.JsonScript;
 import lombok.Data;
@@ -96,11 +96,6 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
      * The time when release the spec version
      */
     private Date releaseAt;
-
-    /**
-     * The tenant of this spec version.
-     */
-    private String tenant;
 
     /**
      * The action will be actioned when create a flow instance by using this spec version.
