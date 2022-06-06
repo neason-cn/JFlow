@@ -21,4 +21,11 @@ public class ActionResult {
         result.setError(error);
         return result;
     }
+
+    public static ActionResult success(JSONObject data) {
+        ActionResult result = new ActionResult();
+        result.setResult(data);
+        result.setStatus(TaskInstanceStatusEnum.SUCCESS);
+        return result;
+    }
 }
