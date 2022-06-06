@@ -14,7 +14,7 @@ public interface TaskInstanceService {
 
     TaskInstance createAndSaveTask(TaskSpec spec, String flowInstanceId, String nodeId, JSONObject context);
 
-    AbstractAction initAndRunAction(ActionSpec spec, JSONObject flowContext, JSONObject taskContext);
+    AbstractAction initAction(ActionSpec spec, JSONObject flowContext, JSONObject taskContext);
 
     void save(TaskInstance taskInstance);
 

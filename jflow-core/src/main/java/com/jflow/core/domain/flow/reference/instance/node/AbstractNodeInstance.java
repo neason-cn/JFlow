@@ -59,7 +59,7 @@ public abstract class AbstractNodeInstance implements Node<EdgeInstance>, NodeAc
 
     protected void runAction(Context ctx, ActionSpec spec) {
         TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
-        AbstractAction action = instanceService.initAndRunAction(spec, ctx.getFlowInstance().getContext(), new JSONObject());
+        AbstractAction action = instanceService.initAction(spec, ctx.getFlowInstance().getContext(), new JSONObject());
         action.onExecute(ctx);
     }
 

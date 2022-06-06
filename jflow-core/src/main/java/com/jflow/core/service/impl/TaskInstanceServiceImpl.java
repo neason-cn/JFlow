@@ -31,7 +31,7 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     }
 
     @Override
-    public AbstractAction initAndRunAction(ActionSpec spec, JSONObject flowContext, JSONObject taskContext) {
+    public AbstractAction initAction(ActionSpec spec, JSONObject flowContext, JSONObject taskContext) {
         return null;
     }
 
