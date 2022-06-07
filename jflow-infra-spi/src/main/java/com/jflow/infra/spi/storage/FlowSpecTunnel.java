@@ -8,11 +8,7 @@ import java.util.Optional;
  * @author neason
  * @since 0.0.1
  */
-public interface FlowSpecTunnel {
-
-    void save(FlowSpecEntity entity);
-
-    Optional<FlowSpecEntity> getById(String specId);
+public interface FlowSpecTunnel extends Tunnel<FlowSpecEntity> {
 
     Optional<FlowSpecEntity> getLatestVersionByCode(String code);
 

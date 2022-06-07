@@ -8,10 +8,6 @@ import java.util.Optional;
  * @author neason
  * @since 0.0.1
  */
-public interface TaskInstanceTunnel {
-
-    void save(TaskInstanceEntity entity);
-
-    Optional<TaskInstanceEntity> getById(String taskInstanceId);
+public interface TaskInstanceTunnel extends Tunnel<TaskInstanceEntity> {
 
 }

@@ -27,9 +27,9 @@ public class FlowInstanceTunnelImpl implements FlowInstanceTunnel {
     }
 
     @Override
-    public Optional<FlowInstanceEntity> getById(String flowInstanceId) {
+    public Optional<FlowInstanceEntity> getById(String id) {
         List<FlowInstanceEntity> entity = jdbcTemplate.query("select * from flow_ins where flow_instance_id = ?",
-                new BeanPropertyRowMapper<>(FlowInstanceEntity.class), flowInstanceId);
+                new BeanPropertyRowMapper<>(FlowInstanceEntity.class), id);
         if (CollectionUtils.isEmpty(entity)) {
             return Optional.empty();
         }

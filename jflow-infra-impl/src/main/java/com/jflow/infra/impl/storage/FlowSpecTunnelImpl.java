@@ -23,9 +23,9 @@ public class FlowSpecTunnelImpl implements FlowSpecTunnel {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
-    public Optional<FlowSpecEntity> getById(String specId) {
+    public Optional<FlowSpecEntity> getById(String id) {
         List<FlowSpecEntity> entities = jdbcTemplate.query("select * from flow_spec where spec_id = ?",
-                new BeanPropertyRowMapper<>(FlowSpecEntity.class), specId);
+                new BeanPropertyRowMapper<>(FlowSpecEntity.class), id);
         return DbEntityUtil.getFirst(entities);
     }
 

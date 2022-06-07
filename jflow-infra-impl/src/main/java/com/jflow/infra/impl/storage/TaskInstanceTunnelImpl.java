@@ -18,7 +18,7 @@ public class TaskInstanceTunnelImpl implements TaskInstanceTunnel {
     }
 
     @Override
-    public Optional<TaskInstanceEntity> getById(String taskInstanceId) {
+    public Optional<TaskInstanceEntity> getById(String id) {
         return Optional.empty();
     }
 }
