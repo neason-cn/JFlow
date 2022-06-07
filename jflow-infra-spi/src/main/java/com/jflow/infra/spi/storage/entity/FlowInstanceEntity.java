@@ -13,7 +13,7 @@ public class FlowInstanceEntity {
     private String flowInstanceId;
     private String flowSpecId;
     private String taskInstanceId;
-    private String instanceStatus;
+    private String status;
     private String context;
     private String input;
     private String output;

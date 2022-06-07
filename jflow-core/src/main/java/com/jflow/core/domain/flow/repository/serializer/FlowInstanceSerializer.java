@@ -19,7 +19,7 @@ public class FlowInstanceSerializer {
         entity.setFlowInstanceId(domain.getFlowInstanceId());
         entity.setFlowSpecId(domain.getSpec().getFlowSpecId());
         entity.setTaskInstanceId(domain.getParentTaskInstanceId());
-        entity.setInstanceStatus(domain.getStatus().getStatus());
+        entity.setStatus(domain.getStatus().getStatus());
         entity.setContext(domain.getContext().toJSONString());
         entity.setInput(domain.getInput().toJSONString());
         entity.setOutput(domain.getOutput().toJSONString());
@@ -35,7 +35,7 @@ public class FlowInstanceSerializer {
         FlowInstance instance = new FlowInstance(spec);
         instance.setFlowInstanceId(entity.getFlowInstanceId());
         instance.setParentTaskInstanceId(entity.getTaskInstanceId());
-        instance.setStatus(FlowInstanceStatusEnum.of(entity.getInstanceStatus()));
+        instance.setStatus(FlowInstanceStatusEnum.of(entity.getStatus()));
         instance.setInput(JSONObject.parseObject(entity.getInput()));
         instance.setOutput(JSONObject.parseObject(entity.getOutput()));
         instance.setContext(JSONObject.parseObject(entity.getContext()));

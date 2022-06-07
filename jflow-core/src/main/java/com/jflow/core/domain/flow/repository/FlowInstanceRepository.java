@@ -37,8 +37,8 @@ public class FlowInstanceRepository {
         return flowInstanceSerializer.deSerialize(entity.get(), null);
     }
 
-    public int getRunningCountOfCode(String flowSpecCode) {
-        return flowInstanceTunnel.getRunningCountOfCode(flowSpecCode);
+    public int getRunningCountOfSpecId(String flowSpecId) {
+        return flowInstanceTunnel.getRunningCountOfSpecId(flowSpecId);
     }
 
     public FlowInstance getByTaskId(String taskInstanceId) {

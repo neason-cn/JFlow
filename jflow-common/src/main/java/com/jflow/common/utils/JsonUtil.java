@@ -7,7 +7,7 @@ import com.alibaba.fastjson2.JSONObject;
  * @author neason
  * @since 0.0.1
  */
-public class JsonUtils {
+public class JsonUtil {
 
     public static JSONObject toJson(Object o) {
         if (null == o) {

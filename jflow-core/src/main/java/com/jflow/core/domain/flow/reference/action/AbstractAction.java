@@ -3,7 +3,7 @@ package com.jflow.core.domain.flow.reference.action;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
-import com.jflow.common.utils.JsonUtils;
+import com.jflow.common.utils.JsonUtil;
 import com.jflow.core.domain.engine.ActionResponse;
 import com.jflow.core.domain.engine.activity.ActionActivity;
 import com.jflow.core.domain.flow.reference.spec.ActionSpec;
@@ -23,7 +23,7 @@ public abstract class AbstractAction implements ActionActivity, Type {
     }
 
     public JSONObject toJson() {
-        return JsonUtils.toJson(this);
+        return JsonUtil.toJson(this);
     }
 
     protected ActionResponse resolveResult(Object result) {

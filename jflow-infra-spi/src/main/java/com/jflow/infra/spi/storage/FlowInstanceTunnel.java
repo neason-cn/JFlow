@@ -14,6 +14,6 @@ public interface FlowInstanceTunnel {
 
     Optional<FlowInstanceEntity> getById(String flowInstanceId);
 
-    int getRunningCountOfCode(String code);
+    int getRunningCountOfSpecId(String code);
 
 }
