@@ -1,7 +1,7 @@
 package com.jflow.core.service;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.domain.flow.aggregate.FlowInstance;
+import com.jflow.core.engine.flow.aggregate.FlowInstance;
 
 /**
  * @author neason

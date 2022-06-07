@@ -4,7 +4,7 @@ import com.jflow.api.client.request.commands.FlowInstanceCommand;
 import com.jflow.api.client.request.commands.FlowInstanceNodeCommand;
 import com.jflow.api.client.request.commands.StartFlowInstanceCommand;
 import com.jflow.api.client.response.Json;
-import com.jflow.core.domain.flow.aggregate.FlowInstance;
+import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.service.FlowInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

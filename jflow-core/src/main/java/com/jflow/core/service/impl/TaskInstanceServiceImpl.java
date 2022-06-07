@@ -1,12 +1,12 @@
 package com.jflow.core.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.domain.flow.factory.TaskInstanceFactory;
-import com.jflow.core.domain.flow.reference.action.AbstractAction;
-import com.jflow.core.domain.flow.reference.instance.TaskInstance;
-import com.jflow.core.domain.flow.reference.spec.ActionSpec;
-import com.jflow.core.domain.flow.reference.spec.TaskSpec;
-import com.jflow.core.domain.flow.repository.TaskInstanceRepository;
+import com.jflow.core.domain.factory.TaskInstanceFactory;
+import com.jflow.core.engine.flow.action.AbstractAction;
+import com.jflow.core.engine.flow.instance.TaskInstance;
+import com.jflow.core.engine.flow.spec.ActionSpec;
+import com.jflow.core.engine.flow.spec.TaskSpec;
+import com.jflow.core.domain.repository.TaskInstanceRepository;
 import com.jflow.core.service.TaskInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

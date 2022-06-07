@@ -1,10 +1,10 @@
 package com.jflow.core.service;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.domain.flow.reference.action.AbstractAction;
-import com.jflow.core.domain.flow.reference.instance.TaskInstance;
-import com.jflow.core.domain.flow.reference.spec.ActionSpec;
-import com.jflow.core.domain.flow.reference.spec.TaskSpec;
+import com.jflow.core.engine.flow.action.AbstractAction;
+import com.jflow.core.engine.flow.instance.TaskInstance;
+import com.jflow.core.engine.flow.spec.ActionSpec;
+import com.jflow.core.engine.flow.spec.TaskSpec;
 
 /**
  * @author neason
