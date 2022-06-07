@@ -1,12 +1,19 @@
 package com.jflow.core.domain.flow.repository.serializer;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson2.TypeReference;
 import com.jflow.common.utils.JsonUtil;
 import com.jflow.core.domain.enums.status.FlowInstanceStatusEnum;
 import com.jflow.core.domain.flow.aggregate.FlowInstance;
 import com.jflow.core.domain.flow.aggregate.FlowSpec;
+import com.jflow.core.domain.flow.reference.instance.EdgeInstance;
+import com.jflow.core.domain.flow.reference.instance.node.AbstractNodeInstance;
+import com.jflow.core.domain.graph.Graph;
 import com.jflow.infra.spi.storage.entity.FlowInstanceEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 /**
  * @author neason
@@ -26,8 +33,8 @@ public class FlowInstanceSerializer {
         entity.setOutput(JsonUtil.toJsonString(domain.getOutput()));
         entity.setCreateAt(domain.getCreateAt());
         entity.setCancelAt(domain.getCancelAt());
-        entity.setNodes(null);
-        entity.setEdges(null);
+        entity.setNodes(JsonUtil.toJsonString(domain.getNodes(), JSONWriter.Feature.WriteClassName));
+        entity.setEdges(JsonUtil.toJsonString(domain.getEdges(), JSONWriter.Feature.WriteClassName));
         return entity;
     }
 
@@ -42,8 +49,15 @@ public class FlowInstanceSerializer {
         instance.setContext(JSONObject.parseObject(entity.getContext()));
         instance.setCreateAt(entity.getCreateAt());
         instance.setCancelAt(entity.getCancelAt());
-        instance.setNodes(null);
-        instance.setEdges(null);
+
+        Set<AbstractNodeInstance> nodes = new TypeReference<Set<AbstractNodeInstance>>() {
+        }.parseObject(entity.getNodes());
+        Set<EdgeInstance> edges = new TypeReference<Set<EdgeInstance>>() {
+        }.parseObject(entity.getEdges());
+        Graph.connect(nodes, edges);
+
+        instance.setNodes(nodes);
+        instance.setEdges(edges);
         return instance;
     }
 }

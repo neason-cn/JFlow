@@ -56,7 +56,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
 
         FlowSpec spec = flowSpec.get();
         int countOfRunning = flowInstanceRepository.getRunningCountOfSpecId(spec.getFlowSpecId());
-        if (spec.isEnableMultiInstance() && countOfRunning > 1) {
+        if (!spec.isEnableMultiInstance() && countOfRunning > 1) {
             throw new FlowException(UNSUPPORTED_MULTI_INSTANCE_ERROR, flowSpecCode);
         }
 

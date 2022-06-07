@@ -1,4 +1,4 @@
-package com.jflow.common.utils;
+package com.jflow.infra.impl.utils;
 
 import com.jflow.common.annotation.Column;
 import com.jflow.common.annotation.Id;
@@ -49,7 +49,7 @@ public class DbSqlUtil {
         return prefix.concat(mid).concat(suffix);
     }
 
-    private static String getTableName(Class<?> entity) {
+    public static String getTableName(Class<?> entity) {
         Table annotation = entity.getAnnotation(Table.class);
         if (null == annotation) {
             throw new FlowException(GENERATE_SQL_ERROR, "entity has no @Table annotation.");
@@ -57,7 +57,7 @@ public class DbSqlUtil {
         return annotation.value();
     }
 
-    private static String getIdName(Class<?> entity) {
+    public static String getIdName(Class<?> entity) {
         Optional<String> idName = Arrays.stream(entity.getDeclaredFields())
                 .map(field -> {
                     Id id = field.getAnnotation(Id.class);

@@ -1,10 +1,8 @@
 package com.jflow.infra.impl.storage;
 
-import com.jflow.common.utils.DbEntityUtil;
-import com.jflow.common.utils.DbSqlUtil;
+import com.jflow.infra.impl.utils.DbEntityUtil;
 import com.jflow.infra.spi.storage.FlowSpecTunnel;
 import com.jflow.infra.spi.storage.entity.FlowSpecEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -17,16 +15,15 @@ import java.util.Optional;
  * @since 0.0.1
  */
 @Component
-@RequiredArgsConstructor
-public class FlowSpecTunnelImpl implements FlowSpecTunnel {
+public class FlowSpecTunnelImpl extends AbstractTunnel<FlowSpecEntity> implements FlowSpecTunnel {
 
-    private final JdbcTemplate jdbcTemplate;
+    public FlowSpecTunnelImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
     @Override
-    public Optional<FlowSpecEntity> getById(String id) {
-        List<FlowSpecEntity> entities = jdbcTemplate.query("select * from flow_spec where spec_id = ?",
-                new BeanPropertyRowMapper<>(FlowSpecEntity.class), id);
-        return DbEntityUtil.getFirst(entities);
+    protected Class<FlowSpecEntity> getEntityType() {
+        return FlowSpecEntity.class;
     }
 
     @Override
@@ -41,17 +38,6 @@ public class FlowSpecTunnelImpl implements FlowSpecTunnel {
         List<FlowSpecEntity> entities = jdbcTemplate.query("select * from flow_spec where spec_code = ? and spec_status = 'RELEASED'",
                 new BeanPropertyRowMapper<>(FlowSpecEntity.class), code);
         return DbEntityUtil.getFirst(entities);
-    }
-
-    @Override
-    public void save(FlowSpecEntity entity) {
-        Optional<FlowSpecEntity> exist = getById(entity.getSpecId());
-        if (exist.isPresent()) {
-            DbEntityUtil.copyWhenFieldIsNull(entity, exist.get());
-            jdbcTemplate.update(DbSqlUtil.updateSql(entity.getClass()), DbEntityUtil.updateValues(entity));
-            return;
-        }
-        jdbcTemplate.update(DbSqlUtil.insertSql(entity.getClass()), DbEntityUtil.insertValues(entity));
     }
 
 }

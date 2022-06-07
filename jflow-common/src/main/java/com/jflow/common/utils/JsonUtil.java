@@ -2,6 +2,7 @@ package com.jflow.common.utils;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
 
 /**
  * @author neason
@@ -16,11 +17,11 @@ public class JsonUtil {
         return JSONObject.parseObject(JSON.toJSONString(o));
     }
 
-    public static String toJsonString(Object o) {
+    public static String toJsonString(Object o, JSONWriter.Feature... features) {
         if (null == o) {
             return null;
         }
-        return JSON.toJSONString(o);
+        return JSON.toJSONString(o, features);
     }
 
 }

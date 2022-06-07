@@ -1,4 +1,4 @@
-package com.jflow.common.utils;
+package com.jflow.infra.impl.utils;
 
 import com.jflow.common.annotation.Column;
 import com.jflow.common.annotation.Id;
@@ -96,7 +96,7 @@ public class DbEntityUtil {
         return Optional.of(entities.get(0));
     }
 
-    private static Object safeGetValue(Field field, Object target) {
+    public static Object safeGetValue(Field field, Object target) {
         boolean accessible = field.isAccessible();
 
         if (accessible) {
@@ -117,7 +117,7 @@ public class DbEntityUtil {
         }
     }
 
-    private static void safeSetValue(Field field, Object target, Object value) {
+    public static void safeSetValue(Field field, Object target, Object value) {
         boolean accessible = field.isAccessible();
         if (accessible) {
             try {
