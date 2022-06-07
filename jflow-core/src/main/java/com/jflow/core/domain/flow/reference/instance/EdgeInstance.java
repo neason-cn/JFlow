@@ -1,5 +1,6 @@
 package com.jflow.core.domain.flow.reference.instance;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jflow.core.domain.engine.Context;
 import com.jflow.core.domain.engine.activity.EdgeActivity;
 import com.jflow.core.domain.enums.status.EdgeInstanceStatusEnum;
@@ -45,11 +46,13 @@ public class EdgeInstance implements Edge<AbstractNodeInstance>, EdgeActivity {
     /**
      * The source node.
      */
+    @JSONField(serialize = false)
     private transient AbstractNodeInstance source;
 
     /**
      * The target node.
      */
+    @JSONField(serialize = false)
     private transient AbstractNodeInstance target;
 
     @Override
@@ -93,4 +96,14 @@ public class EdgeInstance implements Edge<AbstractNodeInstance>, EdgeActivity {
         this.target.onSignal(ctx, this);
     }
 
+    @Override
+    public String toString() {
+        return "EdgeInstance{" +
+                "spec=" + spec +
+                ", status=" + status +
+                ", error='" + error + '\'' +
+                ", sourceNodeId='" + sourceNodeId + '\'' +
+                ", targetNodeId='" + targetNodeId + '\'' +
+                '}';
+    }
 }

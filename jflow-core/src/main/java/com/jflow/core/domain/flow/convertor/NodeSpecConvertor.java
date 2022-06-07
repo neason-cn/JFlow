@@ -1,6 +1,7 @@
 package com.jflow.core.domain.flow.convertor;
 
 import com.jflow.api.client.vo.spec.NodeSpecVO;
+import com.jflow.core.domain.enums.type.NodeTypeEnum;
 import com.jflow.core.domain.flow.reference.spec.NodeSpec;
 import com.jflow.infra.spi.script.type.BooleanScript;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class NodeSpecConvertor {
         NodeSpec nodeSpec = new NodeSpec();
         nodeSpec.setNodeId(vo.getNodeId());
         nodeSpec.setNodeName(vo.getNodeName());
+        nodeSpec.setNodeType(NodeTypeEnum.of(vo.getNodeType()));
         nodeSpec.setWaitAll(new BooleanScript(vo.getWaitAll()));
         nodeSpec.setAutoFire(new BooleanScript(vo.getAutoFireScript()));
         nodeSpec.setAutoSkip(new BooleanScript(vo.getAutoSkipScript()));
@@ -48,7 +50,8 @@ public class NodeSpecConvertor {
         }
         NodeSpecVO vo = new NodeSpecVO();
         vo.setNodeId(spec.getNodeId());
-        vo.setNodeName(vo.getNodeName());
+        vo.setNodeName(spec.getNodeName());
+        vo.setNodeType(spec.getNodeType().getType());
         vo.setWaitAll(spec.getWaitAll().getContent());
         vo.setAutoFireScript(spec.getAutoFire() != null ? spec.getAutoFire().getContent() : null);
         vo.setAutoSkipScript(spec.getAutoSkip() != null ? spec.getAutoSkip().getContent() : null);

@@ -26,7 +26,10 @@ public enum Errors implements FlowError {
     NO_TASK_INSTANCE_MATCHES_ERROR("NO_TASK_INSTANCE_MATCHES_ERROR", "no task instance of the id: {}"),
 
     // DB
-    GENERATE_SQL_ERROR("GENERATE_SQL_ERROR", "auto generate sql error: {}");
+    GENERATE_SQL_ERROR("GENERATE_SQL_ERROR", "auto generate sql error: {}"),
+
+    // Other
+    NODE_INSTANCE_CLASS_NEW_ERROR("NODE_INSTANCE_CLASS_NEW_ERROR", "class {} new instance error}");
 
     @Getter
     private final String code;

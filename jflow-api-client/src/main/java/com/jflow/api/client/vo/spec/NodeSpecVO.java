@@ -12,6 +12,7 @@ import java.util.Map;
 public class NodeSpecVO {
     private String nodeId;
     private String nodeName;
+    private String nodeType;
     private String waitAll;
     private String autoFireScript;
     private String autoSkipScript;

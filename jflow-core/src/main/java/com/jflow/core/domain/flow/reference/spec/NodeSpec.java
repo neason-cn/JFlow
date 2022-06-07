@@ -1,6 +1,7 @@
 package com.jflow.core.domain.flow.reference.spec;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.jflow.core.domain.enums.type.NodeTypeEnum;
 import com.jflow.core.domain.graph.Node;
 import com.jflow.infra.spi.script.type.BooleanScript;
 import lombok.Data;
@@ -27,6 +28,11 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
      * The node name.
      */
     private String nodeName;
+
+    /**
+     * The node type.
+     */
+    private NodeTypeEnum nodeType;
 
     /**
      * The script which return a Boolean value as a symbol of 'WaitMode'.

@@ -23,7 +23,7 @@ public class FlowInstanceTunnelImpl extends AbstractTunnel<FlowInstanceEntity> i
 
     @Override
     public int getRunningCountOfSpecId(String flowSpecId) {
-        Integer count = jdbcTemplate.queryForObject("select count(1) form flow_ins where flow_spec_id = ?",
+        Integer count = jdbcTemplate.queryForObject("select count(1) from flow_ins where flow_spec_id = ?",
                 Integer.class, flowSpecId);
         return count == null ? 0 : count;
     }
