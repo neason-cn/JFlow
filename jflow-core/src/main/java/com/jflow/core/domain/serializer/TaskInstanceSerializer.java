@@ -33,11 +33,10 @@ public class TaskInstanceSerializer {
     }
 
     public TaskInstance deSerialize(TaskInstanceEntity entity, TaskSpec spec) {
-        TaskInstance instance = new TaskInstance();
+        TaskInstance instance = new TaskInstance(spec);
         instance.setTaskInstanceId(entity.getTaskInstanceId());
         instance.setFlowInstanceId(entity.getFlowInstanceId());
         instance.setNodeId(entity.getNodeId());
-        instance.setTaskSpec(spec);
         instance.setStatus(TaskInstanceStatusEnum.of(entity.getStatus()));
         instance.setError(entity.getError());
         instance.setTaskContext(JSONObject.parseObject(entity.getTaskContext()));

@@ -37,12 +37,12 @@ public class TaskNode extends AbstractNodeInstance {
             return;
         }
 
-        if (this.isAutoSkip()) {
+        if (this.getAutoSkip()) {
             this.onSkip(ctx, new JSONObject());
             return;
         }
 
-        if (this.isAutoFire()) {
+        if (this.getAutoFire()) {
             this.onFire(ctx, new JSONObject());
             return;
         }
@@ -73,7 +73,7 @@ public class TaskNode extends AbstractNodeInstance {
     }
 
     private boolean finishWait() {
-        if (this.isWaitAll()) {
+        if (this.getWaitAll()) {
             return this.getIncoming().stream().allMatch(edge -> edge.getStatus().isAccess());
         }
         return this.getIncoming().stream().anyMatch(edge -> edge.getStatus().isAccess());

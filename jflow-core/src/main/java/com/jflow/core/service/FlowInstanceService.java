@@ -39,4 +39,6 @@ public interface FlowInstanceService {
     void completeTask(String taskInstanceId, JSONObject args);
 
     void terminate(String flowInstanceId, JSONObject args);
+
+    FlowInstance getById(String flowInstanceId);
 }

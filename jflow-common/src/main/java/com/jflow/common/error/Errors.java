@@ -20,6 +20,7 @@ public enum Errors implements FlowError {
     UNSUPPORTED_NODE_OPERATION_ERROR("UNSUPPORTED_NODE_OPERATION_ERROR", "the node type: {} can not action {}"),
     NO_FLOW_INSTANCE_MATCHES_ERROR("NO_FLOW_INSTANCE_MATCHES_ERROR", "no flow instance matches the id: {}"),
     NO_SUCH_NODE_IN_FLOW("NO_SUCH_NODE_IN_FLOW", "no nodeId: {} matched in the flow : {}"),
+    NO_SUCH_EDGE_IN_FLOW("NO_SUCH_EDGE_IN_FLOW", "no edgeId: {} matched in the flow : {}"),
     NO_NODE_CONTAINS_TASK_ERROR("NO_NODE_CONTAINS_TASK_ERROR", "no node contains the task: {}"),
 
     // Task Instance

@@ -6,6 +6,7 @@ import com.jflow.common.enums.Type;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.activity.NodeActivity;
 import com.jflow.core.engine.enums.status.NodeInstanceStatusEnum;
+import com.jflow.core.engine.enums.type.NodeTypeEnum;
 import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.instance.EdgeInstance;
 import com.jflow.core.engine.flow.instance.TaskInstance;
@@ -32,13 +33,13 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
     private transient Set<EdgeInstance> incoming;
     @JSONField(serialize = false)
     private transient Set<EdgeInstance> outgoing;
-    private boolean waitAll;
-    private boolean autoFire;
-    private boolean autoSkip;
-    private boolean enableSkip;
-    private boolean enableRetry;
-    private boolean interruptWhenSubmitFailed;
-    private boolean interruptWhenExecuteFailed;
+    private Boolean waitAll;
+    private Boolean autoFire;
+    private Boolean autoSkip;
+    private Boolean enableSkip;
+    private Boolean enableRetry;
+    private Boolean interruptWhenSubmitFailed;
+    private Boolean interruptWhenExecuteFailed;
     private Date firstSignalTime;
     private Date fireTime;
     private Date finishTime;

@@ -1,11 +1,14 @@
 package com.jflow.core.engine.enums.type;
 
 import com.jflow.common.enums.Type;
+import com.jflow.common.exception.FlowException;
 import com.jflow.core.engine.flow.instance.node.AbstractNodeInstance;
 import com.jflow.core.engine.flow.instance.node.EndNode;
 import com.jflow.core.engine.flow.instance.node.StartNode;
 import com.jflow.core.engine.flow.instance.node.TaskNode;
 import lombok.Getter;
+
+import static com.jflow.common.error.Errors.NODE_INSTANCE_CLASS_NEW_ERROR;
 
 /**
  * @author neason
@@ -36,6 +39,14 @@ public enum NodeTypeEnum implements Type {
             }
         }
         throw new EnumConstantNotPresentException(NodeTypeEnum.class, type);
+    }
+
+    public AbstractNodeInstance newNode() {
+        try {
+            return clazz.newInstance();
+        } catch (Exception e) {
+            throw new FlowException(NODE_INSTANCE_CLASS_NEW_ERROR, clazz.getName());
+        }
     }
 
 }

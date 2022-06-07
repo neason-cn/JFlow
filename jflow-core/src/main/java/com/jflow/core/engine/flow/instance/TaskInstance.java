@@ -27,7 +27,7 @@ public class TaskInstance implements Type, TaskActivity {
     private String taskInstanceId;
     private String flowInstanceId;
     private String nodeId;
-    private TaskSpec taskSpec;
+    private final TaskSpec taskSpec;
     private TaskInstanceStatusEnum status;
     private String error;
     private JSONObject taskContext;

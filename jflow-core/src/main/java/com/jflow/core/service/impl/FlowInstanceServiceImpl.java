@@ -2,16 +2,16 @@ package com.jflow.core.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
+import com.jflow.core.domain.factory.FlowInstanceFactory;
+import com.jflow.core.domain.repository.FlowInstanceRepository;
+import com.jflow.core.domain.repository.FlowSpecRepository;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.ctx.Runtime;
 import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.engine.flow.aggregate.FlowSpec;
-import com.jflow.core.domain.factory.FlowInstanceFactory;
 import com.jflow.core.engine.flow.instance.node.AbstractNodeInstance;
 import com.jflow.core.engine.flow.instance.node.StartNode;
-import com.jflow.core.domain.repository.FlowInstanceRepository;
-import com.jflow.core.domain.repository.FlowSpecRepository;
 import com.jflow.core.service.AsyncRunner;
 import com.jflow.core.service.FlowInstanceService;
 import com.jflow.infra.spi.cache.CacheSpi;
@@ -87,7 +87,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
 
     @Override
     public void fireNode(String flowInstanceId, String nodeId, JSONObject args) {
-        FlowInstance flowInstance = flowInstanceRepository.getByIdWithoutSpec(flowInstanceId);
+        FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(getRuntime(), flowInstance);
@@ -108,7 +108,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
 
     @Override
     public void retryNode(String flowInstanceId, String nodeId, JSONObject args) {
-        FlowInstance flowInstance = flowInstanceRepository.getByIdWithoutSpec(flowInstanceId);
+        FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(getRuntime(), flowInstance);
@@ -119,7 +119,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
 
     @Override
     public void skipNode(String flowInstanceId, String nodeId, JSONObject args) {
-        FlowInstance flowInstance = flowInstanceRepository.getByIdWithoutSpec(flowInstanceId);
+        FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(getRuntime(), flowInstance);
@@ -130,7 +130,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
 
     @Override
     public void cancelNode(String flowInstanceId, String nodeId, JSONObject args) {
-        FlowInstance flowInstance = flowInstanceRepository.getByIdWithoutSpec(flowInstanceId);
+        FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(getRuntime(), flowInstance);
@@ -156,12 +156,17 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
 
     @Override
     public void terminate(String flowInstanceId, JSONObject jsonObject) {
-        FlowInstance flowInstance = flowInstanceRepository.getByIdWithoutSpec(flowInstanceId);
+        FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         asyncRunner.asyncRun(flowInstanceId, () -> {
             Context context = Context.init(getRuntime(), flowInstance);
             flowInstance.onTerminate(context);
             flowInstanceRepository.save(flowInstance);
         });
+    }
+
+    @Override
+    public FlowInstance getById(String flowInstanceId) {
+        return flowInstanceRepository.getById(flowInstanceId);
     }
 
     @Override

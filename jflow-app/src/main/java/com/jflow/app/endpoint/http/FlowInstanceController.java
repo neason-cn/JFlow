@@ -3,6 +3,7 @@ package com.jflow.app.endpoint.http;
 import com.jflow.api.client.request.commands.FlowInstanceCommand;
 import com.jflow.api.client.request.commands.FlowInstanceNodeCommand;
 import com.jflow.api.client.request.commands.StartFlowInstanceCommand;
+import com.jflow.api.client.request.queries.QueryFlowInstanceById;
 import com.jflow.api.client.response.Json;
 import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.service.FlowInstanceService;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class FlowInstanceController {
 
     private final FlowInstanceService flowInstanceService;
+
+    //------------------------ COMMAND ------------------------
 
     @PostMapping("/start.json")
     public Json<String> start(@RequestBody StartFlowInstanceCommand command) {
@@ -57,6 +60,13 @@ public class FlowInstanceController {
     public Json<Boolean> terminate(@RequestBody FlowInstanceCommand command) {
         flowInstanceService.terminate(command.getFlowInstanceId(), command.getContext());
         return Json.success(Boolean.TRUE);
+    }
+
+    //------------------------  QUERY  ------------------------
+    @PostMapping("/getById.json")
+    public Json<FlowInstance> getById(@RequestBody QueryFlowInstanceById query) {
+        FlowInstance flowInstance = flowInstanceService.getById(query.getFlowInstanceId());
+        return Json.success(flowInstance);
     }
 
 }
