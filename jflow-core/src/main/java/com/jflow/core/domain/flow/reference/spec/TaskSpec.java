@@ -1,7 +1,7 @@
 package com.jflow.core.domain.flow.reference.spec;
 
-import com.jflow.core.domain.enums.type.TaskTypeEnum;
 import com.jflow.common.enums.Type;
+import com.jflow.core.domain.enums.type.TaskTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
