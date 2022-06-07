@@ -1,14 +1,19 @@
 package com.jflow.core.domain.flow.repository.serializer;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
+import com.jflow.common.utils.JsonUtil;
 import com.jflow.core.domain.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.domain.flow.aggregate.FlowSpec;
 import com.jflow.core.domain.flow.reference.spec.ActionSpec;
+import com.jflow.core.domain.flow.reference.spec.EdgeSpec;
+import com.jflow.core.domain.flow.reference.spec.NodeSpec;
+import com.jflow.core.domain.graph.Graph;
 import com.jflow.infra.spi.script.type.JsonScript;
 import com.jflow.infra.spi.storage.entity.FlowSpecEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 /**
  * @author neason
@@ -25,17 +30,17 @@ public class FlowSpecSerializer {
         entity.setSpecDesc(domain.getDescription());
         entity.setSpecStatus(domain.getStatus().getStatus());
         entity.setEnableMultiInstance(domain.isEnableMultiInstance());
-        entity.setInitContext(domain.getInitContext().toJSONString());
+        entity.setInitContext(JsonUtil.toJsonString(domain.getInitContext()));
         entity.setOutputScript(domain.getOutputScript().getContent());
         entity.setScheduled(domain.isScheduled());
         entity.setCron(domain.getCron());
-        entity.setStartAction(JSON.toJSONString(domain.getOnStart()));
-        entity.setEndAction(JSON.toJSONString(domain.getOnEnd()));
+        entity.setStartAction(JsonUtil.toJsonString(domain.getOnStart()));
+        entity.setEndAction(JsonUtil.toJsonString(domain.getOnEnd()));
         entity.setCreateAt(domain.getCreateAt());
         entity.setReleaseAt(domain.getReleaseAt());
-        // todo
-        entity.setNodes(null);
-        entity.setEdges(null);
+
+        entity.setNodes(JsonUtil.toJsonString(domain.getNodes()));
+        entity.setEdges(JsonUtil.toJsonString(domain.getEdges()));
         return entity;
     }
 
@@ -58,9 +63,15 @@ public class FlowSpecSerializer {
         }.parseObject(entity.getEndAction()));
         spec.setCreateAt(entity.getCreateAt());
         spec.setReleaseAt(entity.getReleaseAt());
-        // todo
-        spec.setNodes(null);
-        spec.setEdges(null);
+
+        Set<NodeSpec> nodes = new TypeReference<Set<NodeSpec>>() {
+        }.parseObject(entity.getNodes());
+        Set<EdgeSpec> edges = new TypeReference<Set<EdgeSpec>>() {
+        }.parseObject(entity.getEdges());
+        Graph.connect(nodes, edges);
+
+        spec.setNodes(nodes);
+        spec.setEdges(edges);
         return spec;
     }
 

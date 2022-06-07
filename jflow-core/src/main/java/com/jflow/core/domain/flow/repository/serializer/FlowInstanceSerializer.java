@@ -1,6 +1,7 @@
 package com.jflow.core.domain.flow.repository.serializer;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.jflow.common.utils.JsonUtil;
 import com.jflow.core.domain.enums.status.FlowInstanceStatusEnum;
 import com.jflow.core.domain.flow.aggregate.FlowInstance;
 import com.jflow.core.domain.flow.aggregate.FlowSpec;
@@ -20,9 +21,9 @@ public class FlowInstanceSerializer {
         entity.setFlowSpecId(domain.getSpec().getFlowSpecId());
         entity.setTaskInstanceId(domain.getParentTaskInstanceId());
         entity.setStatus(domain.getStatus().getStatus());
-        entity.setContext(domain.getContext().toJSONString());
-        entity.setInput(domain.getInput().toJSONString());
-        entity.setOutput(domain.getOutput().toJSONString());
+        entity.setContext(JsonUtil.toJsonString(domain.getContext()));
+        entity.setInput(JsonUtil.toJsonString(domain.getInput()));
+        entity.setOutput(JsonUtil.toJsonString(domain.getOutput()));
         entity.setCreateAt(domain.getCreateAt());
         entity.setCancelAt(domain.getCancelAt());
         entity.setNodes(null);

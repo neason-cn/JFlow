@@ -19,8 +19,8 @@ public class FlowException extends RuntimeException {
 
     public FlowException(FlowError error, Object... args) {
         super(StrFormatter.format(error.errorMessage(), args));
-        this.code = StrFormatter.format(error.errorMessage(), args);
-        this.message = error.errorMessage();
+        this.code = error.errorCode();
+        this.message = StrFormatter.format(error.errorMessage(), args);
     }
 
     public FlowException(FlowError error, Throwable throwable, Object... args) {

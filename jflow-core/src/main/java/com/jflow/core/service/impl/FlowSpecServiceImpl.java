@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.jflow.common.error.Errors.SYSTEM_ERROR;
-
 /**
  * @author neason
  * @since 0.0.1
@@ -42,18 +40,16 @@ public class FlowSpecServiceImpl implements FlowSpecService {
     @Override
     public void release(String flowSpecId) {
         FlowSpec specToRelease = flowSpecRepository.getById(flowSpecId);
-
         Optional<FlowSpec> specToArchive = flowSpecRepository.getReleaseByCode(specToRelease.getFlowSpecCode());
-        if (!specToArchive.isPresent()) {
-            throw new FlowException(SYSTEM_ERROR, String.format("the code of %s has no spec version to archive.", specToRelease.getFlowSpecCode()));
-        }
 
         // save two spec in transaction
         transactionExecutor.inTransaction(() -> {
             specToRelease.release();
-            specToArchive.get().archive();
             flowSpecRepository.save(specToRelease);
-            flowSpecRepository.save(specToArchive.get());
+            if (specToArchive.isPresent()) {
+                specToArchive.get().archive();
+                flowSpecRepository.save(specToArchive.get());
+            }
         });
     }
 

@@ -29,4 +29,5 @@ public class ActionSpec implements Type, Serializable {
     public String getType() {
         return this.actionType.getType();
     }
+
 }

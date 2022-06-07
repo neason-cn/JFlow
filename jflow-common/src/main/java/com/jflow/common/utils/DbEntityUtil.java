@@ -1,5 +1,7 @@
 package com.jflow.common.utils;
 
+import com.jflow.common.annotation.Column;
+import com.jflow.common.annotation.Id;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.lang.reflect.Field;
@@ -38,21 +40,47 @@ public class DbEntityUtil {
     }
 
     /**
-     * Get all field value order by declared order.
-     *
-     * @param entity entity
-     * @return field values
+     * Generate values for insert.
      */
-    public static Object[] getAllFields(Object entity) {
+    public static Object[] insertValues(Object entity) {
+        return getValues(entity, true);
+    }
+
+    /**
+     * Generate values for update.
+     */
+    public static Object[] updateValues(Object entity) {
+        return getValues(entity, false);
+    }
+
+    private static Object[] getValues(Object entity, boolean insert) {
         Field[] declaredFields = entity.getClass().getDeclaredFields();
         Object[] values = new Object[declaredFields.length];
         int i = 0;
+        Object idValue = null;
         for (Field field : declaredFields) {
-            values[i] = safeGetValue(field, entity);
-            i++;
+            Id id = field.getAnnotation(Id.class);
+            if (null != id) {
+                Object value = safeGetValue(field, entity);
+                idValue = value;
+                if (insert) {
+                    values[i] = value;
+                    i++;
+                }
+                continue;
+            }
+            Column column = field.getAnnotation(Column.class);
+            if (null != column) {
+                values[i] = safeGetValue(field, entity);
+                i++;
+            }
+        }
+        if (!insert) {
+            values[i] = idValue;
         }
         return values;
     }
+
 
     /**
      * Get first element of the list.

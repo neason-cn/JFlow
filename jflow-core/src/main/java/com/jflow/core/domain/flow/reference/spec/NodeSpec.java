@@ -1,5 +1,6 @@
 package com.jflow.core.domain.flow.reference.spec;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jflow.core.domain.graph.Node;
 import com.jflow.infra.spi.script.type.BooleanScript;
 import lombok.Data;
@@ -90,12 +91,14 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
      * Transient for avoid circular reference when serialize this.
      * The incoming edges.
      */
+    @JSONField(serialize = false)
     private transient Set<EdgeSpec> incoming;
 
     /**
      * Transient for avoid circular reference when serialize this.
      * The outgoing edges.
      */
+    @JSONField(serialize = false)
     private transient Set<EdgeSpec> outgoing;
 
     @Override

@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 public enum Errors implements FlowError {
 
-    SYSTEM_ERROR("SYSTEM_ERROR", "system error, {}"),
+    SYSTEM_ERROR("SYSTEM_ERROR", "{}"),
 
     // Flow Spec
     NO_FLOW_SPEC_MATCHES_ERROR("NO_FLOW_SPEC_MATCHES_ERROR", "no flow spec of the id: {}"),
@@ -23,7 +23,10 @@ public enum Errors implements FlowError {
     NO_NODE_CONTAINS_TASK_ERROR("NO_NODE_CONTAINS_TASK_ERROR", "no node contains the task: {}"),
 
     // Task Instance
-    NO_TASK_INSTANCE_MATCHES_ERROR("NO_TASK_INSTANCE_MATCHES_ERROR", "no task instance of the id: {}");
+    NO_TASK_INSTANCE_MATCHES_ERROR("NO_TASK_INSTANCE_MATCHES_ERROR", "no task instance of the id: {}"),
+
+    // DB
+    GENERATE_SQL_ERROR("GENERATE_SQL_ERROR", "auto generate sql error: {}");
 
     @Getter
     private final String code;

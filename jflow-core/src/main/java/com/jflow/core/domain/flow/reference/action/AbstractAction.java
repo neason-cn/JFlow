@@ -1,6 +1,5 @@
 package com.jflow.core.domain.flow.reference.action;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
 import com.jflow.common.utils.JsonUtil;
@@ -28,7 +27,7 @@ public abstract class AbstractAction implements ActionActivity, Type {
 
     protected ActionResponse resolveResult(Object result) {
         try {
-            return JSONObject.parseObject(JSON.toJSONString(result), ActionResponse.class);
+            return JSONObject.parseObject(JsonUtil.toJsonString(result), ActionResponse.class);
         } catch (Exception e) {
             return ActionResponse.error("dubbo response parse error: ".concat(e.getMessage()));
         }

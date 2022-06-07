@@ -1,8 +1,8 @@
 package com.jflow.core.domain.flow.repository.serializer;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
+import com.jflow.common.utils.JsonUtil;
 import com.jflow.core.domain.enums.status.TaskInstanceStatusEnum;
 import com.jflow.core.domain.flow.reference.action.ActionRecord;
 import com.jflow.core.domain.flow.reference.instance.TaskInstance;
@@ -26,9 +26,9 @@ public class TaskInstanceSerializer {
         entity.setNodeId(domain.getNodeId());
         entity.setStatus(domain.getStatus().getStatus());
         entity.setType(domain.getType());
-        entity.setTaskContext(domain.getTaskContext().toJSONString());
+        entity.setTaskContext(JsonUtil.toJsonString(domain.getTaskContext()));
         entity.setError(domain.getError());
-        entity.setRecords(JSON.toJSONString(domain.getRecords()));
+        entity.setRecords(JsonUtil.toJsonString(domain.getRecords()));
         return entity;
     }
 

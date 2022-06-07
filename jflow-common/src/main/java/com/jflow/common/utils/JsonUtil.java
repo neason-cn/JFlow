@@ -16,4 +16,11 @@ public class JsonUtil {
         return JSONObject.parseObject(JSON.toJSONString(o));
     }
 
+    public static String toJsonString(Object o) {
+        if (null == o) {
+            return null;
+        }
+        return JSON.toJSONString(o);
+    }
+
 }
