@@ -4,7 +4,9 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
+import com.jflow.core.engine.enums.status.FlowInstanceStatusEnum;
 import com.jflow.core.engine.flow.instance.EdgeInstance;
+import com.jflow.core.engine.flow.spec.ActionSpec;
 
 import static com.jflow.common.error.Errors.UNSUPPORTED_NODE_OPERATION_ERROR;
 
@@ -17,7 +19,9 @@ public class EndNode extends AbstractNodeInstance {
 
     @Override
     public void onSignal(Context ctx, EdgeInstance trigger) {
-
+        ActionSpec endActionSpec = ctx.getFlowInstance().getSpec().getOnEnd();
+        runAction(ctx, endActionSpec);
+        ctx.getFlowInstance().setStatus(FlowInstanceStatusEnum.SUCCESS);
     }
 
     @Override

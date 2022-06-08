@@ -15,6 +15,7 @@ import com.jflow.core.engine.flow.spec.ActionSpec;
 import com.jflow.core.engine.flow.spec.TaskSpec;
 import com.jflow.core.engine.service.TaskInstanceService;
 import lombok.Data;
+import org.apache.commons.collections4.MapUtils;
 
 import java.util.Map;
 
@@ -68,7 +69,12 @@ public class TaskInstance implements Type, TaskActivity {
     }
 
     private void mergeContext(JSONObject addition) {
-        this.taskContext.putAll(addition);
+        if (MapUtils.isEmpty(this.taskContext)) {
+            this.taskContext = new JSONObject();
+        }
+        if (MapUtils.isNotEmpty(addition)) {
+            this.taskContext.putAll(addition);
+        }
     }
 
 

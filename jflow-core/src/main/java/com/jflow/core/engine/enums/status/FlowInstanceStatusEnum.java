@@ -9,7 +9,13 @@ import lombok.Getter;
  */
 public enum FlowInstanceStatusEnum implements Status {
 
-    INIT("INIT");
+    INIT("INIT"),
+
+    RUNNING("RUNNING"),
+
+    SUCCESS("SUCCESS"),
+
+    TERMINATED("TERMINATED");
 
     @Getter
     private final String status;
