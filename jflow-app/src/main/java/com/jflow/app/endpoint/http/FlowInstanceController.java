@@ -5,6 +5,8 @@ import com.jflow.api.client.request.commands.FlowInstanceNodeCommand;
 import com.jflow.api.client.request.commands.StartFlowInstanceCommand;
 import com.jflow.api.client.request.queries.QueryFlowInstanceById;
 import com.jflow.api.client.response.Json;
+import com.jflow.api.client.vo.instance.FlowInstanceVO;
+import com.jflow.core.domain.convertor.FlowInstanceConvertor;
 import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.service.FlowInstanceService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FlowInstanceController {
 
     private final FlowInstanceService flowInstanceService;
+    private final FlowInstanceConvertor flowInstanceConvertor;
 
     //------------------------ COMMAND ------------------------
 
@@ -64,9 +67,9 @@ public class FlowInstanceController {
 
     //------------------------  QUERY  ------------------------
     @PostMapping("/getById.json")
-    public Json<FlowInstance> getById(@RequestBody QueryFlowInstanceById query) {
+    public Json<FlowInstanceVO> getById(@RequestBody QueryFlowInstanceById query) {
         FlowInstance flowInstance = flowInstanceService.getById(query.getFlowInstanceId());
-        return Json.success(flowInstance);
+        return Json.success(flowInstanceConvertor.convert(flowInstance));
     }
 
 }

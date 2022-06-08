@@ -8,4 +8,9 @@ import lombok.Data;
  */
 @Data
 public class EdgeInstanceVO {
+    private String edgeId;
+    private String status;
+    private String error;
+    private String sourceNodeId;
+    private String targetNodeId;
 }

@@ -1,5 +1,6 @@
 package com.jflow.api.client.vo.instance;
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
 
 /**
@@ -8,4 +9,11 @@ import lombok.Data;
  */
 @Data
 public class TaskInstanceVO {
+    private String taskInstanceId;
+    private String flowInstanceId;
+    private String nodeId;
+    private String status;
+    private String error;
+    private JSONObject taskContext;
+    private JSONObject records;
 }
