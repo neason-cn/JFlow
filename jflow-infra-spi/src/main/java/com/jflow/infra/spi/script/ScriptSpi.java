@@ -40,4 +40,9 @@ public interface ScriptSpi {
      * @return the result wrapper
      */
     <T> ScriptResult<T> execute(String script, JSONObject context, TypeReference<T> type);
+
+    /**
+     * Execute a script.
+     */
+    ScriptResult<Object> execute(String script, JSONObject context);
 }

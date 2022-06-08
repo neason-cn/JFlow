@@ -32,7 +32,7 @@ public class StartNode extends AbstractNodeInstance {
     public void onFire(Context ctx, JSONObject args) {
         ActionSpec startActionSpec = ctx.getFlowInstance().getSpec().getOnStart();
         TaskInstanceService service = ctx.getRuntime().getTaskInstanceService();
-        AbstractAction action = service.initAction(startActionSpec, new RuntimeContext(args, new JSONObject()));
+        AbstractAction action = service.initAction(startActionSpec, new RuntimeContext(ctx.getFlowInstance().getContext(), args));
         action.onExecute(ctx);
         fireOutgoingEdges(ctx);
     }

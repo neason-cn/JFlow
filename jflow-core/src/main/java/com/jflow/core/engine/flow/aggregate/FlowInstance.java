@@ -85,7 +85,9 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance>, 
         if (MapUtils.isEmpty(this.context)) {
             this.context = new JSONObject();
         }
-        this.context.putAll(addition);
+        if (MapUtils.isNotEmpty(addition)) {
+            this.context.putAll(addition);
+        }
     }
 
     public Optional<AbstractNodeInstance> findNodeByTaskId(String taskInstanceId) {

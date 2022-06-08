@@ -32,7 +32,8 @@ public class FlowInstanceFactory {
         instance.setParentTaskInstanceId(taskInstanceId);
         instance.setStatus(FlowInstanceStatusEnum.INIT);
         instance.setInput(input);
-        instance.setContext(input);
+        instance.mergeContext(spec.getInitContext());
+        instance.mergeContext(input);
         instance.setOutput(new JSONObject());
         instance.setCreateAt(new Date());
 

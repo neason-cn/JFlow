@@ -2,9 +2,9 @@ package com.jflow.core.engine.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.TypeReference;
 import com.jflow.core.engine.ctx.RuntimeContext;
 import com.jflow.core.engine.service.ScriptService;
+import com.jflow.infra.spi.script.ScriptResult;
 import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -60,8 +60,11 @@ public class ScriptServiceImpl implements ScriptService {
 
         String script = removeScriptPrefix(template);
 
-        return scriptSpi.execute(script, buildContextForScriptSpi(runtimeContext), new TypeReference<Object>() {
-        });
+        ScriptResult<Object> scriptResult = scriptSpi.execute(script, buildContextForScriptSpi(runtimeContext));
+        if (null == scriptResult || scriptResult.hasError()) {
+            return null;
+        }
+        return scriptResult.getResult();
     }
 
     /**

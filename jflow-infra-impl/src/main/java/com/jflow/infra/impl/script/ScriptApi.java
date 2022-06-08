@@ -1,8 +1,8 @@
 package com.jflow.infra.impl.script;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
-import com.jflow.common.utils.JsonUtil;
 import com.jflow.infra.spi.script.ScriptResult;
 import com.jflow.infra.spi.script.ScriptSpi;
 import com.jflow.infra.spi.script.type.Script;
@@ -67,6 +67,18 @@ public class ScriptApi implements ScriptSpi {
 
     @Override
     public <T> ScriptResult<T> execute(String script, JSONObject context, TypeReference<T> type) {
+        ScriptResult<Object> execute = execute(script, context);
+        DefaultScriptResult<T> copy = new DefaultScriptResult<>();
+        if (null != execute && null != execute.getResult()) {
+            copy.setResult(type.parseObject(JSON.toJSONString(execute.getResult())));
+            copy.setError(execute.getError());
+            return copy;
+        }
+        return DefaultScriptResult.error("null");
+    }
+
+    @Override
+    public ScriptResult<Object> execute(String script, JSONObject context) {
         if (null == script) {
             return DefaultScriptResult.error("the script is null");
         }
@@ -76,13 +88,12 @@ public class ScriptApi implements ScriptSpi {
             return DefaultScriptResult.error(message);
         }
 
-        DefaultScriptResult<T> result = new DefaultScriptResult<>();
+        DefaultScriptResult<Object> result = new DefaultScriptResult<>();
         List<String> errors = new ArrayList<>();
         try {
             Object execute = runner.execute(script, convert(context), errors, true, false);
-            if (CollectionUtils.isNotEmpty(errors)) {
-                T data = type.to(JsonUtil.toJson(execute));
-                result.setResult(data);
+            if (CollectionUtils.isEmpty(errors)) {
+                result.setResult(execute);
             } else {
                 result.setError(String.join(ERROR_JOIN, errors));
             }
