@@ -55,7 +55,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, StartNode.NODE_ID);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(getRuntime(), flowInstance);
-            nodeInstance.onFire(context, args);
+            nodeInstance.onSignal(context, null);
             flowInstanceRepository.save(flowInstance);
         });
         return flowInstance;

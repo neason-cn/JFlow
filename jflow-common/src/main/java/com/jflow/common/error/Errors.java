@@ -17,7 +17,7 @@ public enum Errors implements FlowError {
     UNSUPPORTED_MULTI_INSTANCE_ERROR("UNSUPPORTED_MULTI_INSTANCE_ERROR", "can not create multi instance of the spec code: {}"),
 
     // Flow Instance
-    UNSUPPORTED_NODE_OPERATION_ERROR("UNSUPPORTED_NODE_OPERATION_ERROR", "the node type: {} can not action {}"),
+    UNSUPPORTED_NODE_OPERATION_ERROR("UNSUPPORTED_NODE_OPERATION_ERROR", "the node can not action {}"),
     NO_FLOW_INSTANCE_MATCHES_ERROR("NO_FLOW_INSTANCE_MATCHES_ERROR", "no flow instance matches the id: {}"),
     NO_SUCH_NODE_IN_FLOW("NO_SUCH_NODE_IN_FLOW", "no nodeId: {} matched in the flow : {}"),
     NO_SUCH_EDGE_IN_FLOW("NO_SUCH_EDGE_IN_FLOW", "no edgeId: {} matched in the flow : {}"),

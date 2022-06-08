@@ -1,8 +1,11 @@
 package com.jflow.core.engine.flow.instance.node;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
+import com.jflow.common.exception.FlowException;
 import com.jflow.core.engine.activity.NodeActivity;
+import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.ctx.RuntimeContext;
 import com.jflow.core.engine.enums.status.NodeInstanceStatusEnum;
@@ -17,6 +20,8 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.Set;
+
+import static com.jflow.common.error.Errors.UNSUPPORTED_NODE_OPERATION_ERROR;
 
 /**
  * @author neason
@@ -70,9 +75,40 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
             return;
         }
         TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
+        JSONObject taskContext = this.latestTask == null ? new JSONObject() : this.latestTask.getTaskContext();;
         AbstractAction action = instanceService.initAction(spec,
-                new RuntimeContext(ctx.getFlowInstance().getContext(), this.getLatestTask().getTaskContext()));
+                new RuntimeContext(ctx.getFlowInstance().getContext(), taskContext));
         action.onExecute(ctx);
+    }
+
+    @Override
+    public void onSignal(Context ctx, EdgeInstance trigger) {
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, "onSignal");
+    }
+
+    @Override
+    public void onFire(Context ctx, JSONObject args) {
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, "onFire");
+    }
+
+    @Override
+    public void onSkip(Context ctx, JSONObject args) {
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, "onSkip");
+    }
+
+    @Override
+    public void onRetry(Context ctx, JSONObject args) {
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, "onRetry");
+    }
+
+    @Override
+    public void onCancel(Context ctx, JSONObject args) {
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, "onCancel");
+    }
+
+    @Override
+    public void onCallback(Context ctx, Callback callback) {
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, "onCallback");
     }
 
     @Override
