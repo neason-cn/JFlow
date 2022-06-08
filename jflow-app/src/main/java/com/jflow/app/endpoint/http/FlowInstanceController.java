@@ -66,6 +66,7 @@ public class FlowInstanceController {
     }
 
     //------------------------  QUERY  ------------------------
+
     @PostMapping("/getById.json")
     public Json<FlowInstanceVO> getById(@RequestBody QueryFlowInstanceById query) {
         FlowInstance flowInstance = flowInstanceService.getById(query.getFlowInstanceId());
