@@ -1,7 +1,7 @@
 package com.jflow.core.engine.ctx;
 
-import com.jflow.core.service.FlowInstanceService;
-import com.jflow.core.service.TaskInstanceService;
+import com.jflow.core.engine.service.FlowInstanceService;
+import com.jflow.core.engine.service.TaskInstanceService;
 import com.jflow.infra.spi.cache.CacheSpi;
 import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.Builder;

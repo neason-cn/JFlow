@@ -1,8 +1,10 @@
 package com.jflow.core.domain.factory;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.jflow.core.engine.ctx.RuntimeContext;
 import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.spec.ActionSpec;
+import com.jflow.core.engine.service.impl.ScriptServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,12 +12,14 @@ import org.springframework.stereotype.Component;
  * @since 0.0.1
  */
 @Component
+@RequiredArgsConstructor
 public class ActionFactory {
 
-    public AbstractAction create(ActionSpec spec, JSONObject context) {
-        // todo place holder
+    private final ScriptServiceImpl parser;
+
+    public AbstractAction create(ActionSpec spec, RuntimeContext context) {
         Class<? extends AbstractAction> clazz = spec.getActionType().getClazz();
-        AbstractAction action = spec.getParams().to(clazz);
+        AbstractAction action = parser.replace(spec.getParams(), context).to(clazz);
         action.setActionSpec(spec);
         return action;
     }

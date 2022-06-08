@@ -79,7 +79,8 @@ public class FlowSpecConvertor {
         if (StringUtils.isNoneBlank(vo.getStatus())) {
             flowSpec.setStatus(FlowSpecStatusEnum.of(vo.getStatus()));
         }
-        flowSpec.setFlowSpecVersion(vo.getFlowSpecVersion());
+        flowSpec.setFlowSpecCode(vo.getFlowSpecCode());
+        flowSpec.setEnableMultiInstance(vo.isEnableMultiInstance());
         flowSpec.setFlowSpecCode(vo.getFlowSpecCode());
         flowSpec.setDescription(vo.getDescription());
         flowSpec.setInitContext(vo.getInitContext());

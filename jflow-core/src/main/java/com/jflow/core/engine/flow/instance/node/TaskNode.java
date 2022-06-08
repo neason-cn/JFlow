@@ -6,7 +6,7 @@ import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.enums.status.NodeInstanceStatusEnum;
 import com.jflow.core.engine.flow.instance.EdgeInstance;
 import com.jflow.core.engine.flow.instance.TaskInstance;
-import com.jflow.core.service.TaskInstanceService;
+import com.jflow.core.engine.service.TaskInstanceService;
 import com.jflow.infra.spi.script.ScriptResult;
 import com.jflow.infra.spi.script.ScriptSpi;
 import com.jflow.infra.spi.script.type.BooleanScript;

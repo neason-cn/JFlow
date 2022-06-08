@@ -30,7 +30,8 @@ public enum Errors implements FlowError {
     GENERATE_SQL_ERROR("GENERATE_SQL_ERROR", "auto generate sql error: {}"),
 
     // Other
-    NODE_INSTANCE_CLASS_NEW_ERROR("NODE_INSTANCE_CLASS_NEW_ERROR", "class {} new instance error}");
+    TASK_INSTANCE_CLASS_NEW_ERROR("TASK_INSTANCE_CLASS_NEW_ERROR", "task class {} new instance error}"),
+    NODE_INSTANCE_CLASS_NEW_ERROR("NODE_INSTANCE_CLASS_NEW_ERROR", "node class {} new instance error}");
 
     @Getter
     private final String code;

@@ -8,7 +8,7 @@ import com.jflow.api.client.response.Json;
 import com.jflow.api.client.vo.instance.FlowInstanceVO;
 import com.jflow.core.domain.convertor.FlowInstanceConvertor;
 import com.jflow.core.engine.flow.aggregate.FlowInstance;
-import com.jflow.core.service.FlowInstanceService;
+import com.jflow.core.engine.service.FlowInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

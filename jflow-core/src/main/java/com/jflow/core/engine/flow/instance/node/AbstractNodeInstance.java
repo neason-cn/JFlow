@@ -3,17 +3,17 @@ package com.jflow.core.engine.flow.instance.node;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
-import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.activity.NodeActivity;
+import com.jflow.core.engine.ctx.Context;
+import com.jflow.core.engine.ctx.RuntimeContext;
 import com.jflow.core.engine.enums.status.NodeInstanceStatusEnum;
-import com.jflow.core.engine.enums.type.NodeTypeEnum;
 import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.instance.EdgeInstance;
 import com.jflow.core.engine.flow.instance.TaskInstance;
 import com.jflow.core.engine.flow.spec.ActionSpec;
 import com.jflow.core.engine.flow.spec.NodeSpec;
 import com.jflow.core.engine.graph.Node;
-import com.jflow.core.service.TaskInstanceService;
+import com.jflow.core.engine.service.TaskInstanceService;
 import lombok.Data;
 
 import java.util.Date;
@@ -68,7 +68,7 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
 
     protected void runAction(Context ctx, ActionSpec spec) {
         TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
-        AbstractAction action = instanceService.initAction(spec, ctx.getFlowInstance().getContext(), new JSONObject());
+        AbstractAction action = instanceService.initAction(spec, new RuntimeContext(ctx.getFlowInstance().getContext(), new JSONObject()));
         action.onExecute(ctx);
     }
 

@@ -1,4 +1,4 @@
-package com.jflow.core.service.impl;
+package com.jflow.core.engine.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
@@ -12,8 +12,9 @@ import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.engine.flow.aggregate.FlowSpec;
 import com.jflow.core.engine.flow.instance.node.AbstractNodeInstance;
 import com.jflow.core.engine.flow.instance.node.StartNode;
-import com.jflow.core.service.AsyncRunner;
-import com.jflow.core.service.FlowInstanceService;
+import com.jflow.core.engine.service.AsyncRunner;
+import com.jflow.core.engine.service.FlowInstanceService;
+import com.jflow.core.engine.service.TaskInstanceService;
 import com.jflow.infra.spi.cache.CacheSpi;
 import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.RequiredArgsConstructor;
@@ -34,17 +35,30 @@ import static com.jflow.common.error.Errors.*;
 @RequiredArgsConstructor
 public class FlowInstanceServiceImpl implements FlowInstanceService, ApplicationContextAware {
 
-    private final FlowSpecRepository flowSpecRepository;
-    private final FlowInstanceRepository flowInstanceRepository;
-    private final FlowInstanceFactory flowInstanceFactory;
-    private final AsyncRunner asyncRunner;
-    private final ScriptSpi scriptSpi;
     private final CacheSpi cacheSpi;
+    private final ScriptSpi scriptSpi;
+    private final AsyncRunner asyncRunner;
+    private final FlowSpecRepository flowSpecRepository;
+    private final FlowInstanceFactory flowInstanceFactory;
+    private final TaskInstanceService taskInstanceService;
+    private final FlowInstanceRepository flowInstanceRepository;
     private ApplicationContext applicationContext;
 
     @Override
     public FlowInstance start(String flowSpecCode, JSONObject args) {
         return start(flowSpecCode, args, null);
+    }
+
+    @Override
+    public FlowInstance start(String flowSpecCode, JSONObject args, String taskInstanceId) {
+        FlowInstance flowInstance = createAndInit(flowSpecCode, args, taskInstanceId);
+        AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, StartNode.NODE_ID);
+        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
+            Context context = Context.init(getRuntime(), flowInstance);
+            nodeInstance.onFire(context, args);
+            flowInstanceRepository.save(flowInstance);
+        });
+        return flowInstance;
     }
 
     private FlowInstance createAndInit(String flowSpecCode, JSONObject args, String taskInstanceId) {
@@ -62,18 +76,6 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
 
         FlowInstance flowInstance = flowInstanceFactory.create(spec, args, taskInstanceId);
         flowInstanceRepository.save(flowInstance);
-        return flowInstance;
-    }
-
-    @Override
-    public FlowInstance start(String flowSpecCode, JSONObject args, String taskInstanceId) {
-        FlowInstance flowInstance = createAndInit(flowSpecCode, args, taskInstanceId);
-        AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, StartNode.NODE_ID);
-        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
-            Context context = Context.init(getRuntime(), flowInstance);
-            nodeInstance.onFire(context, args);
-            flowInstanceRepository.save(flowInstance);
-        });
         return flowInstance;
     }
 
@@ -101,6 +103,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
                 .cacheSpi(cacheSpi)
                 .scriptSpi(scriptSpi)
                 .flowInstanceService(this)
+                .taskInstanceService(taskInstanceService)
                 .applicationContext(applicationContext)
                 .build();
     }

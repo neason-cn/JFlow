@@ -4,8 +4,11 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
+import com.jflow.core.engine.ctx.RuntimeContext;
+import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.instance.EdgeInstance;
 import com.jflow.core.engine.flow.spec.ActionSpec;
+import com.jflow.core.engine.service.TaskInstanceService;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,14 +25,16 @@ public class StartNode extends AbstractNodeInstance {
 
     @Override
     public void onSignal(Context ctx, EdgeInstance trigger) {
-        ActionSpec startActionSpec = ctx.getFlowInstance().getSpec().getOnStart();
-//        AbstractAction action = actionFactory.create(startActionSpec, ctx.getFlowInstance().getContext());
-//        action.onExecute(ctx);
+        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, NODE_ID, "onSignal");
     }
 
     @Override
     public void onFire(Context ctx, JSONObject args) {
-        throw new FlowException(UNSUPPORTED_NODE_OPERATION_ERROR, NODE_ID, "onFire");
+        ActionSpec startActionSpec = ctx.getFlowInstance().getSpec().getOnStart();
+        TaskInstanceService service = ctx.getRuntime().getTaskInstanceService();
+        AbstractAction action = service.initAction(startActionSpec, new RuntimeContext(args, new JSONObject()));
+        action.onExecute(ctx);
+        fireOutgoingEdges(ctx);
     }
 
     @Override

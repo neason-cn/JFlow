@@ -2,17 +2,18 @@ package com.jflow.core.engine.flow.instance;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
+import com.jflow.core.engine.activity.TaskActivity;
 import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
-import com.jflow.core.engine.activity.TaskActivity;
+import com.jflow.core.engine.ctx.RuntimeContext;
 import com.jflow.core.engine.enums.status.TaskInstanceStatusEnum;
 import com.jflow.core.engine.enums.type.TaskTypeEnum;
 import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.action.ActionRecord;
 import com.jflow.core.engine.flow.spec.ActionSpec;
 import com.jflow.core.engine.flow.spec.TaskSpec;
-import com.jflow.core.service.TaskInstanceService;
+import com.jflow.core.engine.service.TaskInstanceService;
 import lombok.Data;
 
 import java.util.Map;
@@ -57,7 +58,7 @@ public class TaskInstance implements Type, TaskActivity {
     private AbstractAction createAction(ActionSpec spec, Context ctx) {
         TaskInstanceService taskInstanceService = ctx.getRuntime().getTaskInstanceService();
         JSONObject flowContext = ctx.getFlowInstance().getContext();
-        return taskInstanceService.initAction(spec, flowContext, taskContext);
+        return taskInstanceService.initAction(spec, new RuntimeContext(flowContext, taskContext));
     }
 
     private void resolveResult(TaskInstanceStatusEnum status, String error, JSONObject result) {

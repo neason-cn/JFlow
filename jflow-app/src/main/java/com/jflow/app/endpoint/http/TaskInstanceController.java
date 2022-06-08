@@ -2,7 +2,7 @@ package com.jflow.app.endpoint.http;
 
 import com.jflow.api.client.request.commands.UpdateTaskCommand;
 import com.jflow.api.client.response.Json;
-import com.jflow.core.service.FlowInstanceService;
+import com.jflow.core.engine.service.FlowInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

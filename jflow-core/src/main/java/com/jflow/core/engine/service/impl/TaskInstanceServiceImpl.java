@@ -1,13 +1,15 @@
-package com.jflow.core.service.impl;
+package com.jflow.core.engine.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.jflow.core.domain.factory.ActionFactory;
 import com.jflow.core.domain.factory.TaskInstanceFactory;
 import com.jflow.core.domain.repository.TaskInstanceRepository;
+import com.jflow.core.engine.ctx.RuntimeContext;
 import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.instance.TaskInstance;
 import com.jflow.core.engine.flow.spec.ActionSpec;
 import com.jflow.core.engine.flow.spec.TaskSpec;
-import com.jflow.core.service.TaskInstanceService;
+import com.jflow.core.engine.service.TaskInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TaskInstanceServiceImpl implements TaskInstanceService {
 
+    private final ActionFactory actionFactory;
     private final TaskInstanceFactory taskInstanceFactory;
     private final TaskInstanceRepository taskInstanceRepository;
 
@@ -31,8 +34,8 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     }
 
     @Override
-    public AbstractAction initAction(ActionSpec spec, JSONObject flowContext, JSONObject taskContext) {
-        return null;
+    public AbstractAction initAction(ActionSpec spec, RuntimeContext context) {
+        return actionFactory.create(spec, context);
     }
 
     @Override
