@@ -17,11 +17,13 @@ public class JsonUtil {
         return JSONObject.parseObject(JSON.toJSONString(o));
     }
 
-    public static String toJsonString(Object o, JSONWriter.Feature... features) {
+    public static String toJsonString(Object o) {
         if (null == o) {
             return null;
         }
-        return JSON.toJSONString(o, features);
+        return JSON.toJSONString(o,
+                JSONWriter.Feature.WriteEnumsUsingName,
+                JSONWriter.Feature.IgnoreNoneSerializable);
     }
 
 }

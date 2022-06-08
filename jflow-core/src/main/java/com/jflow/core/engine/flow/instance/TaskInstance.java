@@ -44,28 +44,31 @@ public class TaskInstance implements Type, TaskActivity {
     @Override
     public void onFire(Context ctx) {
         if (taskSpec.getTaskType() == TaskTypeEnum.SYNC) {
-            AbstractAction action = createAction(taskSpec.getOnExecute(), ctx);
-            ActionResponse actionResponse = action.onExecute(ctx);
-            resolveResult(actionResponse.getStatus(), actionResponse.getError(), actionResponse.getResult());
-            records.put("onFire",new ActionRecord(action.getActionSpec().getActionType(), action.toJson(), actionResponse));
+            ActionResponse onExecute = runAction(taskSpec.getOnExecute(), ctx, "onExecute");
+            resolveResult(onExecute);
+            ctx.getRuntime().getTaskInstanceService().save(this);
             return;
         }
-        AbstractAction action = createAction(taskSpec.getOnSubmit(), ctx);
-        ActionResponse actionResponse = action.onExecute(ctx);
-        resolveResult(actionResponse.getStatus(), actionResponse.getError(), actionResponse.getResult());
-        records.put("onFire",new ActionRecord(action.getActionSpec().getActionType(), action.toJson(), actionResponse));
+        ActionResponse onSubmit = runAction(taskSpec.getOnSubmit(), ctx, "onSubmit");
+        resolveResult(onSubmit);
+        ctx.getRuntime().getTaskInstanceService().save(this);
     }
 
-    private AbstractAction createAction(ActionSpec spec, Context ctx) {
+    private ActionResponse runAction(ActionSpec spec, Context ctx, String key) {
         TaskInstanceService taskInstanceService = ctx.getRuntime().getTaskInstanceService();
         JSONObject flowContext = ctx.getFlowInstance().getContext();
-        return taskInstanceService.initAction(spec, new RuntimeContext(flowContext, taskContext));
+        // init
+        AbstractAction action = taskInstanceService.initAction(spec, new RuntimeContext(flowContext, taskContext));
+        // do
+        ActionResponse actionResponse = action.onExecute(ctx);
+        records.put(key, new ActionRecord(action.getActionSpec().getActionType(), action.toJson(), actionResponse));
+        return actionResponse;
     }
 
-    private void resolveResult(TaskInstanceStatusEnum status, String error, JSONObject result) {
-        this.status = status;
-        this.error = error;
-        mergeContext(result);
+    private void resolveResult(ActionResponse response) {
+        this.status = response.getStatus();
+        this.error = response.getError();
+        mergeContext(response.getResult());
     }
 
     private void mergeContext(JSONObject addition) {
@@ -80,13 +83,16 @@ public class TaskInstance implements Type, TaskActivity {
 
     @Override
     public void onCancel(Context ctx) {
-        AbstractAction action = createAction(taskSpec.getOnCancel(), ctx);
-        ActionResponse actionResponse = action.onExecute(ctx);
-        records.put("onCancel",new ActionRecord(action.getActionSpec().getActionType(), action.toJson(), actionResponse));
+        runAction(taskSpec.getOnCancel(), ctx, "onCancel");
+        ctx.getRuntime().getTaskInstanceService().save(this);
     }
 
     @Override
     public void onCallback(Context ctx, Callback callback) {
-        resolveResult(callback.getStatus(), callback.getError(), callback.getResult());
+        ActionResponse callbackResponse = new ActionResponse();
+        callbackResponse.setStatus(callback.getStatus());
+        callbackResponse.setError(callback.getError());
+        callbackResponse.setResult(callback.getResult());
+        resolveResult(callbackResponse);
     }
 }
