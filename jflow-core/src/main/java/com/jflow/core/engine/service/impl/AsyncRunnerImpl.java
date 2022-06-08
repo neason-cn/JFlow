@@ -5,7 +5,7 @@ import com.jflow.infra.spi.cache.CacheSpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -17,13 +17,13 @@ import java.util.concurrent.Executors;
 public class AsyncRunnerImpl implements AsyncRunner {
 
     private final CacheSpi cacheSpi;
-    private final Executor executor = Executors.newFixedThreadPool(10);
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     @Override
     public void asyncRun(String key, Runnable runnable) {
         try {
             cacheSpi.tryLock(key, 3000);
-            executor.execute(runnable);
+            executor.submit(runnable);
         } finally {
             cacheSpi.unLock(key);
         }
