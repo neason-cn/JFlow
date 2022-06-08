@@ -8,6 +8,8 @@ import lombok.Getter;
  */
 public enum TaskInstanceStatusEnum {
 
+    INIT("INIT"),
+
     RUNNING("RUNNING"),
 
     SUCCESS("SUCCESS"),

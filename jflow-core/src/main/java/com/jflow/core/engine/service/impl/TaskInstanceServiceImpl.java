@@ -28,7 +28,7 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
 
     @Override
     public TaskInstance createAndSaveTask(TaskSpec spec, String flowInstanceId, String nodeId, JSONObject context) {
-        TaskInstance instance = taskInstanceFactory.create(spec, flowInstanceId, nodeId);
+        TaskInstance instance = taskInstanceFactory.create(spec, flowInstanceId, nodeId, context);
         save(instance);
         return instance;
     }

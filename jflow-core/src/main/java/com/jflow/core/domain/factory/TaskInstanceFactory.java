@@ -1,9 +1,14 @@
 package com.jflow.core.domain.factory;
 
+import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson2.JSONObject;
+import com.jflow.core.engine.enums.status.TaskInstanceStatusEnum;
 import com.jflow.core.engine.flow.instance.TaskInstance;
 import com.jflow.core.engine.flow.spec.TaskSpec;
 import lombok.Data;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
 
 /**
  * @author neason
@@ -13,8 +18,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskInstanceFactory {
 
-    public TaskInstance create(TaskSpec spec, String flowInstanceId, String nodeId) {
-        return null;
+    public TaskInstance create(TaskSpec spec, String flowInstanceId, String nodeId, JSONObject context) {
+        TaskInstance instance = new TaskInstance(spec);
+        instance.setTaskInstanceId(IdUtil.fastSimpleUUID());
+        instance.setFlowInstanceId(flowInstanceId);
+        instance.setNodeId(nodeId);
+        instance.setTaskContext(context);
+        instance.setStatus(TaskInstanceStatusEnum.INIT);
+        instance.setRecords(new HashMap<>());
+        return instance;
     }
 
 }

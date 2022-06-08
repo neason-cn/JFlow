@@ -86,7 +86,7 @@ public class TaskNode extends AbstractNodeInstance {
 
         // run task
         TaskInstance taskInstance = ctx.getRuntime().getTaskInstanceService().createAndSaveTask(this.getSpec().getTaskSpec(),
-                ctx.getFlowInstance().getFlowInstanceId(), this.getNodeId(), ctx.getFlowInstance().getContext());
+                ctx.getFlowInstance().getFlowInstanceId(), this.getNodeId(), args);
         this.setLatestTask(taskInstance);
         taskInstance.onFire(ctx);
 
