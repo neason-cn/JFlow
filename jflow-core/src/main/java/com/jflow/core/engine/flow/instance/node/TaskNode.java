@@ -82,7 +82,7 @@ public class TaskNode extends AbstractNodeInstance {
     @Override
     public void onFire(Context ctx, JSONObject args) {
         // before run task and ignore the result.
-        runAction(ctx, this.getSpec().getBefore());
+        runAndIgnoreResult(ctx, this.getSpec().getBefore());
 
         // run task
         TaskInstance taskInstance = ctx.getRuntime().getTaskInstanceService().createAndSaveTask(this.getSpec().getTaskSpec(),
@@ -98,7 +98,7 @@ public class TaskNode extends AbstractNodeInstance {
         if (SUCCESS == taskInstance.getStatus()) {
             this.setStatus(NodeInstanceStatusEnum.SUCCESS);
             // run after action and ignore the result.
-            runAction(ctx, this.getSpec().getAfter());
+            runAndIgnoreResult(ctx, this.getSpec().getAfter());
             fireOutgoingEdges(ctx);
             return;
         }

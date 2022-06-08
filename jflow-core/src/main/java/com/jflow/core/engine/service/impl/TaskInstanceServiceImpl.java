@@ -35,6 +35,9 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
 
     @Override
     public AbstractAction initAction(ActionSpec spec, RuntimeContext context) {
+        if (null == spec) {
+            return null;
+        }
         return actionFactory.create(spec, context);
     }
 

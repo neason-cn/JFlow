@@ -3,7 +3,6 @@ package com.jflow.core.engine.flow.instance.node;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.jflow.common.enums.Type;
 import com.jflow.core.engine.activity.NodeActivity;
-import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.ctx.RuntimeContext;
 import com.jflow.core.engine.enums.status.NodeInstanceStatusEnum;
@@ -66,14 +65,14 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
         });
     }
 
-    protected ActionResponse runAction(Context ctx, ActionSpec spec) {
+    protected void runAndIgnoreResult(Context ctx, ActionSpec spec) {
         if (null == spec) {
-            return null;
+            return;
         }
         TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
         AbstractAction action = instanceService.initAction(spec,
                 new RuntimeContext(ctx.getFlowInstance().getContext(), this.getLatestTask().getTaskContext()));
-        return action.onExecute(ctx);
+        action.onExecute(ctx);
     }
 
     @Override

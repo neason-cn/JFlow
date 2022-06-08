@@ -28,7 +28,7 @@ public class StartNode extends AbstractNodeInstance {
     @Override
     public void onFire(Context ctx, JSONObject args) {
         ActionSpec endActionSpec = ctx.getFlowInstance().getSpec().getOnStart();
-        runAction(ctx, endActionSpec);
+        runAndIgnoreResult(ctx, endActionSpec);
         fireOutgoingEdges(ctx);
     }
 

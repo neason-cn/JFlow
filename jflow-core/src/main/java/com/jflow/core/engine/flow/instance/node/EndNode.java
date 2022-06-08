@@ -20,7 +20,7 @@ public class EndNode extends AbstractNodeInstance {
     @Override
     public void onSignal(Context ctx, EdgeInstance trigger) {
         ActionSpec endActionSpec = ctx.getFlowInstance().getSpec().getOnEnd();
-        runAction(ctx, endActionSpec);
+        runAndIgnoreResult(ctx, endActionSpec);
         ctx.getFlowInstance().setStatus(FlowInstanceStatusEnum.SUCCESS);
     }
 
