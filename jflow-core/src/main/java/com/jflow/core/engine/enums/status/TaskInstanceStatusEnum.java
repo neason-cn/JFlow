@@ -1,12 +1,13 @@
 package com.jflow.core.engine.enums.status;
 
+import com.jflow.common.enums.Status;
 import lombok.Getter;
 
 /**
  * @author neason
  * @since 0.0.1
  */
-public enum TaskInstanceStatusEnum {
+public enum TaskInstanceStatusEnum implements Status {
 
     INIT("INIT"),
 

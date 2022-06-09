@@ -9,7 +9,7 @@ public interface Status {
     /**
      * The symbol which use to describe the status of a spec or instance.
      *
-     * @return type
+     * @return status
      */
     String getStatus();
 

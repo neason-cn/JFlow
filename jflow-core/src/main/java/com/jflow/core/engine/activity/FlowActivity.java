@@ -10,4 +10,6 @@ import com.jflow.core.engine.ctx.Context;
  */
 public interface FlowActivity {
     void onTerminate(Context context);
+
+    void onFinish(Context context);
 }
