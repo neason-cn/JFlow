@@ -1,4 +1,4 @@
-package com.jflow.app.endpoint.http.advice;
+package com.jflow.app.endpoint.http.config;
 
 import com.jflow.api.client.response.Json;
 import com.jflow.common.exception.FlowException;

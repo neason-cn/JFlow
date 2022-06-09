@@ -7,6 +7,9 @@ import com.jflow.core.engine.flow.instance.TaskInstance;
 import com.jflow.core.engine.flow.spec.ActionSpec;
 import com.jflow.core.engine.flow.spec.TaskSpec;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author neason
  * @since 0.0.1
@@ -18,5 +21,7 @@ public interface TaskInstanceService {
     AbstractAction initAction(ActionSpec spec, RuntimeContext context);
 
     void save(TaskInstance taskInstance);
+
+    Optional<List<TaskInstance>> queryAll(String flowInstanceId);
 
 }

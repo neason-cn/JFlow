@@ -13,6 +13,9 @@ import com.jflow.core.engine.service.TaskInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * @author neason
  * @since 0.0.1
@@ -44,5 +47,10 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     @Override
     public void save(TaskInstance taskInstance) {
         taskInstanceRepository.save(taskInstance);
+    }
+
+    @Override
+    public Optional<List<TaskInstance>> queryAll(String flowInstanceId) {
+        return taskInstanceRepository.getByFlowInstanceId(flowInstanceId);
     }
 }

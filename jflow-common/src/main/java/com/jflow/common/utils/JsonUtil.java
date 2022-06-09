@@ -14,7 +14,7 @@ public class JsonUtil {
         if (null == o) {
             return null;
         }
-        return JSONObject.parseObject(JSON.toJSONString(o));
+        return JSONObject.parseObject(JsonUtil.toJsonString(o));
     }
 
     public static String toJsonString(Object o) {
@@ -23,7 +23,8 @@ public class JsonUtil {
         }
         return JSON.toJSONString(o,
                 JSONWriter.Feature.WriteEnumsUsingName,
-                JSONWriter.Feature.IgnoreNoneSerializable);
+                JSONWriter.Feature.IgnoreNoneSerializable,
+                JSONWriter.Feature.ReferenceDetection);
     }
 
 }
