@@ -1,8 +1,7 @@
 package com.jflow.core.engine.enums.type;
 
 import com.jflow.common.enums.Type;
-import com.jflow.core.engine.flow.action.AbstractAction;
-import com.jflow.core.engine.flow.action.HttpAction;
+import com.jflow.core.engine.flow.action.*;
 import lombok.Getter;
 
 /**
@@ -16,7 +15,7 @@ public enum ActionTypeEnum implements Type {
     /**
      * Rpc invoke, such as Dubbo, gRpc.
      */
-    RPC("RPC", null),
+    DUBBO("DUBBO", DubboAction.class),
 
     /**
      * Http/Https invoke.
@@ -36,7 +35,11 @@ public enum ActionTypeEnum implements Type {
     /**
      * Send a message.
      */
-    MESSAGE("MESSAGE", null);
+    MESSAGE("MESSAGE", KafkaAction.class),
+
+    BEAN("BEAN", BeanAction.class),
+
+    SUB_FLOW("SUB_FLOW", SubFlowAction.class);
 
     @Getter
     private final String type;
