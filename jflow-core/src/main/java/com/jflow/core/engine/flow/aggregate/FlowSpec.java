@@ -105,6 +105,7 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
      */
     private transient Set<EdgeSpec> edges;
 
+    @Override
     public void release() {
         if (this.status != FlowSpecStatusEnum.DRAFT) {
             throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
@@ -113,11 +114,22 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
         this.setReleaseAt(new Date());
     }
 
+    @Override
     public void archive() {
         if (this.status != FlowSpecStatusEnum.RELEASED) {
             throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
         }
         this.status = FlowSpecStatusEnum.ARCHIVED;
+    }
+
+    @Override
+    public void enableCron(String cron) {
+
+    }
+
+    @Override
+    public void disableCron() {
+
     }
 
 }

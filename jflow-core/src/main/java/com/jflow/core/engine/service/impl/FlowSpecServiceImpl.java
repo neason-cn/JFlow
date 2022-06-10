@@ -53,6 +53,16 @@ public class FlowSpecServiceImpl implements FlowSpecService {
         });
     }
 
+    @Override
+    public void enableDispatch(String flowSpecId, String cron) {
+        FlowSpec specToRelease = flowSpecRepository.getById(flowSpecId);
+    }
+
+    @Override
+    public void disableDispatch(String flowSpecId) {
+        FlowSpec specToRelease = flowSpecRepository.getById(flowSpecId);
+    }
+
     private FlowSpec generateSpecToSave(FlowSpecVO flowSpecVO) {
         Optional<FlowSpec> latestSpecVersion = flowSpecRepository.getLatestVersionByCode(flowSpecVO.getFlowSpecCode());
         // there is a flow spec has the same code with the flowSpecVO

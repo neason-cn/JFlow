@@ -16,4 +16,8 @@ public interface FlowSpecAbility {
      */
     void archive();
 
+    void enableCron(String cron);
+
+    void disableCron();
+
 }
