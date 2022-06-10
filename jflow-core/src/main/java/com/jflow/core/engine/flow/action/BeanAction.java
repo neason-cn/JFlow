@@ -5,7 +5,6 @@ import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.ctx.Context;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.context.ApplicationContext;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
 
@@ -37,8 +36,7 @@ public class BeanAction extends AbstractAction {
     }
 
     private ActionResponse doInvoke(Context ctx) {
-        ApplicationContext springContext = ctx.getRuntime().getApplicationContext();
-        Object bean = springContext.getBean(beanName);
+        Object bean = ctx.getRuntime().getBean(beanName);
         if (CollectionUtils.isEmpty(paramsType)) {
             Method method = ReflectionUtils.findMethod(bean.getClass(), methodName);
             if (null == method) {

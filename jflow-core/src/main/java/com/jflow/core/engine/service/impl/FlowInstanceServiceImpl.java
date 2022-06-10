@@ -14,13 +14,7 @@ import com.jflow.core.engine.flow.instance.node.AbstractNodeInstance;
 import com.jflow.core.engine.flow.instance.node.StartNode;
 import com.jflow.core.engine.service.AsyncRunner;
 import com.jflow.core.engine.service.FlowInstanceService;
-import com.jflow.core.engine.service.TaskInstanceService;
-import com.jflow.infra.spi.cache.CacheSpi;
-import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -33,16 +27,14 @@ import static com.jflow.common.error.Errors.*;
  */
 @Service
 @RequiredArgsConstructor
-public class FlowInstanceServiceImpl implements FlowInstanceService, ApplicationContextAware {
+public class FlowInstanceServiceImpl implements FlowInstanceService {
 
-    private final CacheSpi cacheSpi;
-    private final ScriptSpi scriptSpi;
     private final AsyncRunner asyncRunner;
+
+    private final Runtime runtime;
     private final FlowSpecRepository flowSpecRepository;
     private final FlowInstanceFactory flowInstanceFactory;
-    private final TaskInstanceService taskInstanceService;
     private final FlowInstanceRepository flowInstanceRepository;
-    private ApplicationContext applicationContext;
 
     @Override
     public FlowInstance start(String flowSpecCode, JSONObject args) {
@@ -54,7 +46,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
         FlowInstance flowInstance = createAndInit(flowSpecCode, args, taskInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, StartNode.NODE_ID);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
-            Context context = Context.init(getRuntime(), flowInstance);
+            Context context = Context.init(runtime, flowInstance);
             nodeInstance.onSignal(context, null);
             flowInstanceRepository.save(flowInstance);
         });
@@ -92,20 +84,10 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
-            Context context = Context.init(getRuntime(), flowInstance);
+            Context context = Context.init(runtime, flowInstance);
             nodeInstance.onFire(context, args);
             flowInstanceRepository.save(flowInstance);
         });
-    }
-
-    private Runtime getRuntime() {
-        return Runtime.builder()
-                .cacheSpi(cacheSpi)
-                .scriptSpi(scriptSpi)
-                .flowInstanceService(this)
-                .taskInstanceService(taskInstanceService)
-                .applicationContext(applicationContext)
-                .build();
     }
 
 
@@ -114,7 +96,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
-            Context context = Context.init(getRuntime(), flowInstance);
+            Context context = Context.init(runtime, flowInstance);
             nodeInstance.onRetry(context, args);
             flowInstanceRepository.save(flowInstance);
         });
@@ -125,7 +107,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
-            Context context = Context.init(getRuntime(), flowInstance);
+            Context context = Context.init(runtime, flowInstance);
             nodeInstance.onSkip(context, args);
             flowInstanceRepository.save(flowInstance);
         });
@@ -136,7 +118,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
-            Context context = Context.init(getRuntime(), flowInstance);
+            Context context = Context.init(runtime, flowInstance);
             nodeInstance.onCancel(context, args);
             flowInstanceRepository.save(flowInstance);
         });
@@ -150,7 +132,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
             throw new FlowException(NO_NODE_CONTAINS_TASK_ERROR, taskInstanceId);
         }
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
-            Context context = Context.init(getRuntime(), flowInstance);
+            Context context = Context.init(runtime, flowInstance);
             Callback callback = new Callback();
             node.get().onCallback(context, callback);
             flowInstanceRepository.save(flowInstance);
@@ -161,7 +143,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
     public void terminate(String flowInstanceId, JSONObject jsonObject) {
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         asyncRunner.asyncRun(flowInstanceId, () -> {
-            Context context = Context.init(getRuntime(), flowInstance);
+            Context context = Context.init(runtime, flowInstance);
             flowInstance.onTerminate(context);
             flowInstanceRepository.save(flowInstance);
         });
@@ -172,8 +154,4 @@ public class FlowInstanceServiceImpl implements FlowInstanceService, Application
         return flowInstanceRepository.getById(flowInstanceId);
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }
