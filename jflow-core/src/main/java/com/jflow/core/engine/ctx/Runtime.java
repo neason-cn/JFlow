@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,12 +23,13 @@ public class Runtime implements ApplicationContextAware {
     private ApplicationContext applicationContext;
     private final Map<String, Object> actionBeanContainer = new ConcurrentHashMap<>();
 
-    @PostConstruct
-    public void registerActionBean() {
-        // todo search the allowed bean and register.
-        actionBeanContainer.put("beanName", "bean");
+    public void registerActionBean(String beanName) {
+        registerActionBean(beanName, applicationContext.getBean(beanName));
     }
 
+    public void registerActionBean(String beanName, Object bean) {
+        actionBeanContainer.put(beanName, bean);
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
