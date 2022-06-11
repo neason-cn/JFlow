@@ -22,9 +22,7 @@ public class JsonUtil {
             return null;
         }
         return JSON.toJSONString(o,
-                JSONWriter.Feature.WriteEnumsUsingName,
-                JSONWriter.Feature.IgnoreNoneSerializable,
-                JSONWriter.Feature.ReferenceDetection);
+                JSONWriter.Feature.WriteEnumsUsingName);
     }
 
 }

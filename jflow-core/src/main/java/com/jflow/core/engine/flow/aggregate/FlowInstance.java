@@ -5,6 +5,7 @@ import com.jflow.common.utils.JsonUtil;
 import com.jflow.core.engine.activity.FlowActivity;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.enums.status.FlowInstanceStatusEnum;
+import com.jflow.core.engine.enums.status.TaskInstanceStatusEnum;
 import com.jflow.core.engine.flow.instance.EdgeInstance;
 import com.jflow.core.engine.flow.instance.node.AbstractNodeInstance;
 import com.jflow.core.engine.graph.Graph;
@@ -96,7 +97,8 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance>, 
                     .output(this.getOutput())
                     .build();
             // complete the task if this flow instance is a sub_flow.
-            ctx.getRuntime().getFlowInstanceService().completeTask(this.parentTaskInstanceId, JsonUtil.toJson(result));
+            ctx.getRuntime().getFlowInstanceService().completeTask(this.parentTaskInstanceId, TaskInstanceStatusEnum.SUCCESS.getStatus(),
+                    JsonUtil.toJson(result));
         }
     }
 

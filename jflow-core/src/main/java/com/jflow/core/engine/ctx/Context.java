@@ -5,6 +5,7 @@ import lombok.Data;
 
 /**
  * The context through all life cycle of the flow instance.
+ * todo: remove Context.class runtime -> static spring context holder; flowInstance -> constructor of node/edge.
  *
  * @author neason
  * @since 0.0.1

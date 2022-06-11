@@ -36,7 +36,7 @@ public interface FlowInstanceService {
 
     void cancelNode(String flowInstanceId, String nodeId, JSONObject args);
 
-    void completeTask(String taskInstanceId, JSONObject args);
+    void completeTask(String taskInstanceId, String status, JSONObject args);
 
     void terminate(String flowInstanceId, JSONObject args);
 

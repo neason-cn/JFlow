@@ -2,7 +2,7 @@ package com.jflow.core.engine.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.engine.ctx.RuntimeContext;
+import com.jflow.core.engine.ctx.ScriptContext;
 import com.jflow.core.engine.service.ScriptService;
 import com.jflow.infra.spi.script.ScriptResult;
 import com.jflow.infra.spi.script.ScriptSpi;
@@ -27,24 +27,24 @@ public class ScriptServiceImpl implements ScriptService {
     private final ScriptSpi scriptSpi;
 
     @Override
-    public JSONObject replace(JSONObject template, RuntimeContext context) {
+    public JSONObject replace(JSONObject template, ScriptContext context) {
         if (null == template) {
             return new JSONObject();
         }
 
-        final RuntimeContext runtimeContext = new RuntimeContext(
+        final ScriptContext scriptContext = new ScriptContext(
                 context == null ? new JSONObject() : context.getFlowContext(),
                 context == null ? new JSONObject() : context.getTaskContext());
 
         JSONObject result = new JSONObject();
         template.forEach((k, v) -> {
-            result.put(k, parseObject(v, runtimeContext));
+            result.put(k, parseObject(v, scriptContext));
         });
         return result;
     }
 
     @Override
-    public Object parseString(String template, RuntimeContext context) {
+    public Object parseString(String template, ScriptContext context) {
         if (null == template) {
             return null;
         }
@@ -54,13 +54,13 @@ public class ScriptServiceImpl implements ScriptService {
             return template;
         }
 
-        final RuntimeContext runtimeContext = new RuntimeContext(
+        final ScriptContext scriptContext = new ScriptContext(
                 context == null ? new JSONObject() : context.getFlowContext(),
                 context == null ? new JSONObject() : context.getTaskContext());
 
         String script = removeScriptPrefix(template);
 
-        ScriptResult<Object> scriptResult = scriptSpi.execute(script, buildContextForScriptSpi(runtimeContext));
+        ScriptResult<Object> scriptResult = scriptSpi.execute(script, buildContextForScriptSpi(scriptContext));
         if (null == scriptResult || scriptResult.hasError()) {
             return null;
         }
@@ -90,7 +90,7 @@ public class ScriptServiceImpl implements ScriptService {
     /**
      * Wrap RuntimeContext to JSONObject context which used is ScriptSpi.
      */
-    private JSONObject buildContextForScriptSpi(RuntimeContext context) {
+    private JSONObject buildContextForScriptSpi(ScriptContext context) {
         JSONObject json = new JSONObject();
         json.put(FLOW_CONTEXT_KEY, context.getFlowContext());
         json.put(TASK_CONTEXT_KEY, context.getTaskContext());
@@ -100,7 +100,7 @@ public class ScriptServiceImpl implements ScriptService {
     /**
      * Resolve all fields of a Object.
      */
-    private Object parseObject(Object template, RuntimeContext context) {
+    private Object parseObject(Object template, ScriptContext context) {
         if (null == template) {
             return null;
         }

@@ -3,8 +3,8 @@ package com.jflow.core.engine.flow.action;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
 import com.jflow.common.utils.JsonUtil;
-import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.activity.ActionActivity;
+import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.flow.spec.ActionSpec;
 import lombok.Data;
 
@@ -14,6 +14,7 @@ import lombok.Data;
  */
 @Data
 public abstract class AbstractAction implements ActionActivity, Type {
+
     private transient ActionSpec actionSpec;
 
     @Override

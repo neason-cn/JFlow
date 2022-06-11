@@ -1,12 +1,13 @@
 package com.jflow.core.engine.flow.instance;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
 import com.jflow.core.engine.activity.TaskActivity;
 import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
-import com.jflow.core.engine.ctx.RuntimeContext;
+import com.jflow.core.engine.ctx.ScriptContext;
 import com.jflow.core.engine.enums.status.TaskInstanceStatusEnum;
 import com.jflow.core.engine.enums.type.TaskTypeEnum;
 import com.jflow.core.engine.flow.action.AbstractAction;
@@ -25,6 +26,9 @@ import java.util.Map;
  */
 @Data
 public class TaskInstance implements Type, TaskActivity {
+
+    @JSONField(serialize = false)
+    public final static String TASK_INSTANCE_ID = "instanceId";
 
     private String taskInstanceId;
     private String flowInstanceId;
@@ -58,7 +62,7 @@ public class TaskInstance implements Type, TaskActivity {
         TaskInstanceService taskInstanceService = ctx.getRuntime().getTaskInstanceService();
         JSONObject flowContext = ctx.getFlowInstance().getContext();
         // init
-        AbstractAction action = taskInstanceService.initAction(spec, new RuntimeContext(flowContext, taskContext));
+        AbstractAction action = taskInstanceService.initAction(spec, new ScriptContext(flowContext, taskContext));
         // do
         ActionResponse actionResponse = action.onExecute(ctx);
         records.put(key, new ActionRecord(action.getActionSpec().getActionType(), action.toJson(), actionResponse));
@@ -73,7 +77,9 @@ public class TaskInstance implements Type, TaskActivity {
 
     private void mergeContext(JSONObject addition) {
         if (MapUtils.isEmpty(this.taskContext)) {
-            this.taskContext = new JSONObject();
+            JSONObject ctx = new JSONObject();
+            ctx.put(TASK_INSTANCE_ID, this.taskInstanceId);
+            this.taskContext = ctx;
         }
         if (MapUtils.isNotEmpty(addition)) {
             this.taskContext.putAll(addition);

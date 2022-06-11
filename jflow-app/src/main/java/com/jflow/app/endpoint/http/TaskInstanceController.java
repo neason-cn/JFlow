@@ -35,7 +35,7 @@ public class TaskInstanceController {
 
     @PostMapping("/complete.json")
     public Json<Boolean> complete(@RequestBody UpdateTaskCommand command) {
-        flowInstanceService.completeTask(command.getTaskInstanceId(), command.getContext());
+        flowInstanceService.completeTask(command.getTaskInstanceId(), command.getTaskStatus(),command.getContext());
         return Json.success(Boolean.TRUE);
     }
 

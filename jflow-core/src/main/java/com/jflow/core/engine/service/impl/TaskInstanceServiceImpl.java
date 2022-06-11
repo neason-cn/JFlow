@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jflow.core.domain.factory.ActionFactory;
 import com.jflow.core.domain.factory.TaskInstanceFactory;
 import com.jflow.core.domain.repository.TaskInstanceRepository;
-import com.jflow.core.engine.ctx.RuntimeContext;
+import com.jflow.core.engine.ctx.ScriptContext;
 import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.instance.TaskInstance;
 import com.jflow.core.engine.flow.spec.ActionSpec;
@@ -37,7 +37,7 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     }
 
     @Override
-    public AbstractAction initAction(ActionSpec spec, RuntimeContext context) {
+    public AbstractAction initAction(ActionSpec spec, ScriptContext context) {
         if (null == spec) {
             return null;
         }

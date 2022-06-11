@@ -1,7 +1,7 @@
 package com.jflow.core.engine.service;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.jflow.core.engine.ctx.RuntimeContext;
+import com.jflow.core.engine.ctx.ScriptContext;
 
 /**
  * @author neason
@@ -9,7 +9,7 @@ import com.jflow.core.engine.ctx.RuntimeContext;
  */
 public interface ScriptService {
 
-    JSONObject replace(JSONObject template, RuntimeContext context);
+    JSONObject replace(JSONObject template, ScriptContext context);
 
-    Object parseString(String template, RuntimeContext context);
+    Object parseString(String template, ScriptContext context);
 }

@@ -8,6 +8,7 @@ import com.jflow.core.domain.repository.FlowSpecRepository;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.ctx.Runtime;
+import com.jflow.core.engine.enums.status.TaskInstanceStatusEnum;
 import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.engine.flow.aggregate.FlowSpec;
 import com.jflow.core.engine.flow.instance.node.AbstractNodeInstance;
@@ -125,7 +126,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     }
 
     @Override
-    public void completeTask(String taskInstanceId, JSONObject args) {
+    public void completeTask(String taskInstanceId, String status, JSONObject args) {
         FlowInstance flowInstance = flowInstanceRepository.getByTaskId(taskInstanceId);
         Optional<AbstractNodeInstance> node = flowInstance.findNodeByTaskId(taskInstanceId);
         if (!node.isPresent()) {
@@ -134,6 +135,9 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
         asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(runtime, flowInstance);
             Callback callback = new Callback();
+            callback.setTaskInstanceId(taskInstanceId);
+            callback.setStatus(TaskInstanceStatusEnum.of(status));
+            callback.setResult(args);
             node.get().onCallback(context, callback);
             flowInstanceRepository.save(flowInstance);
         });

@@ -6,6 +6,7 @@ import com.jflow.core.engine.enums.status.TaskInstanceStatusEnum;
 import com.jflow.core.engine.flow.instance.TaskInstance;
 import com.jflow.core.engine.flow.spec.TaskSpec;
 import lombok.Data;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -23,6 +24,10 @@ public class TaskInstanceFactory {
         instance.setTaskInstanceId(IdUtil.fastSimpleUUID());
         instance.setFlowInstanceId(flowInstanceId);
         instance.setNodeId(nodeId);
+        if (MapUtils.isEmpty(context)) {
+            context = new JSONObject();
+        }
+        context.put(TaskInstance.TASK_INSTANCE_ID, instance.getTaskInstanceId());
         instance.setTaskContext(context);
         instance.setStatus(TaskInstanceStatusEnum.INIT);
         instance.setRecords(new HashMap<>());

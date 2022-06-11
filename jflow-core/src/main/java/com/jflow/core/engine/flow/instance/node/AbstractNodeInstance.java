@@ -7,7 +7,7 @@ import com.jflow.common.exception.FlowException;
 import com.jflow.core.engine.activity.NodeActivity;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
-import com.jflow.core.engine.ctx.RuntimeContext;
+import com.jflow.core.engine.ctx.ScriptContext;
 import com.jflow.core.engine.enums.status.NodeInstanceStatusEnum;
 import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.instance.EdgeInstance;
@@ -77,7 +77,7 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
         TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
         JSONObject taskContext = this.latestTask == null ? new JSONObject() : this.latestTask.getTaskContext();;
         AbstractAction action = instanceService.initAction(spec,
-                new RuntimeContext(ctx.getFlowInstance().getContext(), taskContext));
+                new ScriptContext(ctx.getFlowInstance().getContext(), taskContext));
         action.onExecute(ctx);
     }
 

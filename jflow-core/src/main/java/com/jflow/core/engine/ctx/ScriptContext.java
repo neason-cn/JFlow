@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class RuntimeContext {
+public class ScriptContext {
     private JSONObject flowContext;
     private JSONObject taskContext;
 }
