@@ -10,11 +10,11 @@ public interface CacheSpi {
 
     Serializable get(Serializable key);
 
-    Serializable put(Serializable key, Serializable value);
+    void put(Serializable key, Serializable value);
 
-    Serializable put(Serializable key, Serializable value, long expireTime);
+    void put(Serializable key, Serializable value, long expireTime);
 
-    Serializable delete(Serializable key);
+    void delete(Serializable key);
 
     boolean tryLock(Serializable key, long expireTime);
 
