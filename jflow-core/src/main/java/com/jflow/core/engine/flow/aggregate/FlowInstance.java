@@ -80,11 +80,12 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance>, 
     /**
      * The time when cancel this flow instance.
      */
-    private Date cancelAt;
+    private Date terminateAt;
 
     @Override
     public void onTerminate(Context context) {
-
+        this.setStatus(FlowInstanceStatusEnum.TERMINATED);
+        this.setTerminateAt(new Date());
     }
 
     @Override

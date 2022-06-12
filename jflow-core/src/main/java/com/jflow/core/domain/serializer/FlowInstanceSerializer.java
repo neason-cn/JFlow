@@ -48,7 +48,7 @@ public class FlowInstanceSerializer {
         entity.setInput(JsonUtil.toJsonString(domain.getInput()));
         entity.setOutput(JsonUtil.toJsonString(domain.getOutput()));
         entity.setCreateAt(domain.getCreateAt());
-        entity.setCancelAt(domain.getCancelAt());
+        entity.setCancelAt(domain.getTerminateAt());
 
         Set<NodeInstanceDTO> nodes = domain.getNodes().stream()
                 .map(nodeInstanceConvertor::convertNode)
@@ -72,7 +72,7 @@ public class FlowInstanceSerializer {
         instance.setOutput(JSONObject.parseObject(entity.getOutput()));
         instance.setContext(JSONObject.parseObject(entity.getContext()));
         instance.setCreateAt(entity.getCreateAt());
-        instance.setCancelAt(entity.getCancelAt());
+        instance.setTerminateAt(entity.getCancelAt());
 
         Set<NodeInstanceDTO> nodeDTOs = new TypeReference<Set<NodeInstanceDTO>>() {
         }.parseObject(entity.getNodes());
