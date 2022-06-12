@@ -29,6 +29,11 @@ public enum Errors implements FlowError {
     // DB
     GENERATE_SQL_ERROR("GENERATE_SQL_ERROR", "auto generate sql error: {}"),
 
+    // Infra
+    EMPTY_SCHEDULER_JOB_WORKER_ERROR("EMPTY_JOB_WORKER_ERROR", "job runner can not be null"),
+    CREATE_SCHEDULER_JOB_ERROR("CREATE_SCHEDULER_JOB_ERROR", "create scheduler job error: {}"),
+    NO_SUCH_SCHEDULER_JOB_ERROR("NO_SUCH_SCHEDULER_JOB_ERROR", "no job id of : {}"),
+
     // Other
     TASK_INSTANCE_CLASS_NEW_ERROR("TASK_INSTANCE_CLASS_NEW_ERROR", "task class {} new instance error}"),
     NODE_INSTANCE_CLASS_NEW_ERROR("NODE_INSTANCE_CLASS_NEW_ERROR", "node class {} new instance error}");

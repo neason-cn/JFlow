@@ -20,6 +20,6 @@ public interface SchedulerSpi {
      * @param jobId job unique id
      * @return delete success or not
      */
-    boolean deleteJob(String jobId);
+    void deleteJob(String jobId);
 
 }
