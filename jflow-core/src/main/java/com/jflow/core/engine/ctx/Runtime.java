@@ -3,6 +3,7 @@ package com.jflow.core.engine.ctx;
 import com.jflow.core.engine.service.FlowInstanceService;
 import com.jflow.core.engine.service.TaskInstanceService;
 import com.jflow.infra.spi.cache.CacheSpi;
+import com.jflow.infra.spi.scheduler.SchedulerSpi;
 import com.jflow.infra.spi.script.ScriptSpi;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -38,6 +39,10 @@ public class Runtime implements ApplicationContextAware {
 
     public CacheSpi getCacheSpi() {
         return applicationContext.getBean(CacheSpi.class);
+    }
+
+    public SchedulerSpi getSchedulerSpi() {
+        return applicationContext.getBean(SchedulerSpi.class);
     }
 
     public ScriptSpi getScriptSpi() {

@@ -2,13 +2,17 @@ package com.jflow.core.engine.flow.aggregate;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.exception.FlowException;
+import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.engine.flow.spec.ActionSpec;
 import com.jflow.core.engine.flow.spec.EdgeSpec;
 import com.jflow.core.engine.flow.spec.NodeSpec;
 import com.jflow.core.engine.graph.Graph;
+import com.jflow.infra.spi.scheduler.Job;
+import com.jflow.infra.spi.scheduler.SchedulerSpi;
 import com.jflow.infra.spi.script.type.JsonScript;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 import java.util.Set;
@@ -76,6 +80,11 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
     private String cron;
 
     /**
+     * The job id if enable scheduled.
+     */
+    private String cronJobId;
+
+    /**
      * The time when create this spec version.
      */
     private Date createAt;
@@ -106,30 +115,51 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
     private transient Set<EdgeSpec> edges;
 
     @Override
-    public void release() {
+    public void release(Context ctx) {
         if (this.status != FlowSpecStatusEnum.DRAFT) {
             throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
         }
         this.status = FlowSpecStatusEnum.RELEASED;
         this.setReleaseAt(new Date());
+        if (StringUtils.isNotBlank(this.cron)) {
+            enableCron(ctx);
+        }
     }
 
     @Override
-    public void archive() {
+    public void archive(Context ctx) {
         if (this.status != FlowSpecStatusEnum.RELEASED) {
             throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
         }
         this.status = FlowSpecStatusEnum.ARCHIVED;
+        disableCron(ctx);
     }
 
     @Override
-    public void enableCron(String cron) {
-
+    public void enableCron(Context ctx) {
+        if (!this.scheduled) {
+            this.scheduled = true;
+            SchedulerSpi schedulerSpi = ctx.getRuntime().getSchedulerSpi();
+            this.cronJobId = schedulerSpi.addJob(generateJob(ctx));
+        }
     }
 
     @Override
-    public void disableCron() {
+    public void disableCron(Context ctx) {
+        if (this.scheduled) {
+            this.scheduled = false;
+            SchedulerSpi schedulerSpi = ctx.getRuntime().getSchedulerSpi();
+            schedulerSpi.deleteJob(this.cronJobId);
+        }
+    }
 
+    private Job generateJob(Context ctx) {
+        Job job = new Job();
+        job.setCron(this.cron);
+        job.setWorker(() -> {
+            ctx.getRuntime().getFlowInstanceService().start(this.getFlowSpecCode(), new JSONObject());
+        });
+        return job;
     }
 
 }

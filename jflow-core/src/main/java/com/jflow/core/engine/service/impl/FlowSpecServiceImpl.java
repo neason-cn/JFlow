@@ -7,6 +7,8 @@ import com.jflow.common.exception.FlowException;
 import com.jflow.core.domain.convertor.FlowSpecConvertor;
 import com.jflow.core.domain.factory.FlowSpecFactory;
 import com.jflow.core.domain.repository.FlowSpecRepository;
+import com.jflow.core.engine.ctx.Context;
+import com.jflow.core.engine.ctx.Runtime;
 import com.jflow.core.engine.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.engine.flow.aggregate.FlowSpec;
 import com.jflow.core.engine.service.FlowSpecService;
@@ -23,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FlowSpecServiceImpl implements FlowSpecService {
 
+    private final Runtime runtime;
     private final FlowSpecFactory flowSpecFactory;
     private final FlowSpecConvertor flowSpecConvertor;
     private final FlowSpecRepository flowSpecRepository;
@@ -41,13 +44,13 @@ public class FlowSpecServiceImpl implements FlowSpecService {
     public void release(String flowSpecId) {
         FlowSpec specToRelease = flowSpecRepository.getById(flowSpecId);
         Optional<FlowSpec> specToArchive = flowSpecRepository.getReleaseByCode(specToRelease.getFlowSpecCode());
-
+        Context ctx = Context.init(runtime, null);
         // save two spec in transaction
         transactionExecutor.inTransaction(() -> {
-            specToRelease.release();
+            specToRelease.release(ctx);
             flowSpecRepository.save(specToRelease);
             if (specToArchive.isPresent()) {
-                specToArchive.get().archive();
+                specToArchive.get().archive(ctx);
                 flowSpecRepository.save(specToArchive.get());
             }
         });
