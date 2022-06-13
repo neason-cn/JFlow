@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 public class AsyncRunnerImpl implements AsyncRunner {
 
     private final CacheSpi cacheSpi;
-    private final ExecutorService executor = Executors.newFixedThreadPool(10);
+    private ExecutorService executor = Executors.newFixedThreadPool(10);
 
     @Override
     public void asyncRun(String key, Runnable runnable) {

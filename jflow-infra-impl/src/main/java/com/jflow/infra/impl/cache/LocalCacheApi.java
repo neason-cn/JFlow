@@ -16,8 +16,8 @@ import java.io.Serializable;
 @Component
 public class LocalCacheApi implements CacheSpi {
 
-    @Value("local.cache.capacity")
-    private int cacheCapacity;
+    @Value("${local.cache.capacity}")
+    private Integer cacheCapacity;
     private Cache<Serializable, Serializable> cache;
 
     @PostConstruct

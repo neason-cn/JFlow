@@ -1,0 +1,131 @@
+{
+  "flowSpec": {
+    "flowSpecCode": "test_flow",
+    "description": "a test flow spec",
+    "enableMultiInstance": true,
+    "initContext": {
+      "date": "2022-06-08",
+      "person": {
+        "name": "neason",
+        "age": 18,
+        "car": {
+          "color": "black",
+          "price": 1
+        }
+      }
+    },
+    "outputScript": "",
+    "scheduled": false,
+    "cron": "",
+    "onStartAction": {
+      "actionType": "HTTP",
+      "params": {
+        "url": "localhost:8080/example/sync.json",
+        "method": "POST",
+        "headers": {
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "body": {
+          "message": "#!script flowCtx.person.car"
+        }
+      }
+    },
+    "nodes": [
+      {
+        "nodeId": "START",
+        "nodeName": "开始节点",
+        "nodeType": "START"
+      },
+      {
+        "nodeId": "HTTP_TASK",
+        "nodeName": "HTTP调用节点",
+        "nodeType": "TASK",
+        "waitAll": "true",
+        "autoFireScript": "true",
+        "autoSkipScript": "false",
+        "enableSkipScript": "true",
+        "enableRetryScript": "true",
+        "interruptWhenSubmitFailedScript": "true",
+        "interruptWhenExecuteFailedScript": "true",
+        "labels": {
+          "type": "http"
+        },
+        "beforeTaskAction": {
+          "actionType": "HTTP",
+          "params": {
+            "url": "localhost:8080/example/sync.json",
+            "method": "POST",
+            "headers": {
+              "content-type": [
+                "application/json"
+              ]
+            },
+            "body": {
+              "message": "beforeTaskAction"
+            }
+          }
+        },
+        "taskSpec": {
+          "taskName": "请求百度",
+          "taskType": "SYNC",
+          "onExecute": {
+            "actionType": "HTTP",
+            "params": {
+              "url": "localhost:8080/example/sync.json",
+              "method": "POST",
+              "headers": {
+                "content-type": [
+                  "application/json"
+                ]
+              },
+              "body": {
+                "status": "SUCCESS",
+                "result": {
+                  "task_result": "OK"
+                }
+              }
+            }
+          }
+        },
+        "afterTaskAction": {
+          "actionType": "HTTP",
+          "params": {
+            "url": "localhost:8080/example/sync.json",
+            "method": "POST",
+            "headers": {
+              "content-type": [
+                "application/json"
+              ]
+            },
+            "body": {
+              "message": "afterAction"
+            }
+          }
+        }
+      },
+      {
+        "nodeId": "END",
+        "nodeName": "结束节点",
+        "nodeType": "END"
+      }
+    ],
+    "edges": [
+      {
+        "edgeId": "e1",
+        "edgeName": "e1",
+        "script": "true",
+        "sourceNodeId": "START",
+        "targetNodeId": "HTTP_TASK"
+      },
+      {
+        "edgeId": "e2",
+        "edgeName": "e2",
+        "script": "true",
+        "sourceNodeId": "HTTP_TASK",
+        "targetNodeId": "END"
+      }
+    ]
+  }
+}
