@@ -13,7 +13,7 @@ import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.engine.flow.aggregate.FlowSpec;
 import com.jflow.core.engine.flow.instance.node.AbstractNodeInstance;
 import com.jflow.core.engine.flow.instance.node.StartNode;
-import com.jflow.core.engine.service.AsyncRunner;
+import com.jflow.core.engine.service.Executor;
 import com.jflow.core.engine.service.FlowInstanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ import static com.jflow.common.error.Errors.*;
 @RequiredArgsConstructor
 public class FlowInstanceServiceImpl implements FlowInstanceService {
 
-    private final AsyncRunner asyncRunner;
+    private final Executor executor;
 
     private final Runtime runtime;
     private final FlowSpecRepository flowSpecRepository;
@@ -46,7 +46,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     public FlowInstance start(String flowSpecCode, JSONObject args, String taskInstanceId) {
         FlowInstance flowInstance = createAndInit(flowSpecCode, args, taskInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, StartNode.NODE_ID);
-        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
+        executor.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(runtime, flowInstance);
             nodeInstance.onSignal(context, null);
             flowInstanceRepository.save(flowInstance);
@@ -84,7 +84,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     public void fireNode(String flowInstanceId, String nodeId, JSONObject args) {
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
-        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
+        executor.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(runtime, flowInstance);
             nodeInstance.onFire(context, args);
             flowInstanceRepository.save(flowInstance);
@@ -96,7 +96,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     public void retryNode(String flowInstanceId, String nodeId, JSONObject args) {
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
-        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
+        executor.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(runtime, flowInstance);
             nodeInstance.onRetry(context, args);
             flowInstanceRepository.save(flowInstance);
@@ -107,7 +107,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     public void skipNode(String flowInstanceId, String nodeId, JSONObject args) {
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
-        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
+        executor.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(runtime, flowInstance);
             nodeInstance.onSkip(context, args);
             flowInstanceRepository.save(flowInstance);
@@ -118,7 +118,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     public void cancelNode(String flowInstanceId, String nodeId, JSONObject args) {
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, nodeId);
-        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
+        executor.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(runtime, flowInstance);
             nodeInstance.onCancel(context, args);
             flowInstanceRepository.save(flowInstance);
@@ -132,7 +132,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
         if (!node.isPresent()) {
             throw new FlowException(NO_NODE_CONTAINS_TASK_ERROR, taskInstanceId);
         }
-        asyncRunner.asyncRun(flowInstance.getFlowInstanceId(), () -> {
+        executor.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(runtime, flowInstance);
             Callback callback = new Callback();
             callback.setTaskInstanceId(taskInstanceId);
@@ -146,7 +146,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     @Override
     public void terminate(String flowInstanceId, JSONObject jsonObject) {
         FlowInstance flowInstance = flowInstanceRepository.getById(flowInstanceId);
-        asyncRunner.asyncRun(flowInstanceId, () -> {
+        executor.asyncRun(flowInstanceId, () -> {
             Context context = Context.init(runtime, flowInstance);
             flowInstance.onTerminate(context);
             flowInstanceRepository.save(flowInstance);

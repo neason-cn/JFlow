@@ -33,6 +33,7 @@ public enum Errors implements FlowError {
     EMPTY_SCHEDULER_JOB_WORKER_ERROR("EMPTY_JOB_WORKER_ERROR", "job runner can not be null"),
     CREATE_SCHEDULER_JOB_ERROR("CREATE_SCHEDULER_JOB_ERROR", "create scheduler job error: {}"),
     NO_SUCH_SCHEDULER_JOB_ERROR("NO_SUCH_SCHEDULER_JOB_ERROR", "no job id of : {}"),
+    LOCK_KEY_ERROR("LOCK_KEY_ERROR", "can not get the lock with key: {}"),
 
     // Other
     TASK_INSTANCE_CLASS_NEW_ERROR("TASK_INSTANCE_CLASS_NEW_ERROR", "task class {} new instance error}"),

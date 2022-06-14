@@ -26,6 +26,7 @@ public abstract class AbstractFlowTest extends AbstractSpringTest {
     protected FlowSpecService flowSpecService;
     @Autowired
     protected FlowSpecRepository flowSpecRepository;
+    @Autowired
     protected FlowInstanceService flowInstanceService;
 
     @Before
