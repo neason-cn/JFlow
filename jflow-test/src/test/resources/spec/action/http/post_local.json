@@ -1,0 +1,20 @@
+{
+  "actionType": "HTTP",
+  "params": {
+    "url": "http://localhost:8080/example/async.json",
+    "method": "POST",
+    "headers": {
+      "x-jflow-task-id": ["123"]
+    },
+    "params": {
+      "a": "1",
+      "b": "2"
+    },
+    "body": {
+      "status": "SUCCESS",
+      "result": {
+        "data": "json"
+      }
+    }
+  }
+}
