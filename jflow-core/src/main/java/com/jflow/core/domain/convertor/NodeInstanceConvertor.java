@@ -44,6 +44,7 @@ public class NodeInstanceConvertor {
             return null;
         }
         AbstractNodeInstance instance = dto.getNodeType().newNode();
+        instance.setNodeId(spec.getNodeId());
         instance.setSpec(spec);
         instance.setStatus(dto.getStatus());
         instance.setLatestTask(convertTask(dto.getLatestTask(), spec.getTaskSpec()));
@@ -82,6 +83,7 @@ public class NodeInstanceConvertor {
             return null;
         }
         TaskInstance instance = new TaskInstance(spec);
+        instance.setTaskInstanceId(dto.getTaskInstanceId());
         instance.setTaskInstanceId(dto.getTaskInstanceId());
         instance.setFlowInstanceId(dto.getFlowInstanceId());
         instance.setStatus(dto.getStatus());

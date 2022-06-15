@@ -1,5 +1,6 @@
 package com.jflow.core.domain.factory;
 
+import cn.hutool.core.util.IdUtil;
 import com.jflow.core.engine.ctx.ScriptContext;
 import com.jflow.core.engine.flow.action.AbstractAction;
 import com.jflow.core.engine.flow.spec.ActionSpec;
@@ -20,6 +21,7 @@ public class ActionFactory {
     public AbstractAction create(ActionSpec spec, ScriptContext context) {
         Class<? extends AbstractAction> clazz = spec.getActionType().getClazz();
         AbstractAction action = parser.replace(spec.getParams(), context).to(clazz);
+        action.setActionInstanceId(IdUtil.simpleUUID());
         action.setActionSpec(spec);
         return action;
     }

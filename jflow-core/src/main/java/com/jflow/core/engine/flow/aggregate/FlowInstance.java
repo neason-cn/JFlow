@@ -1,6 +1,7 @@
 package com.jflow.core.engine.flow.aggregate;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.jflow.common.log.LogContext;
 import com.jflow.common.utils.JsonUtil;
 import com.jflow.core.engine.activity.FlowActivity;
 import com.jflow.core.engine.ctx.Context;
@@ -81,6 +82,11 @@ public class FlowInstance implements Graph<AbstractNodeInstance, EdgeInstance>, 
      * The time when cancel this flow instance.
      */
     private Date terminateAt;
+
+    public void setFlowInstanceId(String flowInstanceId) {
+        this.flowInstanceId = flowInstanceId;
+        LogContext.fi(flowInstanceId);
+    }
 
     @Override
     public void onTerminate(Context context) {

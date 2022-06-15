@@ -16,4 +16,5 @@ public class ActionRecord {
     private ActionTypeEnum type;
     private JSONObject request;
     private ActionResponse response;
+    private String phase;
 }

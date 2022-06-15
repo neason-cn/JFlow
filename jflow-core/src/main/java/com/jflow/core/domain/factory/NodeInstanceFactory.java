@@ -21,6 +21,7 @@ public class NodeInstanceFactory {
         }
         NodeTypeEnum nodeType = spec.getNodeType();
         AbstractNodeInstance instance = nodeType.newNode();
+        instance.setNodeId(spec.getNodeId());
         instance.setSpec(spec);
         instance.setStatus(NodeInstanceStatusEnum.INIT);
         instance.setIncoming(new HashSet<>());

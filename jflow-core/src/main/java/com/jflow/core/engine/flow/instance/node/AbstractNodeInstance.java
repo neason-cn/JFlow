@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
 import com.jflow.common.exception.FlowException;
+import com.jflow.common.log.LogContext;
 import com.jflow.core.engine.activity.NodeActivity;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
@@ -29,7 +30,7 @@ import static com.jflow.common.error.Errors.UNSUPPORTED_NODE_OPERATION_ERROR;
  */
 @Data
 public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, NodeActivity {
-
+    private String nodeId;
     private NodeSpec spec;
     private NodeInstanceStatusEnum status;
     private TaskInstance latestTask;
@@ -48,14 +49,14 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
     private Date fireTime;
     private Date finishTime;
 
-    @Override
-    public String getType() {
-        return this.spec.getNodeType().getType();
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
+        LogContext.ni(nodeId);
     }
 
     @Override
-    public String getNodeId() {
-        return this.spec.getNodeId();
+    public String getType() {
+        return this.spec.getNodeType().getType();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package con.jflow.test.fulllink;
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -16,6 +17,7 @@ public class SimpleFlowTest extends AbstractFlowTest {
 
     @Test
     public void save_release_test() {
+        flowInstanceService.start(flowSpec.getFlowSpecCode(), new JSONObject());
         log.info("save and release ok.");
     }
 

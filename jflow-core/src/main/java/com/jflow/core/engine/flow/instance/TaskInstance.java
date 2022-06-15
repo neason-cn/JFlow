@@ -3,6 +3,7 @@ package com.jflow.core.engine.flow.instance;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
+import com.jflow.common.log.LogContext;
 import com.jflow.core.engine.activity.TaskActivity;
 import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.ctx.Callback;
@@ -39,6 +40,10 @@ public class TaskInstance implements Type, TaskActivity {
     private JSONObject taskContext;
     private Map<String, ActionRecord> records;
 
+    public void setTaskInstanceId(String taskInstanceId) {
+        this.taskInstanceId = taskInstanceId;
+        LogContext.ti(taskInstanceId);
+    }
 
     @Override
     public String getType() {
@@ -58,14 +63,15 @@ public class TaskInstance implements Type, TaskActivity {
         ctx.getRuntime().getTaskInstanceService().save(this);
     }
 
-    private ActionResponse runAction(ActionSpec spec, Context ctx, String key) {
+    private ActionResponse runAction(ActionSpec spec, Context ctx, String phase) {
         TaskInstanceService taskInstanceService = ctx.getRuntime().getTaskInstanceService();
         JSONObject flowContext = ctx.getFlowInstance().getContext();
         // init
         AbstractAction action = taskInstanceService.initAction(spec, new ScriptContext(flowContext, taskContext));
         // do
         ActionResponse actionResponse = action.onExecute(ctx);
-        records.put(key, new ActionRecord(action.getActionSpec().getActionType(), action.toJson(), actionResponse));
+        records.put(action.getActionInstanceId(),
+                new ActionRecord(action.getActionSpec().getActionType(), action.toJson(), actionResponse, phase));
         return actionResponse;
     }
 
