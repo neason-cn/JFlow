@@ -13,6 +13,7 @@ import com.jflow.core.engine.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.engine.flow.aggregate.FlowSpec;
 import com.jflow.core.engine.service.FlowSpecService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +22,7 @@ import java.util.Optional;
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FlowSpecServiceImpl implements FlowSpecService {
@@ -49,10 +51,13 @@ public class FlowSpecServiceImpl implements FlowSpecService {
         transactionExecutor.inTransaction(() -> {
             specToRelease.release(ctx);
             flowSpecRepository.save(specToRelease);
+            log.info("release flow spec: {}", specToRelease.getFlowSpecCode());
             if (specToArchive.isPresent()) {
                 specToArchive.get().archive(ctx);
                 flowSpecRepository.save(specToArchive.get());
+                log.info("archive exist flow spec: {}", specToRelease.getFlowSpecCode());
             }
+            log.info("no flow spec need to archive");
         });
     }
 
@@ -74,6 +79,7 @@ public class FlowSpecServiceImpl implements FlowSpecService {
 
             // update when the latest flow spec is still 'DRAFT'
             if (FlowSpecStatusEnum.DRAFT == oldSpec.getStatus()) {
+                log.info("the latest is draft, merge info");
                 return flowSpecConvertor.merge(flowSpecVO, oldSpec);
             }
 
@@ -83,10 +89,12 @@ public class FlowSpecServiceImpl implements FlowSpecService {
 
             // create a new flow spec when the latest flow spec is already 'RELEASED'
             int nextVersion = oldSpec.getFlowSpecVersion() + 1;
+            log.info("the latest is released, increase version to {}", nextVersion);
             return flowSpecFactory.create(flowSpecVO, nextVersion);
         }
 
         // a new flow spec
+        log.info("no exist flow spec with same code, create a new one");
         return flowSpecFactory.create(flowSpecVO, 1);
     }
 
