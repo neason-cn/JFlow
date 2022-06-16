@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
 import com.jflow.common.exception.FlowException;
-import com.jflow.common.log.LogContext;
 import com.jflow.core.engine.activity.NodeActivity;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
@@ -48,11 +47,6 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
     private Date firstSignalTime;
     private Date fireTime;
     private Date finishTime;
-
-    public void setNodeId(String nodeId) {
-        this.nodeId = nodeId;
-        LogContext.ni(nodeId);
-    }
 
     @Override
     public String getType() {

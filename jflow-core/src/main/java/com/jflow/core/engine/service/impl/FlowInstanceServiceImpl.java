@@ -16,6 +16,7 @@ import com.jflow.core.engine.flow.instance.node.StartNode;
 import com.jflow.core.engine.service.Executor;
 import com.jflow.core.engine.service.FlowInstanceService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,6 +27,7 @@ import static com.jflow.common.error.Errors.*;
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FlowInstanceServiceImpl implements FlowInstanceService {
@@ -45,6 +47,7 @@ public class FlowInstanceServiceImpl implements FlowInstanceService {
     @Override
     public FlowInstance start(String flowSpecCode, JSONObject args, String taskInstanceId) {
         FlowInstance flowInstance = createAndInit(flowSpecCode, args, taskInstanceId);
+        log.info("create and start a new flow instance");
         AbstractNodeInstance nodeInstance = getNodeOfFlow(flowInstance, StartNode.NODE_ID);
         executor.asyncRun(flowInstance.getFlowInstanceId(), () -> {
             Context context = Context.init(runtime, flowInstance);

@@ -33,8 +33,8 @@ public class ExecutorImpl implements Executor {
 
     @PostConstruct
     public void init() {
-        log.info("the mode of Executor is {} from {}", executorMode, "jflow.executor.async");
-        log.info("the pool size of Executor is {} from {}", executorPoolSize, "jflow.executor.pool.size");
+        log.info("the mode of Executor is '{}' from properties '{}'", executorMode, "jflow.executor.async");
+        log.info("the pool size of Executor is '{}' from properties '{}'", executorPoolSize, "jflow.executor.pool.size");
         executor = Executors.newFixedThreadPool(executorPoolSize);
     }
 
