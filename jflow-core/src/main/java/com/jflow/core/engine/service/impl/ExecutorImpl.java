@@ -44,12 +44,14 @@ public class ExecutorImpl implements Executor {
 
         try {
             locked = cacheSpi.tryLock(key, 3000);
+            log.info("locked key: {}", key);
 
             if (!locked) {
                 throw new FlowException(LOCK_KEY_ERROR, key);
             }
 
             if (executorMode) {
+                log.info("async run for key: {}", key);
                 executor.submit(runnable);
                 return;
             }
@@ -58,6 +60,7 @@ public class ExecutorImpl implements Executor {
         } finally {
             if (locked) {
                 cacheSpi.unLock(key);
+                log.info("unlock key: {}", key);
             }
         }
     }
