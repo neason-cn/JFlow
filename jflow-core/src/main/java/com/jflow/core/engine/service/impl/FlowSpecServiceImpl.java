@@ -62,13 +62,19 @@ public class FlowSpecServiceImpl implements FlowSpecService {
     }
 
     @Override
-    public void enableDispatch(String flowSpecId, String cron) {
-        FlowSpec specToRelease = flowSpecRepository.getById(flowSpecId);
+    public void enableSchedule(String flowSpecId) {
+        FlowSpec spec = flowSpecRepository.getById(flowSpecId);
+        Context context = Context.init(runtime, null);
+        spec.enableCron(context);
+        flowSpecRepository.save(spec);
     }
 
     @Override
-    public void disableDispatch(String flowSpecId) {
-        FlowSpec specToRelease = flowSpecRepository.getById(flowSpecId);
+    public void disableSchedule(String flowSpecId) {
+        FlowSpec spec = flowSpecRepository.getById(flowSpecId);
+        Context context = Context.init(runtime, null);
+        spec.disableCron(context);
+        flowSpecRepository.save(spec);
     }
 
     private FlowSpec generateSpecToSave(FlowSpecVO flowSpecVO) {

@@ -27,15 +27,14 @@ public interface FlowSpecService {
      * Start a cron dispatch job.
      *
      * @param flowSpecId spec id
-     * @param cron       cron expression
      */
-    void enableDispatch(String flowSpecId, String cron);
+    void enableSchedule(String flowSpecId);
 
     /**
      * Stop a cron dispatch if where is a cron job.
      *
      * @param flowSpecId spec id
      */
-    void disableDispatch(String flowSpecId);
+    void disableSchedule(String flowSpecId);
 
 }

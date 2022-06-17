@@ -1,5 +1,7 @@
 package com.jflow.app.endpoint.http;
 
+import com.jflow.api.client.request.commands.DisableSpecScheduleCommand;
+import com.jflow.api.client.request.commands.EnableSpecScheduleCommand;
 import com.jflow.api.client.request.commands.ReleaseFlowSpecCommand;
 import com.jflow.api.client.request.commands.SaveDraftFlowSpecCommand;
 import com.jflow.api.client.request.queries.QueryFlowSpecById;
@@ -51,8 +53,27 @@ public class FlowSpecController {
             return Json.error("the flowSpecId can not be empty.");
         }
         flowSpecService.release(command.getFlowSpecId());
-        return Json.success(true);
+        return Json.success(Boolean.TRUE);
     }
+
+    @PostMapping("/disable.json")
+    public Json<Boolean> disable(@RequestBody DisableSpecScheduleCommand command) {
+        if (null == command || StringUtils.isEmpty(command.getFlowSpecId())) {
+            return Json.error("the flowSpecId can not be empty.");
+        }
+        flowSpecService.disableSchedule(command.getFlowSpecId());
+        return Json.success(Boolean.TRUE);
+    }
+
+    @PostMapping("/enable.json")
+    public Json<Boolean> enable(@RequestBody EnableSpecScheduleCommand command) {
+        if (null == command || StringUtils.isEmpty(command.getFlowSpecId())) {
+            return Json.error("the flowSpecId can not be empty.");
+        }
+        flowSpecService.enableSchedule(command.getFlowSpecId());
+        return Json.success(Boolean.TRUE);
+    }
+
 
     //------------------------  QUERY  ------------------------
 
