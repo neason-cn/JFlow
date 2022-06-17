@@ -12,7 +12,7 @@ import com.jflow.infra.spi.scheduler.Job;
 import com.jflow.infra.spi.scheduler.SchedulerSpi;
 import com.jflow.infra.spi.script.type.JsonScript;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.Set;
@@ -25,6 +25,7 @@ import static com.jflow.common.error.Errors.ILLEGAL_FLOW_SPEC_STATUS_ERROR;
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 @Data
 public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
 
@@ -121,9 +122,7 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
         }
         this.status = FlowSpecStatusEnum.RELEASED;
         this.setReleaseAt(new Date());
-        if (StringUtils.isNotBlank(this.cron)) {
-            enableCron(ctx);
-        }
+        log.info("release spec id: {}", this.flowSpecId);
     }
 
     @Override
@@ -132,7 +131,11 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
             throw new FlowException(ILLEGAL_FLOW_SPEC_STATUS_ERROR, this.status, this.getFlowSpecId());
         }
         this.status = FlowSpecStatusEnum.ARCHIVED;
-        disableCron(ctx);
+        log.info("archive spec id: {}", this.flowSpecId);
+        if (this.isScheduled()) {
+            disableCron(ctx);
+            log.info("auto disable schedule flow spec id: {} when archive", this.flowSpecId);
+        }
     }
 
     @Override
@@ -141,7 +144,10 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
             this.scheduled = true;
             SchedulerSpi schedulerSpi = ctx.getRuntime().getSchedulerSpi();
             this.cronJobId = schedulerSpi.addJob(generateJob(ctx));
+            log.info("enable schedule spec id: {}, job id: {}", this.flowSpecId, this.cronJobId);
+            return;
         }
+        log.info("the spec id: {} is scheduling", flowSpecId);
     }
 
     @Override
@@ -150,7 +156,10 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
             this.scheduled = false;
             SchedulerSpi schedulerSpi = ctx.getRuntime().getSchedulerSpi();
             schedulerSpi.deleteJob(this.cronJobId);
+            log.info("disable schedule spec id: {} and delete job id: {}", this.flowSpecId, this.cronJobId);
+            return;
         }
+        log.info("the spec id: {} is not scheduling yet", this.flowSpecId);
     }
 
     private Job generateJob(Context ctx) {
