@@ -12,6 +12,5 @@ public class TaskSpecVO {
     private String taskType;
     private ActionSpecVO onExecute;
     private ActionSpecVO onSubmit;
-    private ActionSpecVO onQuery;
     private ActionSpecVO onCancel;
 }

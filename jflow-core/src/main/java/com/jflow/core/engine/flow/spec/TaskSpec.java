@@ -40,11 +40,6 @@ public class TaskSpec implements Type, Serializable {
     private ActionSpec onSubmit;
 
     /**
-     * The action which will be actioned all the time if the task is still running.
-     */
-    private ActionSpec onQuery;
-
-    /**
      * The action which will be actioned when cancel the task.
      */
     private ActionSpec onCancel;

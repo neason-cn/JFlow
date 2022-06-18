@@ -26,7 +26,6 @@ public class TaskSpecConvertor {
         spec.setTaskType(type);
         spec.setOnExecute(actionSpecConvertor.convert(vo.getOnExecute()));
         spec.setOnSubmit(actionSpecConvertor.convert(vo.getOnSubmit()));
-        spec.setOnQuery(actionSpecConvertor.convert(vo.getOnQuery()));
         spec.setOnCancel(actionSpecConvertor.convert(vo.getOnCancel()));
         return spec;
     }
@@ -40,7 +39,6 @@ public class TaskSpecConvertor {
         vo.setTaskType(spec.getTaskType().getType());
         vo.setOnExecute(actionSpecConvertor.convert(spec.getOnExecute()));
         vo.setOnSubmit(actionSpecConvertor.convert(spec.getOnSubmit()));
-        vo.setOnQuery(actionSpecConvertor.convert(spec.getOnQuery()));
         vo.setOnCancel(actionSpecConvertor.convert(spec.getOnCancel()));
         return vo;
     }
