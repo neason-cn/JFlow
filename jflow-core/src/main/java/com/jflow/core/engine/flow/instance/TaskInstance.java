@@ -17,6 +17,7 @@ import com.jflow.core.engine.flow.spec.ActionSpec;
 import com.jflow.core.engine.flow.spec.TaskSpec;
 import com.jflow.core.engine.service.TaskInstanceService;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.Map;
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 @Data
 public class TaskInstance implements Type, TaskActivity {
 
@@ -53,23 +55,27 @@ public class TaskInstance implements Type, TaskActivity {
     @Override
     public void onFire(Context ctx) {
         if (taskSpec.getTaskType() == TaskTypeEnum.SYNC) {
+            log.info("execute sync task onExecute action");
             ActionResponse onExecute = runAction(taskSpec.getOnExecute(), ctx, "onExecute");
             resolveResult(onExecute);
             ctx.getRuntime().getTaskInstanceService().save(this);
             return;
         }
+        log.info("execute async task onSubmit action");
         ActionResponse onSubmit = runAction(taskSpec.getOnSubmit(), ctx, "onSubmit");
         resolveResult(onSubmit);
         ctx.getRuntime().getTaskInstanceService().save(this);
     }
 
     private ActionResponse runAction(ActionSpec spec, Context ctx, String phase) {
+        log.info("execute action {}, spec: {}", phase, spec.getType());
         TaskInstanceService taskInstanceService = ctx.getRuntime().getTaskInstanceService();
         JSONObject flowContext = ctx.getFlowInstance().getContext();
         // init
         AbstractAction action = taskInstanceService.initAction(spec, new ScriptContext(flowContext, taskContext));
         // do
         ActionResponse actionResponse = action.onExecute(ctx);
+        log.info("action response: {}", actionResponse);
         records.put(action.getActionInstanceId(),
                 new ActionRecord(action.getActionSpec().getActionType(), action.toJson(), actionResponse, phase));
         return actionResponse;
