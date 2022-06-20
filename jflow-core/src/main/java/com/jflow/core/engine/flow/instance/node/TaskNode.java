@@ -12,6 +12,7 @@ import com.jflow.infra.spi.script.ScriptSpi;
 import com.jflow.infra.spi.script.type.BooleanScript;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
@@ -22,31 +23,37 @@ import static com.jflow.core.engine.enums.status.TaskInstanceStatusEnum.SUCCESS;
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TaskNode extends AbstractNodeInstance {
 
     @Override
     public void onSignal(Context ctx, EdgeInstance trigger) {
+        log.debug("edge: {} touch off with status: {}", trigger.getEdgeId(), trigger.getStatus());
         if (null == this.getFirstSignalTime()) {
             this.setFirstSignalTime(new Date());
             initAllScript(ctx);
         }
 
         if (!finishWait()) {
+            log.info("the waitAll mode is: {} keep waiting", this.getWaitAll());
             return;
         }
 
         if (this.getAutoSkip()) {
+            log.info("the auto skip is enable, skip this node");
             this.onSkip(ctx, new JSONObject());
             return;
         }
 
         if (this.getAutoFire()) {
+            log.info("the auto fire is enable, fire this node");
             this.onFire(ctx, new JSONObject());
             return;
         }
 
+        log.info("finish waiting, but this node is a manual node, keep waiting");
         this.setStatus(NodeInstanceStatusEnum.IDLE);
     }
 
@@ -55,12 +62,19 @@ public class TaskNode extends AbstractNodeInstance {
      */
     private void initAllScript(Context ctx) {
         this.setWaitAll(runScript(ctx, this.getSpec().getWaitAll()));
+        log.debug("init waitAll: {}", this.getWaitAll());
         this.setAutoFire(runScript(ctx, this.getSpec().getAutoFire()));
+        log.debug("init autoFire: {}", this.getAutoFire());
         this.setAutoSkip(runScript(ctx, this.getSpec().getAutoSkip()));
+        log.debug("init autoSkip: {}", this.getAutoSkip());
         this.setEnableSkip(runScript(ctx, this.getSpec().getEnableSkip()));
+        log.debug("init enableSKip: {}", this.getEnableSkip());
         this.setEnableRetry(runScript(ctx, this.getSpec().getEnableRetry()));
+        log.debug("init enableRetry: {}", this.getEnableRetry());
         this.setInterruptWhenSubmitFailed(runScript(ctx, this.getSpec().getInterruptWhenSubmitFailed()));
+        log.debug("init interruptWhenSubmitFailed: {}", this.getInterruptWhenExecuteFailed());
         this.setInterruptWhenExecuteFailed(runScript(ctx, this.getSpec().getInterruptWhenExecuteFailed()));
+        log.debug("init interruptWhenExecuteFailed: {}", this.getInterruptWhenExecuteFailed());
     }
 
     private boolean runScript(Context ctx, BooleanScript script) {
@@ -83,15 +97,18 @@ public class TaskNode extends AbstractNodeInstance {
     public void onFire(Context ctx, JSONObject args) {
         // before run task and ignore the result.
         runAndIgnoreResult(ctx, this.getSpec().getBefore());
+        log.debug("run before action :{}", this.getSpec().getBefore().getActionType());
 
         // run task
         TaskInstance taskInstance = ctx.getRuntime().getTaskInstanceService().createAndSaveTask(this.getSpec().getTaskSpec(),
                 ctx.getFlowInstance().getFlowInstanceId(), this.getNodeId(), args);
         this.setLatestTask(taskInstance);
         taskInstance.onFire(ctx);
+        log.info("fire task");
 
         // after run task
         afterTaskRun(ctx, taskInstance);
+        log.debug("run before action :{}", this.getSpec().getAfter().getActionType());
     }
 
     private void afterTaskRun(Context ctx, TaskInstance taskInstance) {
@@ -114,6 +131,7 @@ public class TaskNode extends AbstractNodeInstance {
 
     @Override
     public void onSkip(Context ctx, JSONObject args) {
+        log.info("skipped");
         this.setStatus(NodeInstanceStatusEnum.SKIPPED);
         fireOutgoingEdges(ctx);
     }
@@ -132,10 +150,12 @@ public class TaskNode extends AbstractNodeInstance {
     public void onCancel(Context ctx, JSONObject args) {
         this.setStatus(NodeInstanceStatusEnum.CANCELED);
         this.getLatestTask().onCancel(ctx);
+        log.info("run cancel action");
     }
 
     @Override
     public void onCallback(Context ctx, Callback callback) {
+        log.info("receive callback");
         getLatestTask().onCallback(ctx, callback);
         afterTaskRun(ctx, getLatestTask());
     }
