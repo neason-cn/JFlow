@@ -10,11 +10,13 @@ import com.jflow.core.engine.graph.Edge;
 import com.jflow.infra.spi.script.ScriptResult;
 import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 @Data
 public class EdgeInstance implements Edge<AbstractNodeInstance>, EdgeActivity {
 
@@ -71,6 +73,7 @@ public class EdgeInstance implements Edge<AbstractNodeInstance>, EdgeActivity {
         if (!this.spec.hasScript()) {
             this.error = null;
             this.status = EdgeInstanceStatusEnum.ALLOW;
+            log.debug("the edge: {} has no script return true for default", this.getEdgeId());
             this.target.onSignal(ctx, this);
             return;
         }
@@ -81,6 +84,7 @@ public class EdgeInstance implements Edge<AbstractNodeInstance>, EdgeActivity {
 
         // run script error
         if (scriptResult.hasError() || null == scriptResult.getResult()) {
+            log.debug("script :{} run error: {}", this.getSpec().getScript().getContent(), scriptResult.getError());
             this.status = EdgeInstanceStatusEnum.ERROR;
             return;
         }

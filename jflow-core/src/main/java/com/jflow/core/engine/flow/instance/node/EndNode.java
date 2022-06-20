@@ -5,11 +5,13 @@ import com.jflow.core.engine.enums.status.FlowInstanceStatusEnum;
 import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.engine.flow.instance.EdgeInstance;
 import com.jflow.core.engine.flow.spec.ActionSpec;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 public class EndNode extends AbstractNodeInstance {
 
     @Override
@@ -17,8 +19,10 @@ public class EndNode extends AbstractNodeInstance {
         FlowInstance flowInstance = ctx.getFlowInstance();
         ActionSpec endActionSpec = flowInstance.getSpec().getOnEnd();
         runAndIgnoreResult(ctx, endActionSpec);
+        log.info("execute the endAction of flow");
         flowInstance.setStatus(FlowInstanceStatusEnum.SUCCESS);
         flowInstance.onFinish(ctx);
+        log.info("finish the flow instance");
     }
 
 }

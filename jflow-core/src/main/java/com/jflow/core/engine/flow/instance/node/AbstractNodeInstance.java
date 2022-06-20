@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.jflow.common.enums.Type;
 import com.jflow.common.exception.FlowException;
 import com.jflow.core.engine.activity.NodeActivity;
+import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.ctx.ScriptContext;
@@ -17,6 +18,7 @@ import com.jflow.core.engine.flow.spec.NodeSpec;
 import com.jflow.core.engine.graph.Node;
 import com.jflow.core.engine.service.TaskInstanceService;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.Set;
@@ -27,6 +29,7 @@ import static com.jflow.common.error.Errors.UNSUPPORTED_NODE_OPERATION_ERROR;
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 @Data
 public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, NodeActivity {
     private String nodeId;
@@ -60,6 +63,7 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
     }
 
     protected void fireOutgoingEdges(Context ctx) {
+        // todo concurrency
         getOutgoing().forEach(edge -> {
             edge.onFire(ctx);
         });
@@ -70,10 +74,11 @@ public abstract class AbstractNodeInstance implements Type, Node<EdgeInstance>, 
             return;
         }
         TaskInstanceService instanceService = ctx.getRuntime().getTaskInstanceService();
-        JSONObject taskContext = this.latestTask == null ? new JSONObject() : this.latestTask.getTaskContext();;
+        JSONObject taskContext = this.latestTask == null ? new JSONObject() : this.latestTask.getTaskContext();
         AbstractAction action = instanceService.initAction(spec,
                 new ScriptContext(ctx.getFlowInstance().getContext(), taskContext));
-        action.onExecute(ctx);
+        ActionResponse actionResponse = action.onExecute(ctx);
+        log.debug("execute action: {} and ignore the result: {}", spec, actionResponse);
     }
 
     @Override
