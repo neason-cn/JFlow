@@ -3,6 +3,7 @@ package com.jflow.api.client.vo.spec;
 import lombok.Data;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author neason
@@ -21,7 +22,7 @@ public class NodeSpecVO {
     private String interruptWhenSubmitFailedScript;
     private String interruptWhenExecuteFailedScript;
     private Map<String, String> labels;
-    private ActionSpecVO beforeTaskAction;
+    private Set<ActionSpecVO> preActions;
     private TaskSpecVO taskSpec;
-    private ActionSpecVO afterTaskAction;
+    private Set<ActionSpecVO> postActions;
 }

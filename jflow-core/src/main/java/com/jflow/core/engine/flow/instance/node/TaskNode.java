@@ -1,6 +1,7 @@
 package com.jflow.core.engine.flow.instance.node;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.jflow.common.exception.FlowException;
 import com.jflow.core.engine.ctx.Callback;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.core.engine.enums.status.NodeInstanceStatusEnum;
@@ -16,8 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
-import static com.jflow.core.engine.enums.status.TaskInstanceStatusEnum.FAILED;
-import static com.jflow.core.engine.enums.status.TaskInstanceStatusEnum.SUCCESS;
+import static com.jflow.common.error.Errors.ILLEGAL_TASK_INSTANCE_STATUS_ERROR;
+import static com.jflow.core.engine.enums.status.TaskInstanceStatusEnum.*;
 
 /**
  * @author neason
@@ -96,36 +97,54 @@ public class TaskNode extends AbstractNodeInstance {
     @Override
     public void onFire(Context ctx, JSONObject args) {
         // before run task and ignore the result.
-        runAndIgnoreResult(ctx, this.getSpec().getBefore());
-        log.debug("run before action :{}", this.getSpec().getBefore().getActionType());
+        runPreActions(ctx);
 
         // run task
         TaskInstance taskInstance = ctx.getRuntime().getTaskInstanceService().createAndSaveTask(this.getSpec().getTaskSpec(),
                 ctx.getFlowInstance().getFlowInstanceId(), this.getNodeId(), args);
         this.setLatestTask(taskInstance);
-        taskInstance.onFire(ctx);
         log.info("fire task");
+        taskInstance.onFire(ctx);
 
-        // after run task
+        // after task run
         afterTaskRun(ctx, taskInstance);
-        log.debug("run before action :{}", this.getSpec().getAfter().getActionType());
     }
 
     private void afterTaskRun(Context ctx, TaskInstance taskInstance) {
-        if (SUCCESS == taskInstance.getStatus()) {
-            this.setStatus(NodeInstanceStatusEnum.SUCCESS);
-            // run after action and ignore the result.
-            runAndIgnoreResult(ctx, this.getSpec().getAfter());
-            fireOutgoingEdges(ctx);
+        if (RUNNING == taskInstance.getStatus()) {
+            this.setStatus(NodeInstanceStatusEnum.RUNNING);
             return;
+        }
+
+        if (INIT == taskInstance.getStatus()) {
+            throw new FlowException(ILLEGAL_TASK_INSTANCE_STATUS_ERROR, taskInstance.getTaskInstanceId());
         }
 
         if (FAILED == taskInstance.getStatus()) {
             this.setStatus(NodeInstanceStatusEnum.FAILED);
+            runPostActions(ctx);
             return;
         }
 
-        this.setStatus(NodeInstanceStatusEnum.RUNNING);
+        if (SUCCESS == taskInstance.getStatus()) {
+            this.setStatus(NodeInstanceStatusEnum.SUCCESS);
+            runPostActions(ctx);
+            fireOutgoingEdges(ctx);
+        }
+    }
+
+    private void runPreActions(Context ctx) {
+        this.getSpec().getPreActions().forEach(action -> {
+            runAndIgnoreResult(ctx, action);
+            log.debug("run pre action :{}", action.getName());
+        });
+    }
+
+    private void runPostActions(Context ctx) {
+        this.getSpec().getPostActions().forEach(action -> {
+            runAndIgnoreResult(ctx, action);
+            log.debug("run post action :{}", action.getName());
+        });
     }
 
 

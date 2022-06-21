@@ -36,9 +36,9 @@ public class NodeSpecConvertor {
         nodeSpec.setInterruptWhenSubmitFailed(new BooleanScript(vo.getInterruptWhenSubmitFailedScript()));
         nodeSpec.setInterruptWhenExecuteFailed(new BooleanScript(vo.getInterruptWhenExecuteFailedScript()));
         nodeSpec.setLabels(vo.getLabels());
-        nodeSpec.setBefore(actionSpecConvertor.convert(vo.getBeforeTaskAction()));
+        nodeSpec.setPreActions(actionSpecConvertor.batchConvertVO(vo.getPreActions()));
         nodeSpec.setTaskSpec(taskSpecConvertor.convert(vo.getTaskSpec()));
-        nodeSpec.setAfter(actionSpecConvertor.convert(vo.getAfterTaskAction()));
+        nodeSpec.setPostActions(actionSpecConvertor.batchConvertVO(vo.getPostActions()));
         nodeSpec.setIncoming(new HashSet<>());
         nodeSpec.setOutgoing(new HashSet<>());
         return nodeSpec;
@@ -62,9 +62,9 @@ public class NodeSpecConvertor {
         vo.setInterruptWhenExecuteFailedScript(spec.getInterruptWhenExecuteFailed() != null ?
                 spec.getInterruptWhenExecuteFailed().getContent() : null);
         vo.setLabels(spec.getLabels());
-        vo.setBeforeTaskAction(actionSpecConvertor.convert(spec.getBefore()));
+        vo.setPreActions(actionSpecConvertor.batchConvertSpec(spec.getPreActions()));
         vo.setTaskSpec(taskSpecConvertor.convert(spec.getTaskSpec()));
-        vo.setAfterTaskAction(actionSpecConvertor.convert(spec.getAfter()));
+        vo.setPostActions(actionSpecConvertor.batchConvertSpec(spec.getPostActions()));
         return vo;
     }
 

@@ -81,7 +81,7 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
     /**
      * The action before fire task.
      */
-    private ActionSpec before;
+    private Set<ActionSpec> preActions;
 
     /**
      * The task will be run in this node.
@@ -91,7 +91,7 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
     /**
      * The action after finish task.
      */
-    private ActionSpec after;
+    private Set<ActionSpec> postActions;
 
     /**
      * Transient for avoid circular reference when serialize this.
@@ -120,9 +120,9 @@ public class NodeSpec implements Node<EdgeSpec>, Serializable {
                 ", interruptWhenSubmitFailed=" + interruptWhenSubmitFailed +
                 ", interruptWhenExecuteFailed=" + interruptWhenExecuteFailed +
                 ", labels=" + labels +
-                ", before=" + before +
+                ", before=" + preActions +
                 ", taskSpec=" + taskSpec +
-                ", after=" + after +
+                ", after=" + postActions +
                 ", incoming=" + incoming +
                 ", outgoing=" + outgoing +
                 '}';

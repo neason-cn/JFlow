@@ -25,6 +25,7 @@ public enum Errors implements FlowError {
 
     // Task Instance
     NO_TASK_INSTANCE_MATCHES_ERROR("NO_TASK_INSTANCE_MATCHES_ERROR", "no task instance of the id: {}"),
+    ILLEGAL_TASK_INSTANCE_STATUS_ERROR("ILLEGAL_TASK_INSTANCE_STATUS_ERROR", "the task: {} is still INIT after run"),
 
     // DB
     GENERATE_SQL_ERROR("GENERATE_SQL_ERROR", "auto generate sql error: {}"),
