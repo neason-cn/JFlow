@@ -21,8 +21,8 @@ public class FlowSpecVO {
     private String outputScript;
     private boolean scheduled;
     private String cron;
-    private ActionSpecVO onStartAction;
-    private ActionSpecVO onEndAction;
+    private Set<ActionSpecVO> onStartAction;
+    private Set<ActionSpecVO> onEndAction;
     private Set<NodeSpecVO> nodes;
     private Set<EdgeSpecVO> edges;
 }

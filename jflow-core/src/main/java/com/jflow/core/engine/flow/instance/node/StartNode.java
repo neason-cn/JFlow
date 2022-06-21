@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Set;
+
 /**
  * @author neason
  * @since 0.0.1
@@ -19,9 +21,11 @@ public class StartNode extends AbstractNodeInstance {
 
     @Override
     public void onSignal(Context ctx, EdgeInstance edgeInstance) {
-        ActionSpec endActionSpec = ctx.getFlowInstance().getSpec().getOnStart();
-        runAndIgnoreResult(ctx, endActionSpec);
-        log.info("execute the startAction of flow");
+        Set<ActionSpec> startActions = ctx.getFlowInstance().getSpec().getOnStart();
+        startActions.forEach(action -> {
+            runAndIgnoreResult(ctx, action);
+            log.info("execute the startAction: {} of flow", action.getName());
+        });
         fireOutgoingEdges(ctx);
     }
 

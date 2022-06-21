@@ -16,6 +16,8 @@ public class ActionSpec implements Type, Serializable {
 
     private static final long serialVersionUID = 2022001L;
 
+    private String name;
+
     /**
      * The action type.
      *

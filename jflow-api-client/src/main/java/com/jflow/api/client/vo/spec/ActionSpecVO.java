@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class ActionSpecVO {
+    private String name;
     private String actionType;
     private JSONObject params;
 }

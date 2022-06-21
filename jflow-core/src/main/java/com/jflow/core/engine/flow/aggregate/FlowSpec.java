@@ -96,14 +96,14 @@ public class FlowSpec implements Graph<NodeSpec, EdgeSpec>, FlowSpecAbility {
     private Date releaseAt;
 
     /**
-     * The action will be actioned when create a flow instance by using this spec version.
+     * The actions will be actioned when create a flow instance by using this spec version.
      */
-    private ActionSpec onStart;
+    private Set<ActionSpec> onStart;
 
     /**
-     * The action will be actioned when a flow instance went to final status which created by using this spec version.
+     * The actions will be actioned when a flow instance went to final status which created by using this spec version.
      */
-    private ActionSpec onEnd;
+    private Set<ActionSpec> onEnd;
 
     /**
      * All node spec.

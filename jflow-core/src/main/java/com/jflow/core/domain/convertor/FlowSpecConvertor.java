@@ -1,18 +1,22 @@
 package com.jflow.core.domain.convertor;
 
+import com.jflow.api.client.vo.spec.ActionSpecVO;
 import com.jflow.api.client.vo.spec.EdgeSpecVO;
 import com.jflow.api.client.vo.spec.FlowSpecVO;
 import com.jflow.api.client.vo.spec.NodeSpecVO;
 import com.jflow.core.engine.enums.status.FlowSpecStatusEnum;
 import com.jflow.core.engine.flow.aggregate.FlowSpec;
+import com.jflow.core.engine.flow.spec.ActionSpec;
 import com.jflow.core.engine.flow.spec.EdgeSpec;
 import com.jflow.core.engine.flow.spec.NodeSpec;
 import com.jflow.core.engine.graph.Graph;
 import com.jflow.infra.spi.script.type.JsonScript;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -58,8 +62,24 @@ public class FlowSpecConvertor {
         vo.setInitContext(spec.getInitContext());
         vo.setOutputScript(spec.getOutputScript() != null ? spec.getOutputScript().getContent() : null);
         vo.setScheduled(spec.isScheduled());
-        vo.setOnStartAction(actionSpecConvertor.convert(spec.getOnStart()));
-        vo.setOnEndAction(actionSpecConvertor.convert(spec.getOnEnd()));
+
+        if (CollectionUtils.isNotEmpty(spec.getOnStart())) {
+            Set<ActionSpecVO> starts = spec.getOnStart().stream()
+                    .map(actionSpecConvertor::convert)
+                    .collect(Collectors.toSet());
+            vo.setOnStartAction(starts);
+        } else {
+            vo.setOnStartAction(new HashSet<>());
+        }
+
+        if (CollectionUtils.isNotEmpty(spec.getOnEnd())) {
+            Set<ActionSpecVO> ends = spec.getOnEnd().stream()
+                    .map(actionSpecConvertor::convert)
+                    .collect(Collectors.toSet());
+            vo.setOnEndAction(ends);
+        } else {
+            vo.setOnEndAction(new HashSet<>());
+        }
 
         Set<NodeSpecVO> nodes = spec.getNodes().stream()
                 .map(nodeSpecConvertor::convert)
@@ -89,8 +109,23 @@ public class FlowSpecConvertor {
         flowSpec.setCron(vo.getCron());
 
         // action
-        flowSpec.setOnStart(actionSpecConvertor.convert(vo.getOnStartAction()));
-        flowSpec.setOnEnd(actionSpecConvertor.convert(vo.getOnEndAction()));
+        if (CollectionUtils.isNotEmpty(vo.getOnStartAction())) {
+            Set<ActionSpec> starts = vo.getOnStartAction().stream()
+                    .map(actionSpecConvertor::convert)
+                    .collect(Collectors.toSet());
+            flowSpec.setOnStart(starts);
+        } else {
+            flowSpec.setOnStart(new HashSet<>());
+        }
+
+        if (CollectionUtils.isNotEmpty(vo.getOnEndAction())) {
+            Set<ActionSpec> ends = vo.getOnEndAction().stream()
+                    .map(actionSpecConvertor::convert)
+                    .collect(Collectors.toSet());
+            flowSpec.setOnStart(ends);
+        } else {
+            flowSpec.setOnStart(new HashSet<>());
+        }
 
         // nodes and edges
         Set<NodeSpec> nodes = vo.getNodes().stream()

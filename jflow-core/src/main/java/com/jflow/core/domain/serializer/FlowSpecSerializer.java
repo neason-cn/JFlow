@@ -57,9 +57,9 @@ public class FlowSpecSerializer {
         spec.setOutputScript(new JsonScript(entity.getOutputScript()));
         spec.setScheduled(entity.isScheduled());
         spec.setCron(entity.getCron());
-        spec.setOnStart(new TypeReference<ActionSpec>() {
+        spec.setOnStart(new TypeReference<Set<ActionSpec>>() {
         }.parseObject(entity.getStartAction()));
-        spec.setOnEnd(new TypeReference<ActionSpec>() {
+        spec.setOnEnd(new TypeReference<Set<ActionSpec>>() {
         }.parseObject(entity.getEndAction()));
         spec.setCreateAt(entity.getCreateAt());
         spec.setReleaseAt(entity.getReleaseAt());

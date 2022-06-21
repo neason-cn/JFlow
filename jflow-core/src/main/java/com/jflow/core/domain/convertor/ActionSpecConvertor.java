@@ -17,6 +17,7 @@ public class ActionSpecConvertor {
             return null;
         }
         ActionSpec spec = new ActionSpec();
+        spec.setName(vo.getName());
         spec.setActionType(ActionTypeEnum.of(vo.getActionType()));
         spec.setParams(vo.getParams());
         return spec;
@@ -27,6 +28,7 @@ public class ActionSpecConvertor {
             return null;
         }
         ActionSpecVO vo = new ActionSpecVO();
+        vo.setName(spec.getName());
         vo.setActionType(spec.getActionType().getType());
         vo.setParams(spec.getParams());
         return vo;
