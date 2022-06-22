@@ -5,7 +5,6 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
 import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.TypeReference;
 import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.ctx.Context;
 import com.jflow.infra.spi.script.ScriptResult;
@@ -55,7 +54,7 @@ public class HttpAction extends AbstractAction {
     /**
      * Convert http response body to ActionResponse by using this script.
      */
-    private String convertScript;
+    private ActionScript convertScript;
 
     private static final String HTTP_RESPONSE_BODY = "response";
 
@@ -71,8 +70,7 @@ public class HttpAction extends AbstractAction {
             JSONObject resContext = new JSONObject();
             resContext.put(HTTP_RESPONSE_BODY, response.body());
             ScriptSpi scriptSpi = ctx.getRuntime().getScriptSpi();
-            ScriptResult<ActionResponse> result = scriptSpi.execute(this.convertScript, resContext, new TypeReference<ActionResponse>() {
-            });
+            ScriptResult<ActionResponse> result = scriptSpi.execute(this.convertScript, resContext);
             if (result.hasError()) {
                 return ActionResponse.error(
                         StrFormatter.format("the http response body is {}, and the script has error: {}", response.body(), result.getError()));
