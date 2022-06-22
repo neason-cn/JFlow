@@ -12,6 +12,7 @@ import com.jflow.infra.spi.script.ScriptResult;
 import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Map;
  * @author neason
  * @since 0.0.1
  */
+@Slf4j
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HttpAction extends AbstractAction {
@@ -60,10 +62,12 @@ public class HttpAction extends AbstractAction {
     @Override
     public ActionResponse onExecute(Context ctx) {
         try {
+            log.debug("http invoke url: {}, method: {}, headers: {}, body: {}", connectParams(), method, headers, body);
             HttpResponse response = HttpUtil.createRequest(Method.valueOf(method), connectParams())
                     .header(headers)
                     .body(body)
                     .execute();
+            log.debug("http invoke response body: {}", response.body());
             JSONObject resContext = new JSONObject();
             resContext.put(HTTP_RESPONSE_BODY, response.body());
             ScriptSpi scriptSpi = ctx.getRuntime().getScriptSpi();
@@ -75,6 +79,7 @@ public class HttpAction extends AbstractAction {
             }
             return result.getResult();
         } catch (Exception e) {
+            log.error("http invoke error: {}", e.getMessage());
             return ActionResponse.error("http invoke error: ".concat(e.getMessage()));
         }
     }
