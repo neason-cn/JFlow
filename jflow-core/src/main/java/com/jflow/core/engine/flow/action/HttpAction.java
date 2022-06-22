@@ -1,12 +1,15 @@
 package com.jflow.core.engine.flow.action;
 
+import cn.hutool.core.text.StrFormatter;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
-import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
 import com.jflow.core.engine.ctx.ActionResponse;
 import com.jflow.core.engine.ctx.Context;
+import com.jflow.infra.spi.script.ScriptResult;
+import com.jflow.infra.spi.script.ScriptSpi;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.collections4.MapUtils;
@@ -47,6 +50,13 @@ public class HttpAction extends AbstractAction {
      */
     private String body;
 
+    /**
+     * Convert http response body to ActionResponse by using this script.
+     */
+    private String convertScript;
+
+    private static final String HTTP_RESPONSE_BODY = "response";
+
     @Override
     public ActionResponse onExecute(Context ctx) {
         try {
@@ -54,11 +64,16 @@ public class HttpAction extends AbstractAction {
                     .header(headers)
                     .body(body)
                     .execute();
-            try {
-                return JSONObject.parseObject(response.body(), ActionResponse.class);
-            } catch (JSONException e) {
-                return ActionResponse.error("http response parse error: ".concat(e.getMessage()));
+            JSONObject resContext = new JSONObject();
+            resContext.put(HTTP_RESPONSE_BODY, response.body());
+            ScriptSpi scriptSpi = ctx.getRuntime().getScriptSpi();
+            ScriptResult<ActionResponse> result = scriptSpi.execute(this.convertScript, resContext, new TypeReference<ActionResponse>() {
+            });
+            if (result.hasError()) {
+                return ActionResponse.error(
+                        StrFormatter.format("the http response body is {}, and the script has error: {}", response.body(), result.getError()));
             }
+            return result.getResult();
         } catch (Exception e) {
             return ActionResponse.error("http invoke error: ".concat(e.getMessage()));
         }
