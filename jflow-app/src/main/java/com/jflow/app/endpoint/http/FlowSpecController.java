@@ -12,6 +12,8 @@ import com.jflow.core.domain.convertor.FlowSpecConvertor;
 import com.jflow.core.domain.repository.FlowSpecRepository;
 import com.jflow.core.engine.flow.aggregate.FlowSpec;
 import com.jflow.core.engine.service.FlowSpecService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +29,7 @@ import static com.jflow.common.error.Errors.NO_RELEASED_FLOW_SPEC_VERSION_ERROR;
  * @author neason
  * @since 0.0.1
  */
+@Api(tags = "FlowSpec")
 @RestController
 @RequestMapping("/api/flow/spec")
 @RequiredArgsConstructor
@@ -38,6 +41,7 @@ public class FlowSpecController {
 
     //------------------------ COMMAND ------------------------
 
+    @ApiOperation("save flow spec as draft")
     @PostMapping("/save.json")
     public Json<String> save(@RequestBody SaveDraftFlowSpecCommand command) {
         if (null == command || null == command.getFlowSpec()) {
