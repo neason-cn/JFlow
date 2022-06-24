@@ -16,6 +16,8 @@
 ### EdgeSpec
 用于串联不同的节点`NodeSpec`，在`EdgeSpec`中配置了相应的表达式，用于控制流程的走向，当一个节点结束后，会尝试运行该
 节点所有的后置的边，其表达式返回值为`true`的边的后置节点才会触发。
+![Performance](doc/images/fire_edge.jpg)
+
 ### TaskSpec
 一个`NodeSpec`含有一个`TaskSpec`,用于描述该节点的具体行为，`TaskSpec`也会根据业务实际情况分为同步和异步的任务。
 ### ActionSpec
