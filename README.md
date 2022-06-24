@@ -10,16 +10,16 @@
 `Instance`:基于`Spec`生成的实例对象，将`Spec`中定义的参数和行为或参数进行实例化。
 
 ### FlowSpec
-用于描述整个任务流向，包含节点的定义`NodeSpec`和边的定义`EdgeSpec`。
+用于描述整个任务流向，包含节点的定义`NodeSpec`和边的定义`EdgeSpec`,节点和边都相互持有引用。
 ### NodeSpec
 除了`开始节点`和`结束节点`外，节点用于描述当流程实例推进当前节点该做什么事情。
 ### EdgeSpec
 用于串联不同的节点`NodeSpec`，在`EdgeSpec`中配置了相应的表达式，用于控制流程的走向，当一个节点结束后，会尝试运行该
 节点所有的后置的边，其表达式返回值为`true`的边的后置节点才会触发。
 ![Performance](doc/images/fire_edge.jpg)
-
 ### TaskSpec
 一个`NodeSpec`含有一个`TaskSpec`,用于描述该节点的具体行为，`TaskSpec`也会根据业务实际情况分为同步和异步的任务。
+![Performance](doc/images/sync_async_task.jpg)
 ### ActionSpec
 用于描述一个具体的操作，可以是本地操作，也可以是远程调用。
 
