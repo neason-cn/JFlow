@@ -8,6 +8,7 @@ import com.jflow.app.endpoint.http.convertor.TaskVOConvertor;
 import com.jflow.core.engine.flow.instance.TaskInstance;
 import com.jflow.core.engine.service.FlowInstanceService;
 import com.jflow.core.engine.service.TaskInstanceService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
  * @author neason
  * @since 0.0.1
  */
+@Api(tags = "TaskInstance")
 @RestController
 @RequestMapping("/api/task")
 @RequiredArgsConstructor

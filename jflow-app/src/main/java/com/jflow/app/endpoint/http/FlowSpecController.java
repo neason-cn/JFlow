@@ -41,7 +41,6 @@ public class FlowSpecController {
 
     //------------------------ COMMAND ------------------------
 
-    @ApiOperation("save flow spec as draft")
     @PostMapping("/save.json")
     public Json<String> save(@RequestBody SaveDraftFlowSpecCommand command) {
         if (null == command || null == command.getFlowSpec()) {

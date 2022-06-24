@@ -9,6 +9,7 @@ import com.jflow.api.client.vo.instance.FlowInstanceVO;
 import com.jflow.core.domain.convertor.FlowInstanceConvertor;
 import com.jflow.core.engine.flow.aggregate.FlowInstance;
 import com.jflow.core.engine.service.FlowInstanceService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author neason
  * @since 0.0.1
  */
+@Api(tags = "FlowInstance")
 @RestController
 @RequestMapping("/api/flow/instance")
 @RequiredArgsConstructor
