@@ -8,7 +8,7 @@
 ### xxxSpec && xxxInstance
 `Spec`:流程引擎核心对象的定义，包含了这个对象必要的参数以及定义其行为。
 `Instance`:基于`Spec`生成的实例对象，将`Spec`中定义的参数和行为或参数进行实例化。
-![Performance](doc/images/total_view.jpg)
+![Performance](doc/images/high_view.jpg)
 ### FlowSpec
 用于描述整个任务流向，包含节点的定义`NodeSpec`和边的定义`EdgeSpec`,节点和边都相互持有引用。
 ### NodeSpec
