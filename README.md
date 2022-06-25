@@ -65,8 +65,9 @@
 - DubboAction: Dubbo RPC调用
 - BeanAction: SpringBean的某个方法调用
 - KafkaAction: Kafka消息发送
+- ShellAction: 执行Shell命令
+- ScriptAction: 执行QLExpress表达式
 - SubFlowAction: 创建一个子流程实例
-
 #### Spi
 流程引擎将自己的核心依赖抽象为SPI，目的是将这些能力独立为可替换的模块，比如：
 - cache: 缓存
