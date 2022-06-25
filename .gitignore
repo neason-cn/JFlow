@@ -17,7 +17,7 @@ rebel.xml
 *.ipr
 rebel.xml
 
-jflow/
+jflow/log
 
 ### NetBeans ###
 nbproject/private/
