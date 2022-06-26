@@ -1,9 +1,9 @@
 package com.jflow.app.endpoint.http.config;
 
+import com.jflow.app.main.JFlow;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -28,12 +28,12 @@ public class ApiDocConfiguration {
     @Bean
     public Docket docket() {
 
-        Contact author = new Contact("neason-cn","https://github.com/neason-cn/","neason.cn@outlook.com");
-        ApiInfo apiInfo = new ApiInfo("JFlow", "JFlow Api Document","0.0.1", "https://github.com/neason-cn/JFlow", author, "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0.html", new ArrayList<>());
+        Contact author = new Contact(JFlow.AUTHOR_NAME, JFlow.AUTHOR_URL, JFlow.AUTHOR_EMAIL);
+        ApiInfo apiInfo = new ApiInfo(JFlow.PROJECT_NAME, JFlow.PROJECT_DOC_DESC, JFlow.PROJECT_VERSION, JFlow.PROJECT_URL, author, JFlow.LICENSE, JFlow.LICENSE_URL, new ArrayList<>());
 
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo)
-                .groupName("JFlow")
+                .groupName(JFlow.PROJECT_NAME)
                 .enable(enableSwagger)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.jflow.app.endpoint.http"))
