@@ -1,5 +1,7 @@
 package com.jflow.app.endpoint.http.config;
 
+import com.jflow.app.endpoint.http.AbstractController;
+import com.jflow.app.main.Application;
 import com.jflow.app.main.JFlow;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +38,7 @@ public class ApiDocConfiguration {
                 .groupName(JFlow.PROJECT_NAME)
                 .enable(enableSwagger)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.jflow.app.endpoint.http"))
+                .apis(RequestHandlerSelectors.basePackage(AbstractController.class.getPackage().getName()))
                 .paths(PathSelectors.any())
                 .build();
     }

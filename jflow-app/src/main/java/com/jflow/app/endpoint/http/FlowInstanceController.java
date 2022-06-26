@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/flow/instance")
 @RequiredArgsConstructor
-public class FlowInstanceController {
+public class FlowInstanceController extends AbstractController{
 
     private final FlowInstanceService flowInstanceService;
     private final FlowInstanceConvertor flowInstanceConvertor;
