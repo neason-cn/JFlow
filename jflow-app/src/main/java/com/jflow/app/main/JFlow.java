@@ -12,7 +12,7 @@ public class JFlow {
     public static final String PROJECT_DOC_DESC = "JFlow Api Document";
 
     public static final String LICENSE = "Apache 2.0";
-    public static final String LICENSE_URL = "http://www.apache.org/licenses/LICENSE-2.0.html";
+    public static final String LICENSE_URL = "https://www.apache.org/licenses/LICENSE-2.0.html";
 
     public static final String AUTHOR_NAME = "neason-cn";
     public static final String AUTHOR_URL = "https://github.com/neason-cn/";
