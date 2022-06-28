@@ -16,6 +16,7 @@ rebel.xml
 *.iml
 *.ipr
 rebel.xml
+**/target
 
 jflow/log
 
