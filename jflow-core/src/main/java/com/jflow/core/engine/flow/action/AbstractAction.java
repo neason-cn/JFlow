@@ -17,6 +17,7 @@ import lombok.Data;
 public abstract class AbstractAction implements ActionActivity, Type {
 
     private String actionInstanceId;
+    private ActionResponse result;
     private transient ActionSpec actionSpec;
 
     public void setActionInstanceId(String actionInstanceId) {
